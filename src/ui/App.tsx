@@ -1,6 +1,8 @@
 import { FC, useState } from "react";
+import { MdMenu } from "react-icons/md";
 import { List, Section } from "../models";
 import { SectionDisplay } from "./SectionDisplay";
+import "./App.css";
 
 const fakeList: List = {
   id: 1,
@@ -54,21 +56,25 @@ export const App: FC = () => {
   return (
     <>
       <header>
-        <nav>"..."</nav>
+        <button className="nav">
+          <MdMenu size={24} />
+        </button>
         <h1>{list.title}</h1>
       </header>
-      <SectionDisplay
-        asDefault
-        section={list.defaultSection}
-        updateSection={updateSection}
-      />
-      {list.sections.map((section) => (
+      <main>
         <SectionDisplay
-          key={section.id}
-          section={section}
+          asDefault
+          section={list.defaultSection}
           updateSection={updateSection}
         />
-      ))}
+        {list.sections.map((section) => (
+          <SectionDisplay
+            key={section.id}
+            section={section}
+            updateSection={updateSection}
+          />
+        ))}
+      </main>
     </>
   );
 };

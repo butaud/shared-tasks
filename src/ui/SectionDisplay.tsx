@@ -1,6 +1,7 @@
 import { FC, ReactNode } from "react";
 import { Section, Task } from "../models";
 import { TaskDisplay } from "./TaskDisplay";
+import "./SectionDisplay.css";
 
 export type SectionProps = {
   section: Section;
@@ -25,7 +26,7 @@ export const SectionDisplay: FC<SectionProps> = ({
   };
 
   const list = (
-    <ul>
+    <ul className="task-list">
       {section.tasks.map((task) => (
         <TaskDisplay key={task.id} task={task} updateTask={updateTask} />
       ))}

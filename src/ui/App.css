@@ -1,0 +1,24 @@
+header {
+    text-align: center;
+}
+
+header button.nav {
+    position: absolute;
+    left: 20px;
+    background-color: transparent;
+    border: 1px solid transparent;
+}
+
+header button.nav:hover {
+    border: 1px solid darkgray;
+    background-color: #f2f5fa;
+}
+
+header button.nav:active {
+    background-color: lightgray;
+}
+
+main {
+    max-width: 800px;
+    margin: auto;
+}

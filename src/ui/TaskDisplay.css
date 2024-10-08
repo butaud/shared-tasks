@@ -1,0 +1,11 @@
+li.task {
+    display: flex;
+    font-size: 25px;
+    align-items: center;
+    margin: 10px 0;
+}
+
+li.task input[type=checkbox] {
+    margin-right: 15px;
+    transform: scale(1.5);
+}
