@@ -3,6 +3,7 @@ import { MdMenu } from "react-icons/md";
 import { List, Section } from "../models";
 import { SectionDisplay } from "./SectionDisplay";
 import "./App.css";
+import { EditableText } from "./EditableText";
 
 const fakeList: List = {
   id: 1,
@@ -53,13 +54,23 @@ export const App: FC = () => {
       setList({ ...list, sections: updatedSections });
     }
   };
+
+  const updateListTitle = (newTitle: string) => {
+    setList({ ...list, title: newTitle });
+  };
+
   return (
     <>
       <header>
         <button className="nav">
           <MdMenu size={24} />
         </button>
-        <h1>{list.title}</h1>
+        <EditableText
+          as="h1"
+          text={list.title}
+          onTextChange={updateListTitle}
+          className="list-title"
+        />
       </header>
       <main>
         <SectionDisplay

@@ -22,3 +22,9 @@ main {
     max-width: 800px;
     margin: auto;
 }
+
+input.list-title {
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+}

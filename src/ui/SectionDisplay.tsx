@@ -2,6 +2,7 @@ import { FC, ReactNode } from "react";
 import { Section, Task } from "../models";
 import { TaskDisplay } from "./TaskDisplay";
 import "./SectionDisplay.css";
+import { EditableText } from "./EditableText";
 
 export type SectionProps = {
   section: Section;
@@ -25,6 +26,10 @@ export const SectionDisplay: FC<SectionProps> = ({
     });
   };
 
+  const onTitleChange = (newTitle: string) => {
+    updateSection({ ...section, title: newTitle });
+  };
+
   const list = (
     <ul className="task-list">
       {section.tasks.map((task) => (
@@ -36,7 +41,10 @@ export const SectionDisplay: FC<SectionProps> = ({
     return list;
   } else {
     return (
-      <NonDefaultSectionWrapper title={section.title}>
+      <NonDefaultSectionWrapper
+        title={section.title}
+        onTitleChange={onTitleChange}
+      >
         {list}
       </NonDefaultSectionWrapper>
     );
@@ -46,14 +54,21 @@ export const SectionDisplay: FC<SectionProps> = ({
 type NonDefaultSectionWrapperProps = {
   children: ReactNode;
   title: string;
+  onTitleChange: (newTitle: string) => void;
 };
 const NonDefaultSectionWrapper: FC<NonDefaultSectionWrapperProps> = ({
   children,
   title,
+  onTitleChange,
 }) => {
   return (
     <section>
-      <h2>{title}</h2>
+      <EditableText
+        as="h2"
+        text={title}
+        onTextChange={onTitleChange}
+        className="section-title"
+      />
       {children}
     </section>
   );
