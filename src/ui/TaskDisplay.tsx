@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, FocusEvent, FormEvent, useEffect, useState } from "react";
 import { Task } from "../models";
 import "./TaskDisplay.css";
 
@@ -8,6 +8,22 @@ export type TaskDisplayProps = {
 };
 
 export const TaskDisplay: FC<TaskDisplayProps> = ({ task, updateTask }) => {
+  const [isEditingLabel, setIsEditingLabel] = useState(false);
+  const [labelDraft, setLabelDraft] = useState(task.content);
+
+  const onEditLabel = () => {
+    setLabelDraft(task.content);
+    setIsEditingLabel(true);
+  };
+  const onSubmitContent = (
+    e: FormEvent<HTMLFormElement> | FocusEvent<HTMLInputElement>
+  ) => {
+    e.preventDefault();
+    updateTask({ ...task, content: labelDraft });
+    setIsEditingLabel(false);
+  };
+  const onCancelContent = () => setIsEditingLabel(false);
+
   return (
     <li className="task">
       <input
@@ -17,7 +33,20 @@ export const TaskDisplay: FC<TaskDisplayProps> = ({ task, updateTask }) => {
           updateTask({ ...task, completed: e.currentTarget.checked })
         }
       />
-      <label>{task.content}</label>
+      {isEditingLabel ? (
+        <form onSubmit={onSubmitContent}>
+          <input
+            autoFocus
+            type="text"
+            value={labelDraft}
+            onChange={(e) => setLabelDraft(e.currentTarget.value)}
+            onBlur={onSubmitContent}
+            onKeyDown={(e) => e.key === "Escape" && onCancelContent()}
+          />
+        </form>
+      ) : (
+        <label onDoubleClick={onEditLabel}>{task.content}</label>
+      )}
     </li>
   );
 };

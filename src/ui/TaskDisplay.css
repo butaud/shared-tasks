@@ -5,6 +5,10 @@ li.task {
     margin: 10px 0;
 }
 
+li.task input[type=text] {
+    font-size: 25px;
+}
+
 li.task input[type=checkbox] {
     margin-right: 15px;
     transform: scale(1.5);
