@@ -5,6 +5,7 @@ export type EditableTextProps = {
   onTextChange: (newText: string) => void;
   as: "label" | "h1" | "h2";
   className?: string;
+  onClick?: () => void;
 };
 
 export const EditableText: FC<EditableTextProps> = ({
@@ -12,6 +13,7 @@ export const EditableText: FC<EditableTextProps> = ({
   onTextChange,
   as,
   className,
+  onClick,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [draftText, setDraftText] = useState(text);
@@ -48,6 +50,7 @@ export const EditableText: FC<EditableTextProps> = ({
       as,
       {
         onDoubleClick,
+        onClick,
         className,
       },
       text

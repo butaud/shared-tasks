@@ -1,4 +1,4 @@
-import { FC, FocusEvent, FormEvent, useEffect, useState } from "react";
+import { FC } from "react";
 import { Task } from "../models";
 import "./TaskDisplay.css";
 import { EditableText } from "./EditableText";
@@ -9,9 +9,6 @@ export type TaskDisplayProps = {
 };
 
 export const TaskDisplay: FC<TaskDisplayProps> = ({ task, updateTask }) => {
-  const [isEditingLabel, setIsEditingLabel] = useState(false);
-  const [labelDraft, setLabelDraft] = useState(task.content);
-
   const onContentChange = (newContent: string) => {
     updateTask({ ...task, content: newContent });
   };
@@ -29,6 +26,7 @@ export const TaskDisplay: FC<TaskDisplayProps> = ({ task, updateTask }) => {
         as="label"
         onTextChange={onContentChange}
         text={task.content}
+        onClick={() => updateTask({ ...task, completed: !task.completed })}
       />
     </li>
   );
