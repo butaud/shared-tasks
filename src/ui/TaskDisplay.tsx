@@ -42,8 +42,9 @@ export const TaskDisplay: FC<TaskDisplayProps> = ({
 
 export type TaskAdderProps = {
   addTask: (newTask: Task) => void;
+  isDefault?: boolean;
 };
-export const TaskAdder: FC<TaskAdderProps> = ({ addTask }) => {
+export const TaskAdder: FC<TaskAdderProps> = ({ addTask, isDefault }) => {
   const [isAdding, setIsAdding] = useState(false);
 
   const createTask = (content: string) => {
@@ -72,7 +73,7 @@ export const TaskAdder: FC<TaskAdderProps> = ({ addTask }) => {
     return (
       <button className="add-task" onClick={() => setIsAdding(true)}>
         <MdAdd size={20} />
-        Add task
+        {isDefault ? "Add default task" : "Add task to section"}
       </button>
     );
   }

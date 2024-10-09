@@ -6,8 +6,12 @@ section ul {
     margin-left: 30px;
 }
 
+h2.default {
+    color: darkgray;
+}
+
 h2.all-done {
-    color: hsl(133, 34%, 60%);
+    color: hsl(133, 20%, 60%);
     text-decoration: line-through;
 }
 

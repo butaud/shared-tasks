@@ -77,7 +77,7 @@ export const SectionDisplay: FC<SectionProps> = ({
             ))}
           />
           {provided.placeholder}
-          <TaskAdder addTask={addTask} />
+          <TaskAdder addTask={addTask} isDefault={asDefault} />
         </ul>
       )}
     </Droppable>
@@ -108,7 +108,7 @@ const DefaultSectionWrapper: FC<DefaultSectionWrapperProps> = ({
   children,
   section,
 }) => {
-  const titleClassNames = ["section-title"];
+  const titleClassNames = ["section-title", "default"];
   if (section.tasks.every((task) => task.completed)) {
     titleClassNames.push("all-done");
   }
