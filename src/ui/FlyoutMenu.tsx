@@ -4,6 +4,7 @@ import { List, Section } from "../models";
 import {
   MdCheckBox,
   MdCheckBoxOutlineBlank,
+  MdMenu,
   MdOutlineShare,
   MdPersonAdd,
   MdRedo,
@@ -14,19 +15,14 @@ import "./FlyoutMenu.css";
 export type FlyoutMenuProps = {
   list: List;
   setList: (newList: List) => void;
-  hideFlyout: () => void;
 };
 
-export const FlyoutMenu: FC<FlyoutMenuProps> = ({
-  list,
-  setList,
-  hideFlyout,
-}) => {
+export const FlyoutMenu: FC<FlyoutMenuProps> = ({ list, setList }) => {
+  const [isFlyoutOpen, setIsFlyoutOpen] = useState(false);
   const [isInEditMode, setIsInEditMode] = useState(true);
   const toggleEditMode = () => {
     setIsInEditMode((value) => !value);
   };
-
   const noop = () => {};
 
   const resetToUncompleted = () => {
@@ -41,54 +37,74 @@ export const FlyoutMenu: FC<FlyoutMenuProps> = ({
 
   const onBlur = (e: any) => {
     if (!e.currentTarget.contains(e.relatedTarget)) {
-      hideFlyout();
+      setIsFlyoutOpen(false);
     }
   };
-
-  return (
-    <div tabIndex={-1} className="flyout-menu" onBlur={onBlur}>
-      <MenuSection
-        title="Edit"
-        items={[
-          { icon: <MdUndo />, label: "Undo", autoFocus: true, action: noop },
-          { icon: <MdRedo />, label: "Redo", action: noop },
-          {
-            icon: <RiCheckboxMultipleBlankLine />,
-            label: "Reset tasks to uncompleted",
-            action: resetToUncompleted,
-          },
-        ]}
-      />
-      <MenuSection
-        title="View"
-        items={[
-          {
-            icon: <MdCheckBox />,
-            label: "Edit mode",
-            action: toggleEditMode,
-            shouldHide: () => !isInEditMode,
-          },
-          {
-            icon: <MdCheckBoxOutlineBlank />,
-            label: "Edit mode",
-            action: toggleEditMode,
-            shouldHide: () => isInEditMode,
-          },
-        ]}
-      />
-      <MenuSection
-        title="Edit"
-        items={[
-          {
-            icon: <MdOutlineShare />,
-            label: "Share a user link...",
-            action: noop,
-          },
-          { icon: <MdPersonAdd />, label: "Invite an admin...", action: noop },
-        ]}
-      />
-    </div>
-  );
+  if (!isFlyoutOpen) {
+    return (
+      <button
+        className="flyout-menu-toggle"
+        onClick={() => setIsFlyoutOpen(true)}
+      >
+        <MdMenu size={24} />
+      </button>
+    );
+  } else {
+    return (
+      <div tabIndex={-1} className="flyout-menu" onBlur={onBlur}>
+        <button
+          className="flyout-menu-toggle"
+          onClick={() => setIsFlyoutOpen(false)}
+        >
+          <MdMenu size={24} />
+        </button>
+        <MenuSection
+          title="Edit"
+          items={[
+            { icon: <MdUndo />, label: "Undo", autoFocus: true, action: noop },
+            { icon: <MdRedo />, label: "Redo", action: noop },
+            {
+              icon: <RiCheckboxMultipleBlankLine />,
+              label: "Reset tasks to uncompleted",
+              action: resetToUncompleted,
+            },
+          ]}
+        />
+        <MenuSection
+          title="View"
+          items={[
+            {
+              icon: <MdCheckBox />,
+              label: "Edit mode",
+              action: toggleEditMode,
+              shouldHide: () => !isInEditMode,
+            },
+            {
+              icon: <MdCheckBoxOutlineBlank />,
+              label: "Edit mode",
+              action: toggleEditMode,
+              shouldHide: () => isInEditMode,
+            },
+          ]}
+        />
+        <MenuSection
+          title="Edit"
+          items={[
+            {
+              icon: <MdOutlineShare />,
+              label: "Share a user link...",
+              action: noop,
+            },
+            {
+              icon: <MdPersonAdd />,
+              label: "Invite an admin...",
+              action: noop,
+            },
+          ]}
+        />
+      </div>
+    );
+  }
 };
 
 type MenuSectionProps = {

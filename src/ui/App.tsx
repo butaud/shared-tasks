@@ -1,5 +1,4 @@
 import { FC, useState } from "react";
-import { MdMenu } from "react-icons/md";
 import { List, Section } from "../models";
 import { SectionAdder, SectionDisplay } from "./SectionDisplay";
 import "./App.css";
@@ -65,11 +64,6 @@ export const App: FC = () => {
   const [currentDraggingType, setCurrentDraggingType] = useState<
     DraggableType | undefined
   >();
-  const [isFlyoutOpen, setIsFlyoutOpen] = useState(false);
-
-  const toggleFlyoutState = () => {
-    setIsFlyoutOpen((value) => !value);
-  };
 
   const setList = (newList: List) => {
     localStorage.setItem("savedList", JSON.stringify(newList));
@@ -193,16 +187,7 @@ export const App: FC = () => {
   return (
     <>
       <header>
-        <button className="nav" onClick={toggleFlyoutState}>
-          <MdMenu size={24} />
-        </button>
-        {isFlyoutOpen && (
-          <FlyoutMenu
-            list={list}
-            setList={setList}
-            hideFlyout={() => setIsFlyoutOpen(false)}
-          />
-        )}
+        <FlyoutMenu list={list} setList={setList} />
         <EditableText
           as="h1"
           text={list.title}

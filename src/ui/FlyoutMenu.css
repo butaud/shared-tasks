@@ -1,8 +1,33 @@
+button.flyout-menu-toggle {
+    position: absolute;
+    left: 20px;
+    background-color: transparent;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    width: 36px;
+}
+
+.flyout-menu button.flyout-menu-toggle {
+    left: 0;
+}
+
+button.flyout-menu-toggle:hover {
+    background-color: hsl(217, 44%, 80%);
+}
+
+button.flyout-menu-toggle:active {
+    background-color: lightgray;
+}
+
+
 .flyout-menu {
     position: absolute;
     top: 0;
     left: 20px;
-    z-index: 0;
     border-radius: 5px;
     background-color: hsl(208, 100%, 97%);
     border: 1px solid black;
