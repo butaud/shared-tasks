@@ -67,6 +67,7 @@ export const App: FC = () => {
         (section: Section) => section.id === updatedSection.id
       )
     ] = updatedSection;
+    console.log("updating section", updatedSection.id, updatedSection.tasks);
     setList({ ...list, sections: updatedSections });
   };
 
@@ -85,14 +86,42 @@ export const App: FC = () => {
     setList({ ...list, title: newTitle });
   };
 
-  const onDragEnd: OnDragEndResponder = ({ source, destination }) => {
-    const sourceIndex = source.index;
-    const destinationIndex = destination?.index;
-    if (destinationIndex !== undefined && sourceIndex !== destinationIndex) {
-      let updatedList = structuredClone(list.sections);
-      const [movedTask] = updatedList.splice(sourceIndex, 1);
-      updatedList.splice(destinationIndex, 0, movedTask);
-      setList({ ...list, sections: updatedList });
+  const onDragEnd: OnDragEndResponder = ({ source, destination, type }) => {
+    if (!destination) {
+      return;
+    }
+
+    if (type === "task") {
+      const updatedList = structuredClone(list);
+      const findMatchingSection = (droppableId: string) => {
+        if (`section-${updatedList.defaultSection.id}` === droppableId) {
+          return updatedList.defaultSection;
+        } else {
+          return updatedList.sections.find(
+            (section: Section) => `section-${section.id}` === droppableId
+          );
+        }
+      };
+      const sourceSection = findMatchingSection(source.droppableId);
+      const destinationSection = findMatchingSection(destination.droppableId);
+      if (!sourceSection || !destinationSection) {
+        console.error(
+          "Invalid drag - couldn't find source and/or destination section"
+        );
+        return;
+      }
+      const [movedTask] = sourceSection.tasks.splice(source.index, 1);
+      destinationSection.tasks.splice(destination.index, 0, movedTask);
+      setList(updatedList);
+    } else {
+      const sourceIndex = source.index;
+      const destinationIndex = destination?.index;
+      if (destinationIndex !== undefined && sourceIndex !== destinationIndex) {
+        let updatedList = structuredClone(list.sections);
+        const [movedSection] = updatedList.splice(sourceIndex, 1);
+        updatedList.splice(destinationIndex, 0, movedSection);
+        setList({ ...list, sections: updatedList });
+      }
     }
   };
 
@@ -110,7 +139,7 @@ export const App: FC = () => {
         />
       </header>
       <DragDropContext onDragEnd={onDragEnd}>
-        <StrictModeDroppable droppableId="main">
+        <StrictModeDroppable droppableId="main" type="section">
           {(provided) => (
             <main ref={provided.innerRef} {...provided.droppableProps}>
               <SectionDisplay

@@ -14,8 +14,6 @@ export const DraggableList: FC<DraggableListProps> = ({
 }) => {
   if (listItems.length === 0) {
     return null;
-  } else if (listItems.length === 1) {
-    return listItems[0];
   } else {
     return (
       <>

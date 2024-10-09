@@ -1,5 +1,4 @@
 import { FC, ReactNode } from "react";
-import { DragDropContext, OnDragEndResponder } from "react-beautiful-dnd";
 import { StrictModeDroppable } from "./StrictModeDroppable";
 import { Section, Task } from "../models";
 import { TaskDisplay } from "./TaskDisplay";
@@ -46,43 +45,29 @@ export const SectionDisplay: FC<SectionProps> = ({
   const onTitleChange = (newTitle: string) => {
     updateSection({ ...section, title: newTitle });
   };
-
-  const onDragEnd: OnDragEndResponder = ({ source, destination }) => {
-    const sourceIndex = source.index;
-    const destinationIndex = destination?.index;
-    if (destinationIndex !== undefined && sourceIndex !== destinationIndex) {
-      let updatedList = structuredClone(section.tasks);
-      const [movedTask] = updatedList.splice(sourceIndex, 1);
-      updatedList.splice(destinationIndex, 0, movedTask);
-      updateSection({ ...section, tasks: updatedList });
-    }
-  };
-
   const list = (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <StrictModeDroppable droppableId={`section-${section.id}`}>
-        {(provided) => (
-          <ul
-            className="task-list"
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-          >
-            <DraggableList
-              idPrefix="task"
-              listItems={section.tasks.map((task) => (
-                <TaskDisplay
-                  key={task.id}
-                  task={task}
-                  updateTask={updateTask}
-                  deleteTask={deleteTask}
-                />
-              ))}
-            />
-            {provided.placeholder}
-          </ul>
-        )}
-      </StrictModeDroppable>
-    </DragDropContext>
+    <StrictModeDroppable droppableId={`section-${section.id}`} type="task">
+      {(provided) => (
+        <ul
+          className="task-list"
+          ref={provided.innerRef}
+          {...provided.droppableProps}
+        >
+          <DraggableList
+            idPrefix="task"
+            listItems={section.tasks.map((task) => (
+              <TaskDisplay
+                key={task.id}
+                task={task}
+                updateTask={updateTask}
+                deleteTask={deleteTask}
+              />
+            ))}
+          />
+          {provided.placeholder}
+        </ul>
+      )}
+    </StrictModeDroppable>
   );
   if (asDefault) {
     return list;
