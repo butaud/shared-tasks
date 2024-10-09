@@ -9,7 +9,6 @@ import {
   Droppable,
   OnDragEndResponder,
 } from "@hello-pangea/dnd";
-import { DraggableList } from "./DragWrapper";
 
 const fakeList: List = {
   id: 1,
@@ -57,7 +56,14 @@ const fakeList: List = {
 };
 
 export const App: FC = () => {
-  const [list, setList] = useState<List>(fakeList);
+  const savedListJson = localStorage.getItem("savedList");
+  const savedList = savedListJson ? JSON.parse(savedListJson) : undefined;
+  const [list, setListInternal] = useState<List>(savedList ?? fakeList);
+
+  const setList = (newList: List) => {
+    localStorage.setItem("savedList", JSON.stringify(newList));
+    setListInternal(newList);
+  };
 
   const updateDefaultSection = (updatedSection: Section) => {
     setList({ ...list, defaultSection: updatedSection });
