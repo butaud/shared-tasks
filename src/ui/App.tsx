@@ -11,6 +11,7 @@ import {
   OnDragEndResponder,
 } from "@hello-pangea/dnd";
 import { DraggableType, GARBAGE_CAN_IDS, GarbageCan } from "./GarbageCan";
+import { FlyoutMenu } from "./FlyoutMenu";
 
 const fakeList: List = {
   id: 1,
@@ -64,6 +65,11 @@ export const App: FC = () => {
   const [currentDraggingType, setCurrentDraggingType] = useState<
     DraggableType | undefined
   >();
+  const [isFlyoutOpen, setIsFlyoutOpen] = useState(false);
+
+  const toggleFlyoutState = () => {
+    setIsFlyoutOpen((value) => !value);
+  };
 
   const setList = (newList: List) => {
     localStorage.setItem("savedList", JSON.stringify(newList));
@@ -187,9 +193,10 @@ export const App: FC = () => {
   return (
     <>
       <header>
-        <button className="nav">
+        <button className="nav" onClick={toggleFlyoutState}>
           <MdMenu size={24} />
         </button>
+        {isFlyoutOpen && <FlyoutMenu setList={setList} />}
         <EditableText
           as="h1"
           text={list.title}

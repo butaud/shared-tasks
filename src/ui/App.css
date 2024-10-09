@@ -1,5 +1,9 @@
 header {
     text-align: center;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 999;
 }
 
 header h1 {
@@ -10,7 +14,7 @@ header h1 {
 header button.nav {
     position: absolute;
     left: 20px;
-    background-color: hsl(217, 44%, 96%);
+    background-color: transparent;
     border-radius: 5px;
     border: 1px solid transparent;
     display: flex;
@@ -18,6 +22,7 @@ header button.nav {
     justify-content: center;
     height: 36px;
     width: 36px;
+    z-index: 1;
 }
 
 header button.nav:hover {
