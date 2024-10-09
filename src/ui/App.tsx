@@ -6,7 +6,7 @@ import "./App.css";
 import { EditableText } from "./EditableText";
 import { DragDropContext } from "react-beautiful-dnd";
 import { StrictModeDroppable } from "./StrictModeDroppable";
-import { DragWrapper } from "./DragWrapper";
+import { DraggableList } from "./DragWrapper";
 
 const fakeList: List = {
   id: 1,
@@ -108,29 +108,17 @@ export const App: FC = () => {
                 updateSection={updateDefaultSection}
                 deleteSection={() => {}}
               />
-              {list.sections.map((section, index) => {
-                const sectionDisplay = (
+              <DraggableList
+                idPrefix="section"
+                listItems={list.sections.map((section) => (
                   <SectionDisplay
                     key={section.id}
                     section={section}
                     updateSection={updateSection}
                     deleteSection={deleteSection}
                   />
-                );
-                if (list.sections.length === 1) {
-                  return sectionDisplay;
-                } else {
-                  return (
-                    <DragWrapper
-                      draggableId={`section-${section.id}`}
-                      index={index}
-                      key={section.id}
-                    >
-                      {sectionDisplay}
-                    </DragWrapper>
-                  );
-                }
-              })}
+                ))}
+              />
               {provided.placeholder}
             </main>
           )}

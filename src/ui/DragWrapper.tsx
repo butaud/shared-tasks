@@ -1,15 +1,41 @@
-import { FC, ReactNode } from "react";
+import { FC, ReactElement, ReactNode } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { MdDragHandle } from "react-icons/md";
 import "./DragWrapper.css";
 
-export type DragWrapperProps = {
+export type DraggableListProps = {
+  idPrefix: string;
+  listItems: ReactElement[];
+};
+
+export const DraggableList: FC<DraggableListProps> = ({
+  idPrefix,
+  listItems,
+}) => {
+  if (listItems.length === 0) {
+    return null;
+  } else if (listItems.length === 1) {
+    return listItems[0];
+  } else {
+    return listItems.map((listItem, index) => (
+      <DragWrapper
+        draggableId={`${idPrefix}-${listItem.key}`}
+        index={index}
+        key={listItem.key}
+      >
+        {listItem}
+      </DragWrapper>
+    ));
+  }
+};
+
+type DragWrapperProps = {
   draggableId: string;
   index: number;
   children: ReactNode;
 };
 
-export const DragWrapper: FC<DragWrapperProps> = ({
+const DragWrapper: FC<DragWrapperProps> = ({
   draggableId,
   index,
   children,
