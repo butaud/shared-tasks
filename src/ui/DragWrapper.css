@@ -1,0 +1,10 @@
+.drag-wrapper {
+    position: relative;
+}
+
+.drag-wrapper .drag-handle {
+    position: absolute;
+    top: 6px;
+    left: -25px;
+    color: gray;
+}

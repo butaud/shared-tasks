@@ -13,12 +13,3 @@ li.task input[type=checkbox] {
     margin-right: 15px;
     transform: scale(1.5);
 }
-
-li.task .drag-handle {
-    color: gray;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    position: relative;
-    right: 5px;
-}

@@ -5,6 +5,7 @@ import { Section, Task } from "../models";
 import { TaskDisplay } from "./TaskDisplay";
 import "./SectionDisplay.css";
 import { EditableText } from "./EditableText";
+import { DragWrapper } from "./DragWrapper";
 
 export type SectionProps = {
   section: Section;
@@ -57,15 +58,29 @@ export const SectionDisplay: FC<SectionProps> = ({
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            {section.tasks.map((task, index) => (
-              <TaskDisplay
-                key={task.id}
-                task={task}
-                index={index}
-                updateTask={updateTask}
-                deleteTask={deleteTask}
-              />
-            ))}
+            {section.tasks.map((task, index) => {
+              const taskDisplay = (
+                <TaskDisplay
+                  key={task.id}
+                  task={task}
+                  updateTask={updateTask}
+                  deleteTask={deleteTask}
+                />
+              );
+              if (section.tasks.length === 1) {
+                return taskDisplay;
+              } else {
+                return (
+                  <DragWrapper
+                    draggableId={`task-${task.id}`}
+                    index={index}
+                    key={task.id}
+                  >
+                    {taskDisplay}
+                  </DragWrapper>
+                );
+              }
+            })}
             {provided.placeholder}
           </ul>
         )}
