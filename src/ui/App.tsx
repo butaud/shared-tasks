@@ -147,21 +147,20 @@ export const App: FC = () => {
             <main ref={provided.innerRef} {...provided.droppableProps}>
               <SectionDisplay
                 asDefault
+                index={-1}
                 section={list.defaultSection}
                 updateSection={updateDefaultSection}
                 deleteSection={() => {}}
               />
-              <DraggableList
-                idPrefix="section"
-                listItems={list.sections.map((section) => (
-                  <SectionDisplay
-                    key={section.id}
-                    section={section}
-                    updateSection={updateSection}
-                    deleteSection={deleteSection}
-                  />
-                ))}
-              />
+              {list.sections.map((section, index) => (
+                <SectionDisplay
+                  key={section.id}
+                  section={section}
+                  index={index}
+                  updateSection={updateSection}
+                  deleteSection={deleteSection}
+                />
+              ))}
               {provided.placeholder}
             </main>
           )}

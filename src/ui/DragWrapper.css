@@ -4,7 +4,11 @@
 
 .drag-wrapper .drag-handle {
     position: absolute;
-    top: 6px;
-    left: -25px;
     color: gray;
+    top: 0;
+    bottom: 0;
+    left: -25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

@@ -4,10 +4,12 @@ import { TaskDisplay } from "./TaskDisplay";
 import "./SectionDisplay.css";
 import { EditableText } from "./EditableText";
 import { DraggableList } from "./DragWrapper";
-import { Droppable } from "@hello-pangea/dnd";
+import { Draggable, Droppable } from "@hello-pangea/dnd";
+import { MdDragHandle } from "react-icons/md";
 
 export type SectionProps = {
   section: Section;
+  index: number;
   asDefault?: boolean;
   updateSection: (newSection: Section) => void;
   deleteSection: (deletedSection: Section) => void;
@@ -15,6 +17,7 @@ export type SectionProps = {
 
 export const SectionDisplay: FC<SectionProps> = ({
   section,
+  index,
   asDefault,
   updateSection,
   deleteSection,
@@ -74,7 +77,8 @@ export const SectionDisplay: FC<SectionProps> = ({
   } else {
     return (
       <NonDefaultSectionWrapper
-        title={section.title}
+        section={section}
+        index={index}
         onTitleChange={onTitleChange}
         onDelete={() => deleteSection(section)}
       >
@@ -86,26 +90,41 @@ export const SectionDisplay: FC<SectionProps> = ({
 
 type NonDefaultSectionWrapperProps = {
   children: ReactNode;
-  title: string;
+  section: Section;
+  index: number;
   onTitleChange: (newTitle: string) => void;
   onDelete: () => void;
 };
 const NonDefaultSectionWrapper: FC<NonDefaultSectionWrapperProps> = ({
   children,
-  title,
+  section,
+  index,
   onTitleChange,
   onDelete,
 }) => {
   return (
-    <section>
-      <EditableText
-        as="h2"
-        text={title}
-        onTextChange={onTitleChange}
-        className="section-title"
-        onDelete={onDelete}
-      />
-      {children}
-    </section>
+    <Draggable draggableId={`section-${section.id}`} index={index}>
+      {(provided, snapshot) => (
+        <section {...provided.draggableProps} ref={provided.innerRef}>
+          <div
+            className={
+              "drag-wrapper" + (snapshot.isDragging ? " dragging" : "")
+            }
+          >
+            <span className="drag-handle" {...provided.dragHandleProps}>
+              <MdDragHandle size={20} />
+            </span>
+            <EditableText
+              as="h2"
+              text={section.title}
+              onTextChange={onTitleChange}
+              className="section-title"
+              onDelete={onDelete}
+            />
+          </div>
+          {children}
+        </section>
+      )}
+    </Draggable>
   );
 };
