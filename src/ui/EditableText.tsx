@@ -42,8 +42,10 @@ export const EditableText: FC<EditableTextProps> = ({
     e: FormEvent<HTMLFormElement> | FocusEvent<HTMLInputElement>
   ) => {
     e.preventDefault();
-    onTextChange(draftText);
-    setIsEditing(false);
+    if (draftText !== "") {
+      onTextChange(draftText);
+      setIsEditing(false);
+    }
   };
   const onCancel = () => setIsEditing(false);
 
@@ -99,7 +101,6 @@ export const EditableText: FC<EditableTextProps> = ({
         as,
         {
           onDoubleClick: onStartEditing,
-          onClick,
           className,
           onContextMenu,
         },
