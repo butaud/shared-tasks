@@ -8,18 +8,32 @@ export type SectionProps = {
   section: Section;
   asDefault?: boolean;
   updateSection: (newSection: Section) => void;
+  deleteSection: (deletedSection: Section) => void;
 };
 
 export const SectionDisplay: FC<SectionProps> = ({
   section,
   asDefault,
   updateSection,
+  deleteSection,
 }) => {
   const updateTask = (updatedTask: Task) => {
     const updatedList = structuredClone(section.tasks);
     updatedList[
       updatedList.findIndex((task: Task) => task.id === updatedTask.id)
     ] = updatedTask;
+    updateSection({
+      ...section,
+      tasks: updatedList,
+    });
+  };
+
+  const deleteTask = (deletedTask: Task) => {
+    const updatedList = structuredClone(section.tasks);
+    updatedList.splice(
+      updatedList.findIndex((task: Task) => task.id === deletedTask.id),
+      1
+    );
     updateSection({
       ...section,
       tasks: updatedList,
@@ -33,7 +47,12 @@ export const SectionDisplay: FC<SectionProps> = ({
   const list = (
     <ul className="task-list">
       {section.tasks.map((task) => (
-        <TaskDisplay key={task.id} task={task} updateTask={updateTask} />
+        <TaskDisplay
+          key={task.id}
+          task={task}
+          updateTask={updateTask}
+          deleteTask={deleteTask}
+        />
       ))}
     </ul>
   );
@@ -44,6 +63,7 @@ export const SectionDisplay: FC<SectionProps> = ({
       <NonDefaultSectionWrapper
         title={section.title}
         onTitleChange={onTitleChange}
+        onDelete={() => deleteSection(section)}
       >
         {list}
       </NonDefaultSectionWrapper>
@@ -55,11 +75,13 @@ type NonDefaultSectionWrapperProps = {
   children: ReactNode;
   title: string;
   onTitleChange: (newTitle: string) => void;
+  onDelete: () => void;
 };
 const NonDefaultSectionWrapper: FC<NonDefaultSectionWrapperProps> = ({
   children,
   title,
   onTitleChange,
+  onDelete,
 }) => {
   return (
     <section>
@@ -68,6 +90,7 @@ const NonDefaultSectionWrapper: FC<NonDefaultSectionWrapperProps> = ({
         text={title}
         onTextChange={onTitleChange}
         className="section-title"
+        onDelete={onDelete}
       />
       {children}
     </section>

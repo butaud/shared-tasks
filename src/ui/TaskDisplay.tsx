@@ -6,9 +6,14 @@ import { EditableText } from "./EditableText";
 export type TaskDisplayProps = {
   task: Task;
   updateTask: (updatedTask: Task) => void;
+  deleteTask: (deletedTask: Task) => void;
 };
 
-export const TaskDisplay: FC<TaskDisplayProps> = ({ task, updateTask }) => {
+export const TaskDisplay: FC<TaskDisplayProps> = ({
+  task,
+  updateTask,
+  deleteTask,
+}) => {
   const onContentChange = (newContent: string) => {
     updateTask({ ...task, content: newContent });
   };
@@ -27,6 +32,7 @@ export const TaskDisplay: FC<TaskDisplayProps> = ({ task, updateTask }) => {
         onTextChange={onContentChange}
         text={task.content}
         onClick={() => updateTask({ ...task, completed: !task.completed })}
+        onDelete={() => deleteTask(task)}
       />
     </li>
   );

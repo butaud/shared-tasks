@@ -2,6 +2,11 @@ header {
     text-align: center;
 }
 
+header h1 {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 header button.nav {
     position: absolute;
     left: 20px;

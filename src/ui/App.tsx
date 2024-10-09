@@ -41,18 +41,30 @@ const fakeList: List = {
 
 export const App: FC = () => {
   const [list, setList] = useState<List>(fakeList);
+
+  const updateDefaultSection = (updatedSection: Section) => {
+    setList({ ...list, defaultSection: updatedSection });
+  };
+
   const updateSection = (updatedSection: Section) => {
-    if (updatedSection.id === list.defaultSection.id) {
-      setList({ ...list, defaultSection: updatedSection });
-    } else {
-      const updatedSections = structuredClone(list.sections);
-      updatedSections[
-        updatedSections.findIndex(
-          (section: Section) => section.id === updatedSection.id
-        )
-      ] = updatedSection;
-      setList({ ...list, sections: updatedSections });
-    }
+    const updatedSections = structuredClone(list.sections);
+    updatedSections[
+      updatedSections.findIndex(
+        (section: Section) => section.id === updatedSection.id
+      )
+    ] = updatedSection;
+    setList({ ...list, sections: updatedSections });
+  };
+
+  const deleteSection = (deletedSection: Section) => {
+    const updatedSections = structuredClone(list.sections);
+    updatedSections.splice(
+      updatedSections.findIndex(
+        (section: Section) => section.id === deletedSection.id
+      ),
+      1
+    );
+    setList({ ...list, sections: updatedSections });
   };
 
   const updateListTitle = (newTitle: string) => {
@@ -76,13 +88,15 @@ export const App: FC = () => {
         <SectionDisplay
           asDefault
           section={list.defaultSection}
-          updateSection={updateSection}
+          updateSection={updateDefaultSection}
+          deleteSection={() => {}}
         />
         {list.sections.map((section) => (
           <SectionDisplay
             key={section.id}
             section={section}
             updateSection={updateSection}
+            deleteSection={deleteSection}
           />
         ))}
       </main>
