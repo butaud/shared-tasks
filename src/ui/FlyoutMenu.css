@@ -72,6 +72,12 @@ button.flyout-menu-toggle:active {
     background-color: hsl(208, 100%, 85%);
 }
 
+.menu-section button:disabled {
+    color: hsl(0, 0%, 40%);
+    background-color: transparent;
+    text-decoration: none;
+}
+
 .menu-section button svg {
     margin-right: 5px;
 }

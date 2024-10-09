@@ -25,6 +25,10 @@ export const FlyoutMenu: FC<FlyoutMenuProps> = ({ list, setList }) => {
   };
   const noop = () => {};
 
+  const allUncompleted = [list.defaultSection, ...list.sections].every(
+    (section) => section.tasks.every((task) => !task.completed)
+  );
+
   const resetToUncompleted = () => {
     const updatedList = structuredClone(list);
     const resetSectionTasks = (section: Section) => {
@@ -33,6 +37,7 @@ export const FlyoutMenu: FC<FlyoutMenuProps> = ({ list, setList }) => {
     resetSectionTasks(updatedList.defaultSection);
     updatedList.sections.forEach(resetSectionTasks);
     setList(updatedList);
+    setIsFlyoutOpen(false);
   };
 
   const onBlur = (e: any) => {
@@ -61,12 +66,19 @@ export const FlyoutMenu: FC<FlyoutMenuProps> = ({ list, setList }) => {
         <MenuSection
           title="Edit"
           items={[
-            { icon: <MdUndo />, label: "Undo", autoFocus: true, action: noop },
-            { icon: <MdRedo />, label: "Redo", action: noop },
+            {
+              icon: <MdUndo />,
+              label: "Undo",
+              autoFocus: true,
+              action: noop,
+              disabled: true,
+            },
+            { icon: <MdRedo />, label: "Redo", action: noop, disabled: true },
             {
               icon: <RiCheckboxMultipleBlankLine />,
               label: "Reset tasks to uncompleted",
               action: resetToUncompleted,
+              disabled: allUncompleted,
             },
           ]}
         />
@@ -77,13 +89,13 @@ export const FlyoutMenu: FC<FlyoutMenuProps> = ({ list, setList }) => {
               icon: <MdCheckBox />,
               label: "Edit mode",
               action: toggleEditMode,
-              shouldHide: () => !isInEditMode,
+              shouldHide: !isInEditMode,
             },
             {
               icon: <MdCheckBoxOutlineBlank />,
               label: "Edit mode",
               action: toggleEditMode,
-              shouldHide: () => isInEditMode,
+              shouldHide: isInEditMode,
             },
           ]}
         />
@@ -94,11 +106,13 @@ export const FlyoutMenu: FC<FlyoutMenuProps> = ({ list, setList }) => {
               icon: <MdOutlineShare />,
               label: "Share a user link...",
               action: noop,
+              disabled: true,
             },
             {
               icon: <MdPersonAdd />,
               label: "Invite an admin...",
               action: noop,
+              disabled: true,
             },
           ]}
         />
@@ -127,22 +141,29 @@ type MenuItemProps = {
   icon: ReactNode;
   action: () => void;
   label: string;
+  disabled?: boolean;
   autoFocus?: boolean;
-  shouldHide?: () => boolean;
+  shouldHide?: boolean;
 };
 
 const MenuItem: FC<MenuItemProps> = ({
   icon,
   action,
   label,
+  disabled,
   shouldHide,
   autoFocus,
 }) => {
-  if (shouldHide?.()) {
+  if (shouldHide) {
     return null;
   }
   return (
-    <button className="menu-item" autoFocus={autoFocus} onClick={action}>
+    <button
+      className="menu-item"
+      autoFocus={autoFocus}
+      onClick={action}
+      disabled={disabled}
+    >
       {icon} {label}
     </button>
   );
