@@ -6,6 +6,11 @@ section ul {
     margin-left: 30px;
 }
 
+h2.all-done {
+    color: gray;
+    text-decoration: line-through;
+}
+
 ul.task-list.drag-over {
     background-color: lightgray;
     border-radius: 10px;

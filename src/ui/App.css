@@ -10,13 +10,18 @@ header h1 {
 header button.nav {
     position: absolute;
     left: 20px;
-    background-color: transparent;
+    background-color: hsl(217, 44%, 96%);
+    border-radius: 5px;
     border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    width: 36px;
 }
 
 header button.nav:hover {
-    border: 1px solid darkgray;
-    background-color: #f2f5fa;
+    background-color: hsl(217, 44%, 80%);
 }
 
 header button.nav:active {

@@ -112,6 +112,7 @@ const NonDefaultSectionWrapper: FC<NonDefaultSectionWrapperProps> = ({
   onTitleChange,
   onDelete,
 }) => {
+  const allDone = section.tasks.every((task) => task.completed);
   return (
     <Draggable draggableId={`section-${section.id}`} index={index}>
       {(provided, snapshot) => (
@@ -128,7 +129,7 @@ const NonDefaultSectionWrapper: FC<NonDefaultSectionWrapperProps> = ({
               as="h2"
               text={section.title}
               onTextChange={onTitleChange}
-              className="section-title"
+              className={`section-title ${allDone ? "all-done" : ""}`}
               onDelete={onDelete}
             />
           </div>

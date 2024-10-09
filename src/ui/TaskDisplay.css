@@ -6,6 +6,11 @@ li.task {
     width:fit-content;
 }
 
+li.task label.done {
+    text-decoration: line-through;
+    color: gray;
+}
+
 .dragging li.task {
     background-color: white;
 }

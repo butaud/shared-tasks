@@ -30,6 +30,7 @@ export const TaskDisplay: FC<TaskDisplayProps> = ({
       />
       <EditableText
         as="label"
+        className={task.completed ? "done" : ""}
         onTextChange={onContentChange}
         text={task.content}
         onClick={() => updateTask({ ...task, completed: !task.completed })}
