@@ -4,7 +4,7 @@ import { List, Section } from "../models";
 import { SectionDisplay } from "./SectionDisplay";
 import "./App.css";
 import { EditableText } from "./EditableText";
-import { DragDropContext } from "react-beautiful-dnd";
+import { DragDropContext, OnDragEndResponder } from "react-beautiful-dnd";
 import { StrictModeDroppable } from "./StrictModeDroppable";
 import { DraggableList } from "./DragWrapper";
 
@@ -85,6 +85,17 @@ export const App: FC = () => {
     setList({ ...list, title: newTitle });
   };
 
+  const onDragEnd: OnDragEndResponder = ({ source, destination }) => {
+    const sourceIndex = source.index;
+    const destinationIndex = destination?.index;
+    if (destinationIndex !== undefined && sourceIndex != destinationIndex) {
+      let updatedList = structuredClone(list.sections);
+      const [movedTask] = updatedList.splice(sourceIndex, 1);
+      updatedList.splice(destinationIndex, 0, movedTask);
+      setList({ ...list, sections: updatedList });
+    }
+  };
+
   return (
     <>
       <header>
@@ -98,7 +109,7 @@ export const App: FC = () => {
           className="list-title"
         />
       </header>
-      <DragDropContext onDragEnd={() => {}}>
+      <DragDropContext onDragEnd={onDragEnd}>
         <StrictModeDroppable droppableId="main">
           {(provided) => (
             <main ref={provided.innerRef} {...provided.droppableProps}>

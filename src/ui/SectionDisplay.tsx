@@ -1,5 +1,5 @@
 import { FC, ReactNode } from "react";
-import { DragDropContext } from "react-beautiful-dnd";
+import { DragDropContext, OnDragEndResponder } from "react-beautiful-dnd";
 import { StrictModeDroppable } from "./StrictModeDroppable";
 import { Section, Task } from "../models";
 import { TaskDisplay } from "./TaskDisplay";
@@ -47,7 +47,16 @@ export const SectionDisplay: FC<SectionProps> = ({
     updateSection({ ...section, title: newTitle });
   };
 
-  const onDragEnd = () => {};
+  const onDragEnd: OnDragEndResponder = ({ source, destination }) => {
+    const sourceIndex = source.index;
+    const destinationIndex = destination?.index;
+    if (destinationIndex !== undefined && sourceIndex != destinationIndex) {
+      let updatedList = structuredClone(section.tasks);
+      const [movedTask] = updatedList.splice(sourceIndex, 1);
+      updatedList.splice(destinationIndex, 0, movedTask);
+      updateSection({ ...section, tasks: updatedList });
+    }
+  };
 
   const list = (
     <DragDropContext onDragEnd={onDragEnd}>
