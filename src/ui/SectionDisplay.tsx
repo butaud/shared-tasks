@@ -83,7 +83,9 @@ export const SectionDisplay: FC<SectionProps> = ({
     </Droppable>
   );
   if (asDefault) {
-    return list;
+    return (
+      <DefaultSectionWrapper section={section}>{list}</DefaultSectionWrapper>
+    );
   } else {
     return (
       <NonDefaultSectionWrapper
@@ -96,6 +98,26 @@ export const SectionDisplay: FC<SectionProps> = ({
       </NonDefaultSectionWrapper>
     );
   }
+};
+
+type DefaultSectionWrapperProps = {
+  children: ReactNode;
+  section: Section;
+};
+const DefaultSectionWrapper: FC<DefaultSectionWrapperProps> = ({
+  children,
+  section,
+}) => {
+  const titleClassNames = ["section-title"];
+  if (section.tasks.every((task) => task.completed)) {
+    titleClassNames.push("all-done");
+  }
+  return (
+    <section>
+      <h2 className={titleClassNames.join(" ")}>Default</h2>
+      {children}
+    </section>
+  );
 };
 
 type NonDefaultSectionWrapperProps = {
@@ -112,7 +134,10 @@ const NonDefaultSectionWrapper: FC<NonDefaultSectionWrapperProps> = ({
   onTitleChange,
   onDelete,
 }) => {
-  const allDone = section.tasks.every((task) => task.completed);
+  const titleClassNames = ["section-title"];
+  if (section.tasks.every((task) => task.completed)) {
+    titleClassNames.push("all-done");
+  }
   return (
     <Draggable draggableId={`section-${section.id}`} index={index}>
       {(provided, snapshot) => (
@@ -129,7 +154,7 @@ const NonDefaultSectionWrapper: FC<NonDefaultSectionWrapperProps> = ({
               as="h2"
               text={section.title}
               onTextChange={onTitleChange}
-              className={`section-title ${allDone ? "all-done" : ""}`}
+              className={titleClassNames.join(" ")}
               onDelete={onDelete}
             />
           </div>
