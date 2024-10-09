@@ -5,7 +5,7 @@ import "./SectionDisplay.css";
 import { EditableText } from "./EditableText";
 import { DraggableList } from "./DragWrapper";
 import { Draggable, Droppable } from "@hello-pangea/dnd";
-import { MdDragHandle } from "react-icons/md";
+import { MdAdd, MdDragHandle } from "react-icons/md";
 
 export type SectionProps = {
   section: Section;
@@ -138,4 +138,35 @@ const NonDefaultSectionWrapper: FC<NonDefaultSectionWrapperProps> = ({
       )}
     </Draggable>
   );
+};
+
+export type SectionAdderProps = {
+  addSection: (newSection: Section) => void;
+};
+
+export const SectionAdder: FC<SectionAdderProps> = ({ addSection }) => {
+  const [isAdding, setIsAdding] = useState(false);
+  const createSection = (title: string) => {
+    const newSection: Section = {
+      id: Date.now(),
+      tasks: [],
+      title,
+    };
+    addSection(newSection);
+    setIsAdding(false);
+  };
+
+  const filling = isAdding ? (
+    <EditableText
+      editingByDefault
+      as="h2"
+      text={""}
+      onTextChange={createSection}
+    />
+  ) : (
+    <button onClick={() => setIsAdding(true)} className="add-section">
+      <MdAdd size={20} /> Add section
+    </button>
+  );
+  return <section>{filling}</section>;
 };

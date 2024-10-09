@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { MdMenu } from "react-icons/md";
 import { List, Section } from "../models";
-import { SectionDisplay } from "./SectionDisplay";
+import { SectionAdder, SectionDisplay } from "./SectionDisplay";
 import "./App.css";
 import { EditableText } from "./EditableText";
 import {
@@ -91,6 +91,12 @@ export const App: FC = () => {
     setList({ ...list, sections: updatedSections });
   };
 
+  const addSection = (newSection: Section) => {
+    const updatedSections = structuredClone(list.sections);
+    updatedSections.push(newSection);
+    setList({ ...list, sections: updatedSections });
+  };
+
   const updateListTitle = (newTitle: string) => {
     setList({ ...list, title: newTitle });
   };
@@ -168,6 +174,7 @@ export const App: FC = () => {
                 />
               ))}
               {provided.placeholder}
+              <SectionAdder addSection={addSection} />
             </main>
           )}
         </Droppable>

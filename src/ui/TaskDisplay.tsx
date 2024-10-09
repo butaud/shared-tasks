@@ -72,6 +72,7 @@ export const TaskAdder: FC<TaskAdderProps> = ({ addTask }) => {
     return (
       <button className="add-task" onClick={() => setIsAdding(true)}>
         <MdAdd size={20} />
+        Add task
       </button>
     );
   }

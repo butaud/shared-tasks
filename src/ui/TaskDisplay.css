@@ -29,12 +29,12 @@ button.add-task {
     background-color: hsl(208, 100%, 97%);
     border: 0;
     height: 32px;
-    width: 32px;
     align-items: center;
-    justify-content: center;
-    border-radius: 50%;
+    justify-content: space-between;
+    border-radius: 10%;
     padding: 0;
     cursor: pointer;
+    padding: 5px;
 }
 
 button.add-task:hover {

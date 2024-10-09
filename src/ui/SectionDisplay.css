@@ -27,3 +27,22 @@ input.section-title {
     font-size: 24px;
     font-weight: bold;
 }
+
+
+
+button.add-section {
+    display: inline-flex;
+    background-color: hsl(208, 100%, 97%);
+    border: 0;
+    height: 32px;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 10%;
+    padding: 0;
+    cursor: pointer;
+    padding: 5px;
+}
+
+button.add-section:hover {
+    background-color: hsl(208, 100%, 80%);
+}
