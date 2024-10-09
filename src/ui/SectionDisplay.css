@@ -14,6 +14,7 @@ h2.all-done {
 ul.task-list.drag-over {
     background-color: lightgray;
     border-radius: 10px;
+    box-shadow: 0 0 20px 5px lightgray;
 }
 
 ul.task-list {
@@ -21,14 +22,13 @@ ul.task-list {
     padding: 0;
     width: fit-content;
     min-width: 100px;
+    transition: background-color 0.2s ease;
 }
 
 input.section-title {
     font-size: 24px;
     font-weight: bold;
 }
-
-
 
 button.add-section {
     display: inline-flex;

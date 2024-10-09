@@ -7,8 +7,10 @@ import { EditableText } from "./EditableText";
 import {
   DragDropContext,
   Droppable,
+  OnBeforeCaptureResponder,
   OnDragEndResponder,
 } from "@hello-pangea/dnd";
+import { DraggableType, GARBAGE_CAN_IDS, GarbageCan } from "./GarbageCan";
 
 const fakeList: List = {
   id: 1,
@@ -59,6 +61,9 @@ export const App: FC = () => {
   const savedListJson = localStorage.getItem("savedList");
   const savedList = savedListJson ? JSON.parse(savedListJson) : undefined;
   const [list, setListInternal] = useState<List>(savedList ?? fakeList);
+  const [currentDraggingType, setCurrentDraggingType] = useState<
+    DraggableType | undefined
+  >();
 
   const setList = (newList: List) => {
     localStorage.setItem("savedList", JSON.stringify(newList));
@@ -101,13 +106,32 @@ export const App: FC = () => {
     setList({ ...list, title: newTitle });
   };
 
+  const onBeforeCapture: OnBeforeCaptureResponder = ({ draggableId }) => {
+    if (draggableId.startsWith("task-")) {
+      setCurrentDraggingType("task");
+    }
+    if (draggableId.startsWith("section-")) {
+      setCurrentDraggingType("section");
+    }
+  };
+
   const onDragEnd: OnDragEndResponder = ({ source, destination, type }) => {
+    setCurrentDraggingType(undefined);
     if (!destination) {
       return;
     }
 
+    if (
+      source.droppableId === destination.droppableId &&
+      source.index === destination.index
+    ) {
+      return;
+    }
+
+    // Clone the list which will be the update
+    const updatedList = structuredClone(list);
+
     if (type === "task") {
-      const updatedList = structuredClone(list);
       const findMatchingSection = (droppableId: string) => {
         if (`section-${updatedList.defaultSection.id}` === droppableId) {
           return updatedList.defaultSection;
@@ -118,26 +142,46 @@ export const App: FC = () => {
         }
       };
       const sourceSection = findMatchingSection(source.droppableId);
-      const destinationSection = findMatchingSection(destination.droppableId);
-      if (!sourceSection || !destinationSection) {
-        console.error(
-          "Invalid drag - couldn't find source and/or destination section"
-        );
+      if (!sourceSection) {
+        console.error("Invalid drag - couldn't find source section");
         return;
       }
-      const [movedTask] = sourceSection.tasks.splice(source.index, 1);
-      destinationSection.tasks.splice(destination.index, 0, movedTask);
-      setList(updatedList);
+
+      // First, pull the task out of the source list
+      const [movedOrDeletedTask] = sourceSection.tasks.splice(source.index, 1);
+
+      // Unless we are moving to the garbage can, add it to a destination list
+      if (destination.droppableId !== GARBAGE_CAN_IDS["task"]) {
+        const destinationSection = findMatchingSection(destination.droppableId);
+        if (!destinationSection) {
+          console.error("Invalid drag - couldn't find destination section");
+          return;
+        }
+        destinationSection.tasks.splice(
+          destination.index,
+          0,
+          movedOrDeletedTask
+        );
+      }
     } else {
-      const sourceIndex = source.index;
-      const destinationIndex = destination?.index;
-      if (destinationIndex !== undefined && sourceIndex !== destinationIndex) {
-        let updatedList = structuredClone(list.sections);
-        const [movedSection] = updatedList.splice(sourceIndex, 1);
-        updatedList.splice(destinationIndex, 0, movedSection);
-        setList({ ...list, sections: updatedList });
+      // section
+      // Pull the section out of the section list
+      const [movedOrDeletedSection] = updatedList.sections.splice(
+        source.index,
+        1
+      );
+
+      // Unless we are moving to the garbage can, reinsert at the correct position
+      if (destination.droppableId !== GARBAGE_CAN_IDS["section"]) {
+        updatedList.sections.splice(
+          destination.index,
+          0,
+          movedOrDeletedSection
+        );
       }
     }
+    // Propagate the change
+    setList(updatedList);
   };
 
   return (
@@ -153,7 +197,8 @@ export const App: FC = () => {
           className="list-title"
         />
       </header>
-      <DragDropContext onDragEnd={onDragEnd}>
+      <DragDropContext onDragEnd={onDragEnd} onBeforeCapture={onBeforeCapture}>
+        <GarbageCan currentDraggingType={currentDraggingType} />
         <Droppable droppableId="main" type="section">
           {(provided) => (
             <main ref={provided.innerRef} {...provided.droppableProps}>
