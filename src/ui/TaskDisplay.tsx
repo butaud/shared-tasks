@@ -1,7 +1,8 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Task } from "../models";
 import "./TaskDisplay.css";
 import { EditableText } from "./EditableText";
+import { MdAdd } from "react-icons/md";
 
 export type TaskDisplayProps = {
   task: Task;
@@ -36,4 +37,41 @@ export const TaskDisplay: FC<TaskDisplayProps> = ({
       />
     </li>
   );
+};
+
+export type TaskAdderProps = {
+  addTask: (newTask: Task) => void;
+};
+export const TaskAdder: FC<TaskAdderProps> = ({ addTask }) => {
+  const [isAdding, setIsAdding] = useState(false);
+
+  const createTask = (content: string) => {
+    const newTask: Task = {
+      id: Date.now(),
+      content,
+      completed: false,
+    };
+    addTask(newTask);
+    setIsAdding(false);
+  };
+
+  if (isAdding) {
+    return (
+      <li className="task">
+        <input type="checkbox" disabled={true} />
+        <EditableText
+          editingByDefault
+          as="label"
+          onTextChange={createTask}
+          text={""}
+        />
+      </li>
+    );
+  } else {
+    return (
+      <button className="add-task" onClick={() => setIsAdding(true)}>
+        <MdAdd size={20} />
+      </button>
+    );
+  }
 };

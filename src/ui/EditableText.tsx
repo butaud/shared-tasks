@@ -17,6 +17,7 @@ export type EditableTextProps = {
   className?: string;
   onClick?: () => void;
   onDelete?: () => void;
+  editingByDefault?: boolean;
 };
 
 export const EditableText: FC<EditableTextProps> = ({
@@ -26,8 +27,9 @@ export const EditableText: FC<EditableTextProps> = ({
   className,
   onClick,
   onDelete,
+  editingByDefault,
 }) => {
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(editingByDefault ?? false);
   const [draftText, setDraftText] = useState(text);
   const [isInMenu, setIsInMenu] = useState(false);
 

@@ -18,6 +18,7 @@
     text-align: center;
     border: none;
     margin-right: 2px;
+    cursor: pointer;
 }
 
 .menu-wrapper button:last-of-type {
@@ -25,11 +26,19 @@
 }
 
 .menu-wrapper button.delete {
-    background-color: #f7a9a9;
+    background-color: hsl(0, 83%, 82%);
+}
+
+.menu-wrapper button.delete:hover {
+    background-color: hsl(0, 83%, 70%);
 }
 
 .menu-wrapper button.edit {
-    background-color: lightgray;
+    background-color: hsl(0, 0%, 83%);
+}
+
+.menu-wrapper button.edit:hover {
+    background-color: hsl(0, 0%, 70%);
 }
 
 .menu-wrapper button:focus {

@@ -18,3 +18,20 @@ li.task input[type=checkbox] {
     margin-right: 15px;
     transform: scale(1.5);
 }
+
+button.add-task {
+    display: inline-flex;
+    background-color: hsl(208, 100%, 97%);
+    border: 0;
+    height: 32px;
+    width: 32px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 0;
+    cursor: pointer;
+}
+
+button.add-task:hover {
+    background-color: hsl(208, 100%, 80%);
+}

@@ -1,6 +1,6 @@
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useState } from "react";
 import { Section, Task } from "../models";
-import { TaskDisplay } from "./TaskDisplay";
+import { TaskAdder, TaskDisplay } from "./TaskDisplay";
 import "./SectionDisplay.css";
 import { EditableText } from "./EditableText";
 import { DraggableList } from "./DragWrapper";
@@ -45,6 +45,15 @@ export const SectionDisplay: FC<SectionProps> = ({
     });
   };
 
+  const addTask = (newTask: Task) => {
+    const updatedList = structuredClone(section.tasks);
+    updatedList.push(newTask);
+    updateSection({
+      ...section,
+      tasks: updatedList,
+    });
+  };
+
   const onTitleChange = (newTitle: string) => {
     updateSection({ ...section, title: newTitle });
   };
@@ -68,6 +77,7 @@ export const SectionDisplay: FC<SectionProps> = ({
             ))}
           />
           {provided.placeholder}
+          <TaskAdder addTask={addTask} />
         </ul>
       )}
     </Droppable>
