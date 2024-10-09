@@ -1,4 +1,4 @@
-section {
+.dragging section {
     background-color: white;
 }
 
@@ -6,9 +6,16 @@ section ul {
     margin-left: 30px;
 }
 
+ul.task-list.drag-over {
+    background-color: lightgray;
+    border-radius: 10px;
+}
+
 ul.task-list {
     list-style-type: none;
     padding: 0;
+    width: fit-content;
+    min-width: 100px;
 }
 
 input.section-title {

@@ -47,9 +47,9 @@ export const SectionDisplay: FC<SectionProps> = ({
   };
   const list = (
     <StrictModeDroppable droppableId={`section-${section.id}`} type="task">
-      {(provided) => (
+      {(provided, snapshot) => (
         <ul
-          className="task-list"
+          className={`task-list ${snapshot.isDraggingOver ? "drag-over" : ""}`}
           ref={provided.innerRef}
           {...provided.droppableProps}
         >

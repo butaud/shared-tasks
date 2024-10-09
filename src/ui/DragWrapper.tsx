@@ -44,9 +44,9 @@ const DragWrapper: FC<DragWrapperProps> = ({
 }) => {
   return (
     <Draggable draggableId={draggableId} index={index}>
-      {(provided) => (
+      {(provided, snapshot) => (
         <div
-          className="drag-wrapper"
+          className={"drag-wrapper" + (snapshot.isDragging ? " dragging" : "")}
           ref={provided.innerRef}
           {...provided.draggableProps}
         >

@@ -3,6 +3,10 @@ li.task {
     font-size: 25px;
     align-items: center;
     margin: 10px 0;
+    width:fit-content;
+}
+
+.dragging li.task {
     background-color: white;
 }
 
