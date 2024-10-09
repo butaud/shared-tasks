@@ -1,4 +1,6 @@
 import { FC, ReactNode } from "react";
+import { DragDropContext } from "react-beautiful-dnd";
+import { StrictModeDroppable } from "./StrictModeDroppable";
 import { Section, Task } from "../models";
 import { TaskDisplay } from "./TaskDisplay";
 import "./SectionDisplay.css";
@@ -44,17 +46,31 @@ export const SectionDisplay: FC<SectionProps> = ({
     updateSection({ ...section, title: newTitle });
   };
 
+  const onDragEnd = () => {};
+
   const list = (
-    <ul className="task-list">
-      {section.tasks.map((task) => (
-        <TaskDisplay
-          key={task.id}
-          task={task}
-          updateTask={updateTask}
-          deleteTask={deleteTask}
-        />
-      ))}
-    </ul>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <StrictModeDroppable droppableId={`section-${section.id}`}>
+        {(provided) => (
+          <ul
+            className="task-list"
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
+            {section.tasks.map((task, index) => (
+              <TaskDisplay
+                key={task.id}
+                task={task}
+                index={index}
+                updateTask={updateTask}
+                deleteTask={deleteTask}
+              />
+            ))}
+            {provided.placeholder}
+          </ul>
+        )}
+      </StrictModeDroppable>
+    </DragDropContext>
   );
   if (asDefault) {
     return list;
