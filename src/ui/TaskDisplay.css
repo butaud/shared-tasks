@@ -3,6 +3,7 @@ li.task {
     font-size: 25px;
     align-items: center;
     margin: 10px 0;
+    background-color: white;
 }
 
 li.task input[type=text] {
