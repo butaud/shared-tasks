@@ -17,15 +17,19 @@ export const DraggableList: FC<DraggableListProps> = ({
   } else if (listItems.length === 1) {
     return listItems[0];
   } else {
-    return listItems.map((listItem, index) => (
-      <DragWrapper
-        draggableId={`${idPrefix}-${listItem.key}`}
-        index={index}
-        key={listItem.key}
-      >
-        {listItem}
-      </DragWrapper>
-    ));
+    return (
+      <>
+        {listItems.map((listItem, index) => (
+          <DragWrapper
+            draggableId={`${idPrefix}-${listItem.key}`}
+            index={index}
+            key={listItem.key}
+          >
+            {listItem}
+          </DragWrapper>
+        ))}
+      </>
+    );
   }
 };
 

@@ -88,7 +88,7 @@ export const App: FC = () => {
   const onDragEnd: OnDragEndResponder = ({ source, destination }) => {
     const sourceIndex = source.index;
     const destinationIndex = destination?.index;
-    if (destinationIndex !== undefined && sourceIndex != destinationIndex) {
+    if (destinationIndex !== undefined && sourceIndex !== destinationIndex) {
       let updatedList = structuredClone(list.sections);
       const [movedTask] = updatedList.splice(sourceIndex, 1);
       updatedList.splice(destinationIndex, 0, movedTask);
