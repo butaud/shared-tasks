@@ -1,10 +1,10 @@
 import { FC, ReactNode } from "react";
-import { StrictModeDroppable } from "./StrictModeDroppable";
 import { Section, Task } from "../models";
 import { TaskDisplay } from "./TaskDisplay";
 import "./SectionDisplay.css";
 import { EditableText } from "./EditableText";
 import { DraggableList } from "./DragWrapper";
+import { Droppable } from "@hello-pangea/dnd";
 
 export type SectionProps = {
   section: Section;
@@ -46,7 +46,7 @@ export const SectionDisplay: FC<SectionProps> = ({
     updateSection({ ...section, title: newTitle });
   };
   const list = (
-    <StrictModeDroppable droppableId={`section-${section.id}`} type="task">
+    <Droppable droppableId={`section-${section.id}`} type="task">
       {(provided, snapshot) => (
         <ul
           className={`task-list ${snapshot.isDraggingOver ? "drag-over" : ""}`}
@@ -67,7 +67,7 @@ export const SectionDisplay: FC<SectionProps> = ({
           {provided.placeholder}
         </ul>
       )}
-    </StrictModeDroppable>
+    </Droppable>
   );
   if (asDefault) {
     return list;

@@ -4,8 +4,11 @@ import { List, Section } from "../models";
 import { SectionDisplay } from "./SectionDisplay";
 import "./App.css";
 import { EditableText } from "./EditableText";
-import { DragDropContext, OnDragEndResponder } from "react-beautiful-dnd";
-import { StrictModeDroppable } from "./StrictModeDroppable";
+import {
+  DragDropContext,
+  Droppable,
+  OnDragEndResponder,
+} from "@hello-pangea/dnd";
 import { DraggableList } from "./DragWrapper";
 
 const fakeList: List = {
@@ -139,7 +142,7 @@ export const App: FC = () => {
         />
       </header>
       <DragDropContext onDragEnd={onDragEnd}>
-        <StrictModeDroppable droppableId="main" type="section">
+        <Droppable droppableId="main" type="section">
           {(provided) => (
             <main ref={provided.innerRef} {...provided.droppableProps}>
               <SectionDisplay
@@ -162,7 +165,7 @@ export const App: FC = () => {
               {provided.placeholder}
             </main>
           )}
-        </StrictModeDroppable>
+        </Droppable>
       </DragDropContext>
     </>
   );

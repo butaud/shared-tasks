@@ -1,5 +1,5 @@
 import { FC, ReactElement, ReactNode } from "react";
-import { Draggable } from "react-beautiful-dnd";
+import { Draggable } from "@hello-pangea/dnd";
 import { MdDragHandle } from "react-icons/md";
 import "./DragWrapper.css";
 
