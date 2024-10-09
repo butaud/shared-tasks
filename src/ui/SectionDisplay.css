@@ -7,7 +7,7 @@ section ul {
 }
 
 h2.all-done {
-    color: gray;
+    color: hsl(133, 34%, 60%);
     text-decoration: line-through;
 }
 
