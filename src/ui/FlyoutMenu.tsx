@@ -1,6 +1,6 @@
 import { FC, ReactNode, useState } from "react";
 import { RiCheckboxMultipleBlankLine } from "react-icons/ri";
-import { List } from "../models";
+import { List, Section } from "../models";
 import {
   MdCheckBox,
   MdCheckBoxOutlineBlank,
@@ -12,28 +12,51 @@ import {
 import "./FlyoutMenu.css";
 
 export type FlyoutMenuProps = {
+  list: List;
   setList: (newList: List) => void;
+  hideFlyout: () => void;
 };
 
-export const FlyoutMenu: FC<FlyoutMenuProps> = ({ setList }) => {
+export const FlyoutMenu: FC<FlyoutMenuProps> = ({
+  list,
+  setList,
+  hideFlyout,
+}) => {
   const [isInEditMode, setIsInEditMode] = useState(true);
   const toggleEditMode = () => {
     setIsInEditMode((value) => !value);
   };
 
   const noop = () => {};
+
+  const resetToUncompleted = () => {
+    const updatedList = structuredClone(list);
+    const resetSectionTasks = (section: Section) => {
+      section.tasks.forEach((task) => (task.completed = false));
+    };
+    resetSectionTasks(updatedList.defaultSection);
+    updatedList.sections.forEach(resetSectionTasks);
+    setList(updatedList);
+  };
+
+  const onBlur = (e: any) => {
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      hideFlyout();
+    }
+  };
+
   return (
-    <div className="flyout-menu">
+    <div tabIndex={-1} className="flyout-menu" onBlur={onBlur}>
       <MenuSection
         title="Edit"
         items={[
+          { icon: <MdUndo />, label: "Undo", autoFocus: true, action: noop },
+          { icon: <MdRedo />, label: "Redo", action: noop },
           {
             icon: <RiCheckboxMultipleBlankLine />,
-            label: "Reset to uncompleted",
-            action: noop,
+            label: "Reset tasks to uncompleted",
+            action: resetToUncompleted,
           },
-          { icon: <MdUndo />, label: "Undo", action: noop },
-          { icon: <MdRedo />, label: "Redo", action: noop },
         ]}
       />
       <MenuSection
@@ -88,15 +111,22 @@ type MenuItemProps = {
   icon: ReactNode;
   action: () => void;
   label: string;
+  autoFocus?: boolean;
   shouldHide?: () => boolean;
 };
 
-const MenuItem: FC<MenuItemProps> = ({ icon, action, label, shouldHide }) => {
+const MenuItem: FC<MenuItemProps> = ({
+  icon,
+  action,
+  label,
+  shouldHide,
+  autoFocus,
+}) => {
   if (shouldHide?.()) {
     return null;
   }
   return (
-    <button className="menu-item" onClick={action}>
+    <button className="menu-item" autoFocus={autoFocus} onClick={action}>
       {icon} {label}
     </button>
   );

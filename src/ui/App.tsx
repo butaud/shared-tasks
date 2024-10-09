@@ -196,7 +196,13 @@ export const App: FC = () => {
         <button className="nav" onClick={toggleFlyoutState}>
           <MdMenu size={24} />
         </button>
-        {isFlyoutOpen && <FlyoutMenu setList={setList} />}
+        {isFlyoutOpen && (
+          <FlyoutMenu
+            list={list}
+            setList={setList}
+            hideFlyout={() => setIsFlyoutOpen(false)}
+          />
+        )}
         <EditableText
           as="h1"
           text={list.title}
