@@ -1,22 +1,22 @@
 import { FC, useState } from "react";
-import { Task } from "../models";
+import { JTask } from "../models";
 import "./TaskDisplay.css";
 import { EditableText } from "./EditableText";
 import { MdAdd } from "react-icons/md";
+import { useAccount } from "..";
 
 export type TaskDisplayProps = {
-  task: Task;
-  updateTask: (updatedTask: Task) => void;
-  deleteTask: (deletedTask: Task) => void;
+  task: JTask | null;
+  deleteTask: (deletedTask: JTask) => void;
 };
 
-export const TaskDisplay: FC<TaskDisplayProps> = ({
-  task,
-  updateTask,
-  deleteTask,
-}) => {
+export const TaskDisplay: FC<TaskDisplayProps> = ({ task, deleteTask }) => {
+  if (!task) {
+    return null;
+  }
+
   const onContentChange = (newContent: string) => {
-    updateTask({ ...task, content: newContent });
+    task.content = newContent;
   };
 
   return (
@@ -24,16 +24,14 @@ export const TaskDisplay: FC<TaskDisplayProps> = ({
       <input
         type="checkbox"
         checked={task.completed}
-        onChange={(e) =>
-          updateTask({ ...task, completed: e.currentTarget.checked })
-        }
+        onChange={(e) => (task.completed = e.target.checked)}
       />
       <EditableText
         as="label"
         className={task.completed ? "done" : ""}
         onTextChange={onContentChange}
         text={task.content}
-        onClick={() => updateTask({ ...task, completed: !task.completed })}
+        onClick={() => (task.completed = !task.completed)}
         onDelete={() => deleteTask(task)}
       />
     </li>
@@ -41,18 +39,21 @@ export const TaskDisplay: FC<TaskDisplayProps> = ({
 };
 
 export type TaskAdderProps = {
-  addTask: (newTask: Task) => void;
+  addTask: (newTask: JTask) => void;
   isDefault?: boolean;
 };
 export const TaskAdder: FC<TaskAdderProps> = ({ addTask, isDefault }) => {
   const [isAdding, setIsAdding] = useState(false);
+  const { me } = useAccount();
 
   const createTask = (content: string) => {
-    const newTask: Task = {
-      id: Date.now(),
-      content,
-      completed: false,
-    };
+    const newTask = JTask.create(
+      {
+        content,
+        completed: false,
+      },
+      { owner: me }
+    );
     addTask(newTask);
     setIsAdding(false);
   };

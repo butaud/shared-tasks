@@ -1,18 +1,21 @@
-export type Task = {
-    id: number;
-    content: string;
-    completed: boolean;
+import { co, CoList, CoMap } from "jazz-tools";
+
+export class JTask extends CoMap {
+  content = co.string;
+  completed = co.boolean;
 }
 
-export type Section = {
-    id: number;
-    title: string;
-    tasks: Task[];
+export class ListOfTasks extends CoList.Of(co.ref(JTask)) {}
+
+export class JSection extends CoMap {
+  title = co.string;
+  tasks = co.ref(ListOfTasks);
 }
 
-export type List = {
-    id: number;
-    title: string;
-    defaultSection: Section;
-    sections: Section[];
+export class ListOfSections extends CoList.Of(co.ref(JSection)) {}
+
+export class JList extends CoMap {
+  title = co.string;
+  defaultSection = co.ref(JSection);
+  sections = co.ref(ListOfSections);
 }

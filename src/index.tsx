@@ -1,15 +1,35 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { App } from "./ui/App";
 import reportWebVitals from "./reportWebVitals";
+import { createJazzReactApp, useDemoAuth, DemoAuthBasicUI } from "jazz-react";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+const Jazz = createJazzReactApp();
+export const { useAccount, useCoState } = Jazz;
+
+function JazzAndAuth({ children }: { children: ReactNode }) {
+  const [auth, authState] = useDemoAuth();
+  return (
+    <>
+      <Jazz.Provider
+        auth={auth}
+        peer="wss://mesh.jazz.tools?key=carterbutaud@gmail.com"
+      >
+        {children}
+      </Jazz.Provider>
+      <DemoAuthBasicUI appName="Shared Tasks" state={authState} />
+    </>
+  );
+}
 root.render(
   <React.StrictMode>
-    <App />
+    <JazzAndAuth>
+      <App />
+    </JazzAndAuth>
   </React.StrictMode>
 );
 

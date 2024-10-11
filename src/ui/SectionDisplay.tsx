@@ -1,62 +1,40 @@
 import { FC, ReactNode, useState } from "react";
-import { Section, Task } from "../models";
+import { JSection, JTask, ListOfTasks } from "../models";
 import { TaskAdder, TaskDisplay } from "./TaskDisplay";
 import "./SectionDisplay.css";
 import { EditableText } from "./EditableText";
 import { DraggableList } from "./DragWrapper";
 import { Draggable, Droppable } from "@hello-pangea/dnd";
 import { MdAdd, MdDragHandle } from "react-icons/md";
+import { useAccount } from "..";
 
 export type SectionProps = {
-  section: Section;
+  section: JSection | null;
   index: number;
   asDefault?: boolean;
-  updateSection: (newSection: Section) => void;
-  deleteSection: (deletedSection: Section) => void;
+  deleteSection: (sectionToDelete: JSection) => void;
 };
 
 export const SectionDisplay: FC<SectionProps> = ({
   section,
   index,
   asDefault,
-  updateSection,
   deleteSection,
 }) => {
-  const updateTask = (updatedTask: Task) => {
-    const updatedList = structuredClone(section.tasks);
-    updatedList[
-      updatedList.findIndex((task: Task) => task.id === updatedTask.id)
-    ] = updatedTask;
-    updateSection({
-      ...section,
-      tasks: updatedList,
-    });
+  const { me } = useAccount();
+
+  if (!section) {
+    return null;
+  }
+
+  const addTask = (newTask: JTask) => {
+    section.tasks?.push(newTask);
   };
 
-  const deleteTask = (deletedTask: Task) => {
-    const updatedList = structuredClone(section.tasks);
-    updatedList.splice(
-      updatedList.findIndex((task: Task) => task.id === deletedTask.id),
-      1
-    );
-    updateSection({
-      ...section,
-      tasks: updatedList,
-    });
+  const onDelete = () => {
+    deleteSection(section);
   };
 
-  const addTask = (newTask: Task) => {
-    const updatedList = structuredClone(section.tasks);
-    updatedList.push(newTask);
-    updateSection({
-      ...section,
-      tasks: updatedList,
-    });
-  };
-
-  const onTitleChange = (newTitle: string) => {
-    updateSection({ ...section, title: newTitle });
-  };
   const list = (
     <Droppable droppableId={`section-${section.id}`} type="task">
       {(provided, snapshot) => (
@@ -65,17 +43,7 @@ export const SectionDisplay: FC<SectionProps> = ({
           ref={provided.innerRef}
           {...provided.droppableProps}
         >
-          <DraggableList
-            idPrefix="task"
-            listItems={section.tasks.map((task) => (
-              <TaskDisplay
-                key={task.id}
-                task={task}
-                updateTask={updateTask}
-                deleteTask={deleteTask}
-              />
-            ))}
-          />
+          <TaskList tasks={section.tasks} />
           {provided.placeholder}
           <TaskAdder addTask={addTask} isDefault={asDefault} />
         </ul>
@@ -91,8 +59,7 @@ export const SectionDisplay: FC<SectionProps> = ({
       <NonDefaultSectionWrapper
         section={section}
         index={index}
-        onTitleChange={onTitleChange}
-        onDelete={() => deleteSection(section)}
+        onDelete={onDelete}
       >
         {list}
       </NonDefaultSectionWrapper>
@@ -100,16 +67,40 @@ export const SectionDisplay: FC<SectionProps> = ({
   }
 };
 
+const TaskList: FC<{ tasks: ListOfTasks | null }> = ({ tasks }) => {
+  if (!tasks) {
+    return null;
+  }
+
+  const deleteTask = (taskToDelete: JTask) => {
+    const index = tasks.findIndex((task) => task?.id === taskToDelete.id);
+    if (index >= 0) {
+      tasks.splice(index, 1);
+    }
+  };
+
+  return (
+    <DraggableList
+      idPrefix="task"
+      listItems={tasks
+        .filter((task) => task !== null)
+        .map((task) => (
+          <TaskDisplay key={task.id} task={task} deleteTask={deleteTask} />
+        ))}
+    />
+  );
+};
+
 type DefaultSectionWrapperProps = {
   children: ReactNode;
-  section: Section;
+  section: JSection;
 };
 const DefaultSectionWrapper: FC<DefaultSectionWrapperProps> = ({
   children,
   section,
 }) => {
   const titleClassNames = ["section-title", "default"];
-  if (section.tasks.every((task) => task.completed)) {
+  if (section.tasks?.every((task) => task?.completed)) {
     titleClassNames.push("all-done");
   }
   return (
@@ -122,22 +113,24 @@ const DefaultSectionWrapper: FC<DefaultSectionWrapperProps> = ({
 
 type NonDefaultSectionWrapperProps = {
   children: ReactNode;
-  section: Section;
+  section: JSection;
   index: number;
-  onTitleChange: (newTitle: string) => void;
   onDelete: () => void;
 };
 const NonDefaultSectionWrapper: FC<NonDefaultSectionWrapperProps> = ({
   children,
   section,
   index,
-  onTitleChange,
   onDelete,
 }) => {
   const titleClassNames = ["section-title"];
-  if (section.tasks.every((task) => task.completed)) {
+  if (section.tasks?.every((task) => task?.completed)) {
     titleClassNames.push("all-done");
   }
+
+  const onTitleChange = (newTitle: string) => {
+    section.title = newTitle;
+  };
   return (
     <Draggable draggableId={`section-${section.id}`} index={index}>
       {(provided, snapshot) => (
@@ -166,17 +159,20 @@ const NonDefaultSectionWrapper: FC<NonDefaultSectionWrapperProps> = ({
 };
 
 export type SectionAdderProps = {
-  addSection: (newSection: Section) => void;
+  addSection: (newSection: JSection) => void;
 };
 
 export const SectionAdder: FC<SectionAdderProps> = ({ addSection }) => {
   const [isAdding, setIsAdding] = useState(false);
+  const { me } = useAccount();
   const createSection = (title: string) => {
-    const newSection: Section = {
-      id: Date.now(),
-      tasks: [],
-      title,
-    };
+    const newSection = JSection.create(
+      {
+        tasks: ListOfTasks.create([], { owner: me }),
+        title,
+      },
+      { owner: me }
+    );
     addSection(newSection);
     setIsAdding(false);
   };

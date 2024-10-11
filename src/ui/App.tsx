@@ -1,5 +1,5 @@
-import { FC, useState } from "react";
-import { List, Section } from "../models";
+import { FC, useEffect, useState } from "react";
+import { JList, JSection, ListOfSections, ListOfTasks } from "../models";
 import { SectionAdder, SectionDisplay } from "./SectionDisplay";
 import "./App.css";
 import { EditableText } from "./EditableText";
@@ -11,8 +11,9 @@ import {
 } from "@hello-pangea/dnd";
 import { DraggableType, GARBAGE_CAN_IDS, GarbageCan } from "./GarbageCan";
 import { FlyoutMenu } from "./FlyoutMenu";
+import { useAccount } from "..";
 
-const fakeList: List = {
+const fakeList = {
   id: 1,
   title: "Test List",
   defaultSection: {
@@ -60,50 +61,62 @@ const fakeList: List = {
 export const App: FC = () => {
   const savedListJson = localStorage.getItem("savedList");
   const savedList = savedListJson ? JSON.parse(savedListJson) : undefined;
-  const [list, setListInternal] = useState<List>(savedList ?? fakeList);
+  const [list, setListInternal] = useState<JList>();
   const [currentDraggingType, setCurrentDraggingType] = useState<
     DraggableType | undefined
   >();
+  const { me } = useAccount();
 
-  const setList = (newList: List) => {
-    localStorage.setItem("savedList", JSON.stringify(newList));
+  const setList = (newList: JList) => {
+    localStorage.setItem("savedJList", JSON.stringify(newList));
     setListInternal(newList);
   };
 
-  const updateDefaultSection = (updatedSection: Section) => {
-    setList({ ...list, defaultSection: updatedSection });
+  useEffect(() => {
+    if (!list) {
+      const defaultTaskList = ListOfTasks.create([], {
+        owner: me,
+      });
+      const defaultSection = JSection.create(
+        {
+          title: "DEFAULT",
+          tasks: defaultTaskList,
+        },
+        { owner: me }
+      );
+      const defaultSectionList = ListOfSections.create([], { owner: me });
+      const newList = JList.create(
+        {
+          title: "Test List",
+          defaultSection: defaultSection,
+          sections: defaultSectionList,
+        },
+        { owner: me }
+      );
+      setList(newList);
+    }
+  }, [list]);
+
+  if (!list) {
+    return null;
+  }
+
+  const addSection = (newSection: JSection) => {
+    list.sections?.push(newSection);
   };
 
-  const updateSection = (updatedSection: Section) => {
-    const updatedSections = structuredClone(list.sections);
-    updatedSections[
-      updatedSections.findIndex(
-        (section: Section) => section.id === updatedSection.id
-      )
-    ] = updatedSection;
-    console.log("updating section", updatedSection.id, updatedSection.tasks);
-    setList({ ...list, sections: updatedSections });
-  };
-
-  const deleteSection = (deletedSection: Section) => {
-    const updatedSections = structuredClone(list.sections);
-    updatedSections.splice(
-      updatedSections.findIndex(
-        (section: Section) => section.id === deletedSection.id
-      ),
-      1
-    );
-    setList({ ...list, sections: updatedSections });
-  };
-
-  const addSection = (newSection: Section) => {
-    const updatedSections = structuredClone(list.sections);
-    updatedSections.push(newSection);
-    setList({ ...list, sections: updatedSections });
+  const deleteSection = (sectionToDelete: JSection) => {
+    const index =
+      list.sections?.findIndex(
+        (section) => section?.id === sectionToDelete.id
+      ) ?? -1;
+    if (index >= 0) {
+      list.sections?.splice(index, 1);
+    }
   };
 
   const updateListTitle = (newTitle: string) => {
-    setList({ ...list, title: newTitle });
+    list.title = newTitle;
   };
 
   const onBeforeCapture: OnBeforeCaptureResponder = ({ draggableId }) => {
@@ -128,21 +141,22 @@ export const App: FC = () => {
       return;
     }
 
-    // Clone the list which will be the update
-    const updatedList = structuredClone(list);
+    if (!list.sections) {
+      list.sections = ListOfSections.create([], { owner: me });
+    }
 
     if (type === "task") {
       const findMatchingSection = (droppableId: string) => {
-        if (`section-${updatedList.defaultSection.id}` === droppableId) {
-          return updatedList.defaultSection;
+        if (`section-${list.defaultSection?.id}` === droppableId) {
+          return list.defaultSection;
         } else {
-          return updatedList.sections.find(
-            (section: Section) => `section-${section.id}` === droppableId
+          return list.sections?.find(
+            (section) => `section-${section?.id}` === droppableId
           );
         }
       };
       const sourceSection = findMatchingSection(source.droppableId);
-      if (!sourceSection) {
+      if (!sourceSection || !sourceSection.tasks) {
         console.error("Invalid drag - couldn't find source section");
         return;
       }
@@ -157,6 +171,9 @@ export const App: FC = () => {
           console.error("Invalid drag - couldn't find destination section");
           return;
         }
+        if (!destinationSection.tasks) {
+          destinationSection.tasks = ListOfTasks.create([], { owner: me });
+        }
         destinationSection.tasks.splice(
           destination.index,
           0,
@@ -166,28 +183,19 @@ export const App: FC = () => {
     } else {
       // section
       // Pull the section out of the section list
-      const [movedOrDeletedSection] = updatedList.sections.splice(
-        source.index,
-        1
-      );
+      const [movedOrDeletedSection] = list.sections.splice(source.index, 1);
 
       // Unless we are moving to the garbage can, reinsert at the correct position
       if (destination.droppableId !== GARBAGE_CAN_IDS["section"]) {
-        updatedList.sections.splice(
-          destination.index,
-          0,
-          movedOrDeletedSection
-        );
+        list.sections.splice(destination.index, 0, movedOrDeletedSection);
       }
     }
-    // Propagate the change
-    setList(updatedList);
   };
 
   return (
     <>
       <header>
-        <FlyoutMenu list={list} setList={setList} />
+        <FlyoutMenu list={list} />
         <EditableText
           as="h1"
           text={list.title}
@@ -204,18 +212,18 @@ export const App: FC = () => {
                 asDefault
                 index={-1}
                 section={list.defaultSection}
-                updateSection={updateDefaultSection}
                 deleteSection={() => {}}
               />
-              {list.sections.map((section, index) => (
-                <SectionDisplay
-                  key={section.id}
-                  section={section}
-                  index={index}
-                  updateSection={updateSection}
-                  deleteSection={deleteSection}
-                />
-              ))}
+              {list.sections
+                ?.filter((section) => section !== null)
+                .map((section, index) => (
+                  <SectionDisplay
+                    key={section.id}
+                    section={section}
+                    index={index}
+                    deleteSection={deleteSection}
+                  />
+                ))}
               {provided.placeholder}
               <SectionAdder addSection={addSection} />
             </main>

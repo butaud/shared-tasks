@@ -1,6 +1,6 @@
 import { FC, ReactNode, useState } from "react";
 import { RiCheckboxMultipleBlankLine } from "react-icons/ri";
-import { List, Section } from "../models";
+import { JList, JSection } from "../models";
 import {
   MdCheckBox,
   MdCheckBoxOutlineBlank,
@@ -13,11 +13,10 @@ import {
 import "./FlyoutMenu.css";
 
 export type FlyoutMenuProps = {
-  list: List;
-  setList: (newList: List) => void;
+  list: JList;
 };
 
-export const FlyoutMenu: FC<FlyoutMenuProps> = ({ list, setList }) => {
+export const FlyoutMenu: FC<FlyoutMenuProps> = ({ list }) => {
   const [isFlyoutOpen, setIsFlyoutOpen] = useState(false);
   const [isInEditMode, setIsInEditMode] = useState(true);
   const toggleEditMode = () => {
@@ -25,18 +24,20 @@ export const FlyoutMenu: FC<FlyoutMenuProps> = ({ list, setList }) => {
   };
   const noop = () => {};
 
-  const allUncompleted = [list.defaultSection, ...list.sections].every(
-    (section) => section.tasks.every((task) => !task.completed)
+  const allUncompleted = [list.defaultSection, ...(list.sections ?? [])].every(
+    (section) => section?.tasks?.every((task) => !task?.completed)
   );
 
   const resetToUncompleted = () => {
-    const updatedList = structuredClone(list);
-    const resetSectionTasks = (section: Section) => {
-      section.tasks.forEach((task) => (task.completed = false));
+    const resetSectionTasks = (section: JSection | null) => {
+      section?.tasks
+        ?.filter((tasks) => tasks !== null)
+        .forEach((task) => (task!.completed = false));
     };
-    resetSectionTasks(updatedList.defaultSection);
-    updatedList.sections.forEach(resetSectionTasks);
-    setList(updatedList);
+    if (list.defaultSection) {
+      resetSectionTasks(list.defaultSection);
+    }
+    list.sections?.forEach(resetSectionTasks);
     setIsFlyoutOpen(false);
   };
 
