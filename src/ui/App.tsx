@@ -1,5 +1,5 @@
-import { FC, useEffect, useState } from "react";
-import { JList, JSection, ListOfSections, ListOfTasks } from "../models";
+import { FC, useState } from "react";
+import { JList, JSection, ListOfTasks } from "../models";
 import { SectionAdder, SectionDisplay } from "./SectionDisplay";
 import "./App.css";
 import { EditableText } from "./EditableText";
@@ -14,57 +14,12 @@ import { FlyoutMenu } from "./FlyoutMenu";
 import { useAccount, useCoState } from "..";
 import { ID } from "jazz-tools";
 
-const fakeList = {
-  id: 1,
-  title: "Test List",
-  defaultSection: {
-    id: 2,
-    title: "DEFAULT",
-    tasks: [
-      {
-        id: 3,
-        content: "Verify the thing",
-        completed: false,
-      },
-    ],
-  },
-  sections: [
-    {
-      id: 4,
-      title: "Section 1",
-      tasks: [
-        {
-          id: 5,
-          content: "Do the thing",
-          completed: true,
-        },
-        {
-          id: 6,
-          content: "Do the other thing",
-          completed: false,
-        },
-      ],
-    },
-    {
-      id: 7,
-      title: "Section 2",
-      tasks: [
-        {
-          id: 8,
-          content: "Do more things",
-          completed: false,
-        },
-      ],
-    },
-  ],
-};
-
 export const App: FC = () => {
-  const savedListJson = localStorage.getItem("savedList");
+  // const savedListJson = localStorage.getItem("savedList");
   //const savedList = savedListJson ? JSON.parse(savedListJson) : undefined;
   const listIdFromUrl = window.location.search?.replace("?list=", "");
   console.log("got id from url", listIdFromUrl);
-  const [listId, setListId] = useState<ID<JList> | undefined>(
+  const [listId] = useState<ID<JList> | undefined>(
     (listIdFromUrl || undefined) as ID<JList> | undefined
   );
 
@@ -147,10 +102,6 @@ export const App: FC = () => {
       source.index === destination.index
     ) {
       return;
-    }
-
-    if (!list.sections) {
-      list.sections = ListOfSections.create([], { owner: me });
     }
 
     if (type === "task") {

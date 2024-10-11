@@ -21,8 +21,6 @@ export const SectionDisplay: FC<SectionProps> = ({
   asDefault,
   deleteSection,
 }) => {
-  const { me } = useAccount();
-
   if (!section) {
     return null;
   }
