@@ -11,7 +11,8 @@ import {
 } from "@hello-pangea/dnd";
 import { DraggableType, GARBAGE_CAN_IDS, GarbageCan } from "./GarbageCan";
 import { FlyoutMenu } from "./FlyoutMenu";
-import { useAccount } from "..";
+import { useAccount, useCoState } from "..";
+import { ID } from "jazz-tools";
 
 const fakeList = {
   id: 1,
@@ -61,16 +62,13 @@ const fakeList = {
 export const App: FC = () => {
   const savedListJson = localStorage.getItem("savedList");
   const savedList = savedListJson ? JSON.parse(savedListJson) : undefined;
-  const [list, setListInternal] = useState<JList>();
+  const [listId, setListId] = useState<ID<JList>>();
+  
   const [currentDraggingType, setCurrentDraggingType] = useState<
     DraggableType | undefined
   >();
   const { me } = useAccount();
-
-  const setList = (newList: JList) => {
-    localStorage.setItem("savedJList", JSON.stringify(newList));
-    setListInternal(newList);
-  };
+  const list = useCoState(JList, listId);
 
   useEffect(() => {
     if (!list) {
@@ -93,9 +91,9 @@ export const App: FC = () => {
         },
         { owner: me }
       );
-      setList(newList);
+      setListId(newList.id);
     }
-  }, [list]);
+  }, [list, me]);
 
   if (!list) {
     return null;
