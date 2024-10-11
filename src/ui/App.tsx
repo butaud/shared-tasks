@@ -61,39 +61,49 @@ const fakeList = {
 
 export const App: FC = () => {
   const savedListJson = localStorage.getItem("savedList");
-  const savedList = savedListJson ? JSON.parse(savedListJson) : undefined;
-  const [listId, setListId] = useState<ID<JList>>();
-  
+  //const savedList = savedListJson ? JSON.parse(savedListJson) : undefined;
+  const listIdFromUrl = window.location.search?.replace("?list=", "");
+  console.log("got id from url", listIdFromUrl);
+  const [listId, setListId] = useState<ID<JList> | undefined>(
+    (listIdFromUrl || undefined) as ID<JList> | undefined
+  );
+
   const [currentDraggingType, setCurrentDraggingType] = useState<
     DraggableType | undefined
   >();
   const { me } = useAccount();
-  const list = useCoState(JList, listId);
+  const list = useCoState(JList, listId, {
+    defaultSection: { tasks: [] },
+    sections: [{ tasks: [] }],
+  });
 
-  useEffect(() => {
-    if (!list) {
-      const defaultTaskList = ListOfTasks.create([], {
-        owner: me,
-      });
-      const defaultSection = JSection.create(
-        {
-          title: "DEFAULT",
-          tasks: defaultTaskList,
-        },
-        { owner: me }
-      );
-      const defaultSectionList = ListOfSections.create([], { owner: me });
-      const newList = JList.create(
-        {
-          title: "Test List",
-          defaultSection: defaultSection,
-          sections: defaultSectionList,
-        },
-        { owner: me }
-      );
-      setListId(newList.id);
-    }
-  }, [list, me]);
+  //   useEffect(() => {
+  //     (async () => {
+  //       if (!list) {
+  //         const defaultTaskList = ListOfTasks.create([], {
+  //           owner: me,
+  //         });
+  //         const defaultSection = JSection.create(
+  //           {
+  //             title: "DEFAULT",
+  //             tasks: defaultTaskList,
+  //           },
+  //           { owner: me }
+  //         );
+  //         const defaultSectionList = ListOfSections.create([], { owner: me });
+  //         const newList = JList.create(
+  //           {
+  //             title: "Test List",
+  //             defaultSection: defaultSection,
+  //             sections: defaultSectionList,
+  //           },
+  //           { owner: me }
+  //         );
+  //         setListId(newList.id);
+  //         window.history.pushState({}, "", `?list=${newList.id}`);
+  //       }
+  //     })();
+  //   }, [list, me]);
 
   if (!list) {
     return null;
