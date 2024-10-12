@@ -1,5 +1,5 @@
 import { FC, ReactNode, useState } from "react";
-import { JSection, JTask, ListOfTasks } from "../models";
+import { JSection, JTask, ListOfSections, ListOfTasks } from "../models";
 import { TaskAdder, TaskDisplay } from "./TaskDisplay";
 import "./SectionDisplay.css";
 import { EditableText } from "./EditableText";
@@ -43,7 +43,11 @@ export const SectionDisplay: FC<SectionProps> = ({
         >
           <TaskList tasks={section.tasks} />
           {provided.placeholder}
-          <TaskAdder addTask={addTask} isDefault={asDefault} />
+          <TaskAdder
+            addTask={addTask}
+            taskList={section.tasks}
+            isDefault={asDefault}
+          />
         </ul>
       )}
     </Droppable>
@@ -158,18 +162,27 @@ const NonDefaultSectionWrapper: FC<NonDefaultSectionWrapperProps> = ({
 
 export type SectionAdderProps = {
   addSection: (newSection: JSection) => void;
+  sectionList: ListOfSections | null;
 };
 
-export const SectionAdder: FC<SectionAdderProps> = ({ addSection }) => {
+export const SectionAdder: FC<SectionAdderProps> = ({
+  addSection,
+  sectionList,
+}) => {
   const [isAdding, setIsAdding] = useState(false);
   const { me } = useAccount();
+
+  if (!sectionList) {
+    return null;
+  }
+
   const createSection = (title: string) => {
     const newSection = JSection.create(
       {
-        tasks: ListOfTasks.create([], { owner: me }),
+        tasks: ListOfTasks.create([], { owner: sectionList._owner }),
         title,
       },
-      { owner: me }
+      { owner: sectionList._owner }
     );
     addSection(newSection);
     setIsAdding(false);

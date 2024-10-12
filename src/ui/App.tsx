@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { JList, JSection, ListOfTasks } from "../models";
+import { JList, JSection, ListOfSections, ListOfTasks } from "../models";
 import { SectionAdder, SectionDisplay } from "./SectionDisplay";
 import "./App.css";
 import { EditableText } from "./EditableText";
@@ -12,14 +12,14 @@ import {
 import { DraggableType, GARBAGE_CAN_IDS, GarbageCan } from "./GarbageCan";
 import { FlyoutMenu } from "./FlyoutMenu";
 import { useAccount, useCoState } from "..";
-import { ID } from "jazz-tools";
+import { Group, ID } from "jazz-tools";
 
 export const App: FC = () => {
   // const savedListJson = localStorage.getItem("savedList");
   //const savedList = savedListJson ? JSON.parse(savedListJson) : undefined;
   const listIdFromUrl = window.location.search?.replace("?list=", "");
   console.log("got id from url", listIdFromUrl);
-  const [listId] = useState<ID<JList> | undefined>(
+  const [listId, setListId] = useState<ID<JList> | undefined>(
     (listIdFromUrl || undefined) as ID<JList> | undefined
   );
 
@@ -32,36 +32,38 @@ export const App: FC = () => {
     sections: [{ tasks: [] }],
   });
 
-  //   useEffect(() => {
-  //     (async () => {
-  //       if (!list) {
-  //         const defaultTaskList = ListOfTasks.create([], {
-  //           owner: me,
-  //         });
-  //         const defaultSection = JSection.create(
-  //           {
-  //             title: "DEFAULT",
-  //             tasks: defaultTaskList,
-  //           },
-  //           { owner: me }
-  //         );
-  //         const defaultSectionList = ListOfSections.create([], { owner: me });
-  //         const newList = JList.create(
-  //           {
-  //             title: "Test List",
-  //             defaultSection: defaultSection,
-  //             sections: defaultSectionList,
-  //           },
-  //           { owner: me }
-  //         );
-  //         setListId(newList.id);
-  //         window.history.pushState({}, "", `?list=${newList.id}`);
-  //       }
-  //     })();
-  //   }, [list, me]);
-
   if (!list) {
-    return null;
+    const createList = () => {
+      const group = Group.create({ owner: me });
+      group.addMember("everyone", "writer");
+
+      const defaultTaskList = ListOfTasks.create([], {
+        owner: group,
+      });
+      const defaultSection = JSection.create(
+        {
+          title: "DEFAULT",
+          tasks: defaultTaskList,
+        },
+        { owner: group }
+      );
+      const defaultSectionList = ListOfSections.create([], { owner: group });
+      const newList = JList.create(
+        {
+          title: "Test List",
+          defaultSection: defaultSection,
+          sections: defaultSectionList,
+        },
+        { owner: group }
+      );
+      setListId(newList.id);
+      window.history.pushState({}, "", `?list=${newList.id}`);
+    };
+    return (
+      <div>
+        <button onClick={createList}>Create List</button>
+      </div>
+    );
   }
 
   const addSection = (newSection: JSection) => {
@@ -131,7 +133,9 @@ export const App: FC = () => {
           return;
         }
         if (!destinationSection.tasks) {
-          destinationSection.tasks = ListOfTasks.create([], { owner: me });
+          destinationSection.tasks = ListOfTasks.create([], {
+            owner: list._owner,
+          });
         }
         destinationSection.tasks.splice(
           destination.index,
@@ -184,7 +188,7 @@ export const App: FC = () => {
                   />
                 ))}
               {provided.placeholder}
-              <SectionAdder addSection={addSection} />
+              <SectionAdder addSection={addSection} sectionList={list.sections} />
             </main>
           )}
         </Droppable>

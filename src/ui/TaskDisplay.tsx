@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { JTask } from "../models";
+import { JTask, ListOfTasks } from "../models";
 import "./TaskDisplay.css";
 import { EditableText } from "./EditableText";
 import { MdAdd } from "react-icons/md";
@@ -40,11 +40,20 @@ export const TaskDisplay: FC<TaskDisplayProps> = ({ task, deleteTask }) => {
 
 export type TaskAdderProps = {
   addTask: (newTask: JTask) => void;
+  taskList: ListOfTasks | null;
   isDefault?: boolean;
 };
-export const TaskAdder: FC<TaskAdderProps> = ({ addTask, isDefault }) => {
+export const TaskAdder: FC<TaskAdderProps> = ({
+  addTask,
+  taskList,
+  isDefault,
+}) => {
   const [isAdding, setIsAdding] = useState(false);
   const { me } = useAccount();
+
+  if (taskList === null) {
+    return null;
+  }
 
   const createTask = (content: string) => {
     const newTask = JTask.create(
@@ -52,7 +61,7 @@ export const TaskAdder: FC<TaskAdderProps> = ({ addTask, isDefault }) => {
         content,
         completed: false,
       },
-      { owner: me }
+      { owner: taskList._owner }
     );
     addTask(newTask);
     setIsAdding(false);
