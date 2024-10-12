@@ -6,7 +6,6 @@ import { EditableText } from "./EditableText";
 import { DraggableList } from "./DragWrapper";
 import { Draggable, Droppable } from "@hello-pangea/dnd";
 import { MdAdd, MdDragHandle } from "react-icons/md";
-import { useAccount } from "..";
 
 export type SectionProps = {
   section: JSection | null;
@@ -170,7 +169,6 @@ export const SectionAdder: FC<SectionAdderProps> = ({
   sectionList,
 }) => {
   const [isAdding, setIsAdding] = useState(false);
-  const { me } = useAccount();
 
   if (!sectionList) {
     return null;

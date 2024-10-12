@@ -3,7 +3,6 @@ import { JTask, ListOfTasks } from "../models";
 import "./TaskDisplay.css";
 import { EditableText } from "./EditableText";
 import { MdAdd } from "react-icons/md";
-import { useAccount } from "..";
 
 export type TaskDisplayProps = {
   task: JTask | null;
@@ -49,7 +48,6 @@ export const TaskAdder: FC<TaskAdderProps> = ({
   isDefault,
 }) => {
   const [isAdding, setIsAdding] = useState(false);
-  const { me } = useAccount();
 
   if (taskList === null) {
     return null;
