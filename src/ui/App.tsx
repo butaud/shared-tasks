@@ -34,35 +34,37 @@ export const App: FC = () => {
     sections: [{ tasks: [] }],
   });
 
+  if (!ownerGroup) {
+    return <div>Loading...</div>;
+  }
+
+  const createList = () => {
+    const defaultTaskList = ListOfTasks.create([], {
+      owner: ownerGroup,
+    });
+    const defaultSection = Section.create(
+      {
+        title: "DEFAULT",
+        tasks: defaultTaskList,
+      },
+      { owner: ownerGroup }
+    );
+    const defaultSectionList = ListOfSections.create([], {
+      owner: ownerGroup,
+    });
+    const newList = List.create(
+      {
+        title: "Test List",
+        defaultSection: defaultSection,
+        sections: defaultSectionList,
+      },
+      { owner: ownerGroup }
+    );
+    setListId(newList.id);
+    window.history.pushState({}, "", `?list=${newList.id}`);
+  };
+
   if (!list) {
-    if (!ownerGroup) {
-      return <div>Loading...</div>;
-    }
-    const createList = () => {
-      const defaultTaskList = ListOfTasks.create([], {
-        owner: ownerGroup,
-      });
-      const defaultSection = Section.create(
-        {
-          title: "DEFAULT",
-          tasks: defaultTaskList,
-        },
-        { owner: ownerGroup }
-      );
-      const defaultSectionList = ListOfSections.create([], {
-        owner: ownerGroup,
-      });
-      const newList = List.create(
-        {
-          title: "Test List",
-          defaultSection: defaultSection,
-          sections: defaultSectionList,
-        },
-        { owner: ownerGroup }
-      );
-      setListId(newList.id);
-      window.history.pushState({}, "", `?list=${newList.id}`);
-    };
     return (
       <div>
         <button onClick={createList}>Create List</button>
@@ -158,7 +160,7 @@ export const App: FC = () => {
   return (
     <>
       <header>
-        <FlyoutMenu list={list} />
+        <FlyoutMenu list={list} createNewList={createList} />
         <EditableText
           as="h1"
           text={list.title}

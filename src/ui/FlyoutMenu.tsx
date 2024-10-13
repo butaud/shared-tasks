@@ -2,6 +2,7 @@ import { FC, ReactNode, useState } from "react";
 import { RiCheckboxMultipleBlankLine } from "react-icons/ri";
 import { List, Section } from "../models";
 import {
+  MdAdd,
   MdCheckBox,
   MdCheckBoxOutlineBlank,
   MdMenu,
@@ -14,9 +15,10 @@ import "./FlyoutMenu.css";
 
 export type FlyoutMenuProps = {
   list: List;
+  createNewList: () => void;
 };
 
-export const FlyoutMenu: FC<FlyoutMenuProps> = ({ list }) => {
+export const FlyoutMenu: FC<FlyoutMenuProps> = ({ list, createNewList }) => {
   const [isFlyoutOpen, setIsFlyoutOpen] = useState(false);
   const [isInEditMode, setIsInEditMode] = useState(true);
   const toggleEditMode = () => {
@@ -27,6 +29,11 @@ export const FlyoutMenu: FC<FlyoutMenuProps> = ({ list }) => {
   const allUncompleted = [list.defaultSection, ...(list.sections ?? [])].every(
     (section) => section?.tasks?.every((task) => !task?.status?.completed)
   );
+
+  const onCreateNewList = () => {
+    createNewList();
+    setIsFlyoutOpen(false);
+  };
 
   const resetToUncompleted = () => {
     const resetSectionTasks = (section: Section | null) => {
@@ -68,6 +75,11 @@ export const FlyoutMenu: FC<FlyoutMenuProps> = ({ list }) => {
           title="Edit"
           items={[
             {
+              icon: <MdAdd />,
+              label: "Create a new list",
+              action: onCreateNewList,
+            },
+            {
               icon: <MdUndo />,
               label: "Undo",
               autoFocus: true,
@@ -101,7 +113,7 @@ export const FlyoutMenu: FC<FlyoutMenuProps> = ({ list }) => {
           ]}
         />
         <MenuSection
-          title="Edit"
+          title="Share"
           items={[
             {
               icon: <MdOutlineShare />,
