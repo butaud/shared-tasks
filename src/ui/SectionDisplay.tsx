@@ -111,9 +111,10 @@ const DefaultSectionWrapper: FC<DefaultSectionWrapperProps> = ({
   if (section.tasks?.every((task) => task?.status?.completed)) {
     titleClassNames.push("all-done");
   }
+  const hasTasks = section.tasks?.length ?? -1 > 0;
   return (
     <section>
-      <h2 className={titleClassNames.join(" ")}>Default</h2>
+      {hasTasks ? <h2 className={titleClassNames.join(" ")}>Default</h2> : null}
       {children}
     </section>
   );
