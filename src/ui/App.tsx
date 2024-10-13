@@ -40,6 +40,10 @@ export const App: FC = () => {
     return <div>Loading...</div>;
   }
 
+  if (listId && !list) {
+    return <div>Loading...</div>;
+  }
+
   const createList = () => {
     const defaultTaskList = ListOfTasks.create([], {
       owner: ownerGroup,
