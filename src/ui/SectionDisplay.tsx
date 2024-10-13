@@ -24,10 +24,6 @@ export const SectionDisplay: FC<SectionProps> = ({
     return null;
   }
 
-  const addTask = (newTask: JTask) => {
-    section.tasks?.push(newTask);
-  };
-
   const onDelete = () => {
     deleteSection(section);
   };
@@ -42,11 +38,7 @@ export const SectionDisplay: FC<SectionProps> = ({
         >
           <TaskList tasks={section.tasks} />
           {provided.placeholder}
-          <TaskAdder
-            addTask={addTask}
-            taskList={section.tasks}
-            isDefault={asDefault}
-          />
+          <TaskAdder taskList={section.tasks} isDefault={asDefault} />
         </ul>
       )}
     </Droppable>
@@ -160,14 +152,10 @@ const NonDefaultSectionWrapper: FC<NonDefaultSectionWrapperProps> = ({
 };
 
 export type SectionAdderProps = {
-  addSection: (newSection: JSection) => void;
   sectionList: ListOfSections | null;
 };
 
-export const SectionAdder: FC<SectionAdderProps> = ({
-  addSection,
-  sectionList,
-}) => {
+export const SectionAdder: FC<SectionAdderProps> = ({ sectionList }) => {
   const [isAdding, setIsAdding] = useState(false);
 
   if (!sectionList) {
@@ -182,7 +170,7 @@ export const SectionAdder: FC<SectionAdderProps> = ({
       },
       { owner: sectionList._owner }
     );
-    addSection(newSection);
+    sectionList.push(newSection);
     setIsAdding(false);
   };
 

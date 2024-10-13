@@ -38,15 +38,10 @@ export const TaskDisplay: FC<TaskDisplayProps> = ({ task, deleteTask }) => {
 };
 
 export type TaskAdderProps = {
-  addTask: (newTask: JTask) => void;
   taskList: ListOfTasks | null;
   isDefault?: boolean;
 };
-export const TaskAdder: FC<TaskAdderProps> = ({
-  addTask,
-  taskList,
-  isDefault,
-}) => {
+export const TaskAdder: FC<TaskAdderProps> = ({ taskList, isDefault }) => {
   const [isAdding, setIsAdding] = useState(false);
 
   if (taskList === null) {
@@ -61,7 +56,7 @@ export const TaskAdder: FC<TaskAdderProps> = ({
       },
       { owner: taskList._owner }
     );
-    addTask(newTask);
+    taskList.push(newTask);
     setIsAdding(false);
   };
 

@@ -66,10 +66,6 @@ export const App: FC = () => {
     );
   }
 
-  const addSection = (newSection: JSection) => {
-    list.sections?.push(newSection);
-  };
-
   const deleteSection = (sectionToDelete: JSection) => {
     const index =
       list.sections?.findIndex(
@@ -188,7 +184,7 @@ export const App: FC = () => {
                   />
                 ))}
               {provided.placeholder}
-              <SectionAdder addSection={addSection} sectionList={list.sections} />
+              <SectionAdder sectionList={list.sections} />
             </main>
           )}
         </Droppable>
