@@ -11,6 +11,7 @@ import {
   Droppable,
 } from "@hello-pangea/dnd";
 import { MdAdd, MdDragHandle } from "react-icons/md";
+import { canEditValue } from "../util/jazz";
 
 export type SectionProps = {
   section: Section | null;
@@ -33,8 +34,7 @@ export const SectionDisplay: FC<SectionProps> = ({
     deleteSection(section);
   };
 
-  const canEdit =
-    section._owner.myRole() === "writer" || section._owner.myRole() === "admin";
+  const canEdit = canEditValue(section);
 
   const list = canEdit ? (
     <Droppable droppableId={`section-${section.id}`} type="task">
@@ -77,8 +77,7 @@ const TaskList: FC<{ tasks: ListOfTasks | null }> = ({ tasks }) => {
     return null;
   }
 
-  const canEdit =
-    tasks._owner.myRole() === "writer" || tasks._owner.myRole() === "admin";
+  const canEdit = canEditValue(tasks);
 
   const deleteTask = (taskToDelete: Task) => {
     const index = tasks.findIndex((task) => task?.id === taskToDelete.id);
@@ -141,8 +140,7 @@ const NonDefaultSectionWrapper: FC<NonDefaultSectionWrapperProps> = ({
     section.title = newTitle;
   };
 
-  const canEdit =
-    section._owner.myRole() === "writer" || section._owner.myRole() === "admin";
+  const canEdit = canEditValue(section);
   if (canEdit) {
     return (
       <Draggable draggableId={`section-${section.id}`} index={index}>

@@ -5,6 +5,7 @@ import { EditableText } from "./EditableText";
 import { MdAdd } from "react-icons/md";
 import { useAccount } from "..";
 import { useJazzGroups } from "./useJazzGroups";
+import { canEditValue } from "../util/jazz";
 
 export type TaskDisplayProps = {
   task: Task | null;
@@ -20,8 +21,7 @@ export const TaskDisplay: FC<TaskDisplayProps> = ({ task, deleteTask }) => {
     task.content = newContent;
   };
 
-  const canEdit =
-    task._owner.myRole() === "writer" || task._owner.myRole() === "admin";
+  const canEdit = canEditValue(task);
 
   return (
     <li className="task">

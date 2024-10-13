@@ -15,6 +15,7 @@ import { FlyoutMenu } from "./FlyoutMenu";
 import { useAccount, useCoState } from "..";
 import { ID } from "jazz-tools";
 import { useJazzGroups } from "./useJazzGroups";
+import { canEditValue } from "../util/jazz";
 
 export const App: FC = () => {
   // const savedListJson = localStorage.getItem("savedList");
@@ -158,8 +159,7 @@ export const App: FC = () => {
     }
   };
 
-  const canEdit =
-    list._owner.myRole() === "writer" || list._owner.myRole() === "admin";
+  const canEdit = canEditValue(list);
 
   const sectionArea = canEdit ? (
     <DragDropContext onDragEnd={onDragEnd} onBeforeCapture={onBeforeCapture}>
