@@ -12,7 +12,8 @@ import {
 import { DraggableType, GARBAGE_CAN_IDS, GarbageCan } from "./GarbageCan";
 import { FlyoutMenu } from "./FlyoutMenu";
 import { useAccount, useCoState } from "..";
-import { Group, ID } from "jazz-tools";
+import { ID } from "jazz-tools";
+import { useJazzGroups } from "./useJazzGroups";
 
 export const App: FC = () => {
   // const savedListJson = localStorage.getItem("savedList");
@@ -27,34 +28,37 @@ export const App: FC = () => {
     DraggableType | undefined
   >();
   const { me } = useAccount();
+  const { ownerGroup } = useJazzGroups(me);
   const list = useCoState(List, listId, {
     defaultSection: { tasks: [] },
     sections: [{ tasks: [] }],
   });
 
   if (!list) {
+    if (!ownerGroup) {
+      return <div>Loading...</div>;
+    }
     const createList = () => {
-      const group = Group.create({ owner: me });
-      group.addMember("everyone", "writer");
-
       const defaultTaskList = ListOfTasks.create([], {
-        owner: group,
+        owner: ownerGroup,
       });
       const defaultSection = Section.create(
         {
           title: "DEFAULT",
           tasks: defaultTaskList,
         },
-        { owner: group }
+        { owner: ownerGroup }
       );
-      const defaultSectionList = ListOfSections.create([], { owner: group });
+      const defaultSectionList = ListOfSections.create([], {
+        owner: ownerGroup,
+      });
       const newList = List.create(
         {
           title: "Test List",
           defaultSection: defaultSection,
           sections: defaultSectionList,
         },
-        { owner: group }
+        { owner: ownerGroup }
       );
       setListId(newList.id);
       window.history.pushState({}, "", `?list=${newList.id}`);

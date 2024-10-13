@@ -25,14 +25,14 @@ export const FlyoutMenu: FC<FlyoutMenuProps> = ({ list }) => {
   const noop = () => {};
 
   const allUncompleted = [list.defaultSection, ...(list.sections ?? [])].every(
-    (section) => section?.tasks?.every((task) => !task?.completed)
+    (section) => section?.tasks?.every((task) => !task?.status?.completed)
   );
 
   const resetToUncompleted = () => {
     const resetSectionTasks = (section: Section | null) => {
       section?.tasks
-        ?.filter((tasks) => tasks !== null)
-        .forEach((task) => (task!.completed = false));
+        ?.filter((task) => task?.status !== null)
+        .forEach((task) => (task!.status!.completed = false));
     };
     if (list.defaultSection) {
       resetSectionTasks(list.defaultSection);

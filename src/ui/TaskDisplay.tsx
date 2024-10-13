@@ -1,8 +1,10 @@
 import { FC, useState } from "react";
-import { Task, ListOfTasks } from "../models";
+import { Task, ListOfTasks, TaskStatus } from "../models";
 import "./TaskDisplay.css";
 import { EditableText } from "./EditableText";
 import { MdAdd } from "react-icons/md";
+import { useAccount } from "..";
+import { useJazzGroups } from "./useJazzGroups";
 
 export type TaskDisplayProps = {
   task: Task | null;
@@ -10,7 +12,7 @@ export type TaskDisplayProps = {
 };
 
 export const TaskDisplay: FC<TaskDisplayProps> = ({ task, deleteTask }) => {
-  if (!task) {
+  if (!task || !task.status) {
     return null;
   }
 
@@ -22,15 +24,15 @@ export const TaskDisplay: FC<TaskDisplayProps> = ({ task, deleteTask }) => {
     <li className="task">
       <input
         type="checkbox"
-        checked={task.completed}
-        onChange={(e) => (task.completed = e.target.checked)}
+        checked={task.status?.completed}
+        onChange={(e) => (task.status!.completed = e.target.checked)}
       />
       <EditableText
         as="label"
-        className={task.completed ? "done" : ""}
+        className={task.status?.completed ? "done" : ""}
         onTextChange={onContentChange}
         text={task.content}
-        onClick={() => (task.completed = !task.completed)}
+        onClick={() => (task.status!.completed = !task.status?.completed)}
         onDelete={() => deleteTask(task)}
       />
     </li>
@@ -43,16 +45,22 @@ export type TaskAdderProps = {
 };
 export const TaskAdder: FC<TaskAdderProps> = ({ taskList, isDefault }) => {
   const [isAdding, setIsAdding] = useState(false);
+  const { me } = useAccount();
+  const { statusGroup } = useJazzGroups(me);
 
-  if (taskList === null) {
+  if (taskList === null || !statusGroup) {
     return null;
   }
 
   const createTask = (content: string) => {
+    const newStatus = TaskStatus.create(
+      { completed: false },
+      { owner: statusGroup }
+    );
     const newTask = Task.create(
       {
         content,
-        completed: false,
+        status: newStatus,
       },
       { owner: taskList._owner }
     );

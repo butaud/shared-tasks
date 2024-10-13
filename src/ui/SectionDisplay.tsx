@@ -93,7 +93,7 @@ const DefaultSectionWrapper: FC<DefaultSectionWrapperProps> = ({
   section,
 }) => {
   const titleClassNames = ["section-title", "default"];
-  if (section.tasks?.every((task) => task?.completed)) {
+  if (section.tasks?.every((task) => task?.status?.completed)) {
     titleClassNames.push("all-done");
   }
   return (
@@ -117,7 +117,7 @@ const NonDefaultSectionWrapper: FC<NonDefaultSectionWrapperProps> = ({
   onDelete,
 }) => {
   const titleClassNames = ["section-title"];
-  if (section.tasks?.every((task) => task?.completed)) {
+  if (section.tasks?.every((task) => task?.status?.completed)) {
     titleClassNames.push("all-done");
   }
 

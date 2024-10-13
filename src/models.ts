@@ -1,8 +1,13 @@
 import { co, CoList, CoMap } from "jazz-tools";
 
+// Need to pull this out as a separate class so it can have separate permissions
+export class TaskStatus extends CoMap {
+  completed = co.boolean;
+}
+
 export class Task extends CoMap {
   content = co.string;
-  completed = co.boolean;
+  status = co.ref(TaskStatus);
 }
 
 export class ListOfTasks extends CoList.Of(co.ref(Task)) {}
