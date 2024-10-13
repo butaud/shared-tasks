@@ -4,7 +4,12 @@ import { TaskAdder, TaskDisplay } from "./TaskDisplay";
 import "./SectionDisplay.css";
 import { EditableText } from "./EditableText";
 import { DraggableList } from "./DragWrapper";
-import { Draggable, Droppable } from "@hello-pangea/dnd";
+import {
+  Draggable,
+  DraggableProvided,
+  DraggableStateSnapshot,
+  Droppable,
+} from "@hello-pangea/dnd";
 import { MdAdd, MdDragHandle } from "react-icons/md";
 
 export type SectionProps = {
@@ -28,7 +33,10 @@ export const SectionDisplay: FC<SectionProps> = ({
     deleteSection(section);
   };
 
-  const list = (
+  const canEdit =
+    section._owner.myRole() === "writer" || section._owner.myRole() === "admin";
+
+  const list = canEdit ? (
     <Droppable droppableId={`section-${section.id}`} type="task">
       {(provided, snapshot) => (
         <ul
@@ -38,10 +46,14 @@ export const SectionDisplay: FC<SectionProps> = ({
         >
           <TaskList tasks={section.tasks} />
           {provided.placeholder}
-          <TaskAdder taskList={section.tasks} isDefault={asDefault} />
+          {canEdit && (
+            <TaskAdder taskList={section.tasks} isDefault={asDefault} />
+          )}
         </ul>
       )}
     </Droppable>
+  ) : (
+    <TaskList tasks={section.tasks} />
   );
   if (asDefault) {
     return (
@@ -65,6 +77,9 @@ const TaskList: FC<{ tasks: ListOfTasks | null }> = ({ tasks }) => {
     return null;
   }
 
+  const canEdit =
+    tasks._owner.myRole() === "writer" || tasks._owner.myRole() === "admin";
+
   const deleteTask = (taskToDelete: Task) => {
     const index = tasks.findIndex((task) => task?.id === taskToDelete.id);
     if (index >= 0) {
@@ -74,6 +89,7 @@ const TaskList: FC<{ tasks: ListOfTasks | null }> = ({ tasks }) => {
 
   return (
     <DraggableList
+      canEdit={canEdit}
       idPrefix="task"
       listItems={tasks
         .filter((task) => task !== null)
@@ -124,30 +140,84 @@ const NonDefaultSectionWrapper: FC<NonDefaultSectionWrapperProps> = ({
   const onTitleChange = (newTitle: string) => {
     section.title = newTitle;
   };
-  return (
-    <Draggable draggableId={`section-${section.id}`} index={index}>
-      {(provided, snapshot) => (
-        <section {...provided.draggableProps} ref={provided.innerRef}>
-          <div
-            className={
-              "drag-wrapper" + (snapshot.isDragging ? " dragging" : "")
-            }
+
+  const canEdit =
+    section._owner.myRole() === "writer" || section._owner.myRole() === "admin";
+  if (canEdit) {
+    return (
+      <Draggable draggableId={`section-${section.id}`} index={index}>
+        {(provided, snapshot) => (
+          <MaybeDraggableSection
+            provided={provided}
+            snapshot={snapshot}
+            section={section}
+            onTitleChange={onTitleChange}
+            onDelete={onDelete}
+            canEdit={canEdit}
+            titleClassNames={titleClassNames}
           >
-            <span className="drag-handle" {...provided.dragHandleProps}>
-              <MdDragHandle size={20} />
-            </span>
-            <EditableText
-              as="h2"
-              text={section.title}
-              onTextChange={onTitleChange}
-              className={titleClassNames.join(" ")}
-              onDelete={onDelete}
-            />
-          </div>
-          {children}
-        </section>
-      )}
-    </Draggable>
+            {children}
+          </MaybeDraggableSection>
+        )}
+      </Draggable>
+    );
+  } else {
+    return (
+      <MaybeDraggableSection
+        section={section}
+        onTitleChange={onTitleChange}
+        onDelete={onDelete}
+        canEdit={canEdit}
+        titleClassNames={titleClassNames}
+      >
+        {children}
+      </MaybeDraggableSection>
+    );
+  }
+};
+
+type MaybeDraggableSectionProps = {
+  provided?: DraggableProvided;
+  snapshot?: DraggableStateSnapshot;
+  section: Section;
+  onTitleChange: (newTitle: string) => void;
+  onDelete: () => void;
+  canEdit: boolean;
+  titleClassNames: string[];
+  children: ReactNode;
+};
+
+const MaybeDraggableSection: FC<MaybeDraggableSectionProps> = ({
+  provided,
+  snapshot,
+  section,
+  onTitleChange,
+  onDelete,
+  canEdit,
+  titleClassNames,
+  children,
+}) => {
+  return (
+    <section {...provided?.draggableProps} ref={provided?.innerRef}>
+      <div
+        className={"drag-wrapper" + (snapshot?.isDragging ? " dragging" : "")}
+      >
+        {canEdit && (
+          <span className="drag-handle" {...provided?.dragHandleProps}>
+            <MdDragHandle size={20} />
+          </span>
+        )}
+        <EditableText
+          as="h2"
+          text={section.title}
+          onTextChange={onTitleChange}
+          className={titleClassNames.join(" ")}
+          onDelete={onDelete}
+          canEdit={canEdit}
+        />
+      </div>
+      {children}
+    </section>
   );
 };
 
@@ -180,6 +250,7 @@ export const SectionAdder: FC<SectionAdderProps> = ({ sectionList }) => {
       as="h2"
       text={""}
       onTextChange={createSection}
+      canEdit={true}
     />
   ) : (
     <button onClick={() => setIsAdding(true)} className="add-section">

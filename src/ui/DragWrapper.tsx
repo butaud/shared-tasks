@@ -4,6 +4,7 @@ import { MdDragHandle } from "react-icons/md";
 import "./DragWrapper.css";
 
 export type DraggableListProps = {
+  canEdit: boolean;
   idPrefix: string;
   listItems: ReactElement[];
 };
@@ -11,21 +12,28 @@ export type DraggableListProps = {
 export const DraggableList: FC<DraggableListProps> = ({
   idPrefix,
   listItems,
+  canEdit,
 }) => {
   if (listItems.length === 0) {
     return null;
   } else {
     return (
       <>
-        {listItems.map((listItem, index) => (
-          <DragWrapper
-            draggableId={`${idPrefix}-${listItem.key}`}
-            index={index}
-            key={listItem.key}
-          >
-            {listItem}
-          </DragWrapper>
-        ))}
+        {listItems.map((listItem, index) => {
+          if (canEdit) {
+            return (
+              <DragWrapper
+                draggableId={`${idPrefix}-${listItem.key}`}
+                index={index}
+                key={listItem.key}
+              >
+                {listItem}
+              </DragWrapper>
+            );
+          } else {
+            return listItem;
+          }
+        })}
       </>
     );
   }

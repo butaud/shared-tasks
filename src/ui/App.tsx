@@ -6,6 +6,7 @@ import { EditableText } from "./EditableText";
 import {
   DragDropContext,
   Droppable,
+  DroppableProvided,
   OnBeforeCaptureResponder,
   OnDragEndResponder,
 } from "@hello-pangea/dnd";
@@ -157,6 +158,27 @@ export const App: FC = () => {
     }
   };
 
+  const canEdit =
+    list._owner.myRole() === "writer" || list._owner.myRole() === "admin";
+
+  const sectionArea = canEdit ? (
+    <DragDropContext onDragEnd={onDragEnd} onBeforeCapture={onBeforeCapture}>
+      <GarbageCan currentDraggingType={currentDraggingType} />
+      <Droppable droppableId="main" type="section">
+        {(provided) => (
+          <SectionArea
+            provided={provided}
+            list={list}
+            deleteSection={deleteSection}
+            canEdit={canEdit}
+          />
+        )}
+      </Droppable>
+    </DragDropContext>
+  ) : (
+    <SectionArea list={list} deleteSection={deleteSection} canEdit={canEdit} />
+  );
+
   return (
     <>
       <header>
@@ -166,35 +188,46 @@ export const App: FC = () => {
           text={list.title}
           onTextChange={updateListTitle}
           className="list-title"
+          canEdit={canEdit}
         />
       </header>
-      <DragDropContext onDragEnd={onDragEnd} onBeforeCapture={onBeforeCapture}>
-        <GarbageCan currentDraggingType={currentDraggingType} />
-        <Droppable droppableId="main" type="section">
-          {(provided) => (
-            <main ref={provided.innerRef} {...provided.droppableProps}>
-              <SectionDisplay
-                asDefault
-                index={-1}
-                section={list.defaultSection}
-                deleteSection={() => {}}
-              />
-              {list.sections
-                ?.filter((section) => section !== null)
-                .map((section, index) => (
-                  <SectionDisplay
-                    key={section.id}
-                    section={section}
-                    index={index}
-                    deleteSection={deleteSection}
-                  />
-                ))}
-              {provided.placeholder}
-              <SectionAdder sectionList={list.sections} />
-            </main>
-          )}
-        </Droppable>
-      </DragDropContext>
+      {sectionArea}
     </>
+  );
+};
+
+type SectionAreaProps = {
+  provided?: DroppableProvided;
+  list: List;
+  deleteSection: (section: Section) => void;
+  canEdit: boolean;
+};
+const SectionArea: FC<SectionAreaProps> = ({
+  provided,
+  list,
+  deleteSection,
+  canEdit,
+}) => {
+  return (
+    <main ref={provided?.innerRef} {...provided?.droppableProps}>
+      <SectionDisplay
+        asDefault
+        index={-1}
+        section={list.defaultSection}
+        deleteSection={() => {}}
+      />
+      {list.sections
+        ?.filter((section) => section !== null)
+        .map((section, index) => (
+          <SectionDisplay
+            key={section.id}
+            section={section}
+            index={index}
+            deleteSection={deleteSection}
+          />
+        ))}
+      {provided?.placeholder}
+      {canEdit && <SectionAdder sectionList={list.sections} />}
+    </main>
   );
 };

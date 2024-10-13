@@ -14,6 +14,7 @@ export type EditableTextProps = {
   text: string;
   onTextChange: (newText: string) => void;
   as: "label" | "h1" | "h2";
+  canEdit: boolean;
   className?: string;
   onClick?: () => void;
   onDelete?: () => void;
@@ -25,6 +26,7 @@ export const EditableText: FC<EditableTextProps> = ({
   onTextChange,
   as,
   className,
+  canEdit,
   onClick,
   onDelete,
   editingByDefault,
@@ -97,12 +99,17 @@ export const EditableText: FC<EditableTextProps> = ({
         </>
       );
     } else {
+      const interactivityProps = canEdit
+        ? {
+            onDoubleClick: onStartEditing,
+            onContextMenu,
+          }
+        : {};
       return createElement(
         as,
         {
-          onDoubleClick: onStartEditing,
           className,
-          onContextMenu,
+          ...interactivityProps,
         },
         text
       );

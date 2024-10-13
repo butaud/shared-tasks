@@ -20,6 +20,9 @@ export const TaskDisplay: FC<TaskDisplayProps> = ({ task, deleteTask }) => {
     task.content = newContent;
   };
 
+  const canEdit =
+    task._owner.myRole() === "writer" || task._owner.myRole() === "admin";
+
   return (
     <li className="task">
       <input
@@ -34,6 +37,7 @@ export const TaskDisplay: FC<TaskDisplayProps> = ({ task, deleteTask }) => {
         text={task.content}
         onClick={() => (task.status!.completed = !task.status?.completed)}
         onDelete={() => deleteTask(task)}
+        canEdit={canEdit}
       />
     </li>
   );
@@ -77,6 +81,7 @@ export const TaskAdder: FC<TaskAdderProps> = ({ taskList, isDefault }) => {
           as="label"
           onTextChange={createTask}
           text={""}
+          canEdit={true}
         />
       </li>
     );
