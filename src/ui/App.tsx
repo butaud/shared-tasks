@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { JList, JSection, ListOfSections, ListOfTasks } from "../models";
+import { List, Section, ListOfSections, ListOfTasks } from "../models";
 import { SectionAdder, SectionDisplay } from "./SectionDisplay";
 import "./App.css";
 import { EditableText } from "./EditableText";
@@ -19,15 +19,15 @@ export const App: FC = () => {
   //const savedList = savedListJson ? JSON.parse(savedListJson) : undefined;
   const listIdFromUrl = window.location.search?.replace("?list=", "");
   console.log("got id from url", listIdFromUrl);
-  const [listId, setListId] = useState<ID<JList> | undefined>(
-    (listIdFromUrl || undefined) as ID<JList> | undefined
+  const [listId, setListId] = useState<ID<List> | undefined>(
+    (listIdFromUrl || undefined) as ID<List> | undefined
   );
 
   const [currentDraggingType, setCurrentDraggingType] = useState<
     DraggableType | undefined
   >();
   const { me } = useAccount();
-  const list = useCoState(JList, listId, {
+  const list = useCoState(List, listId, {
     defaultSection: { tasks: [] },
     sections: [{ tasks: [] }],
   });
@@ -40,7 +40,7 @@ export const App: FC = () => {
       const defaultTaskList = ListOfTasks.create([], {
         owner: group,
       });
-      const defaultSection = JSection.create(
+      const defaultSection = Section.create(
         {
           title: "DEFAULT",
           tasks: defaultTaskList,
@@ -48,7 +48,7 @@ export const App: FC = () => {
         { owner: group }
       );
       const defaultSectionList = ListOfSections.create([], { owner: group });
-      const newList = JList.create(
+      const newList = List.create(
         {
           title: "Test List",
           defaultSection: defaultSection,
@@ -66,7 +66,7 @@ export const App: FC = () => {
     );
   }
 
-  const deleteSection = (sectionToDelete: JSection) => {
+  const deleteSection = (sectionToDelete: Section) => {
     const index =
       list.sections?.findIndex(
         (section) => section?.id === sectionToDelete.id

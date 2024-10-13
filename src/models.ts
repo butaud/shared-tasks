@@ -1,21 +1,21 @@
 import { co, CoList, CoMap } from "jazz-tools";
 
-export class JTask extends CoMap {
+export class Task extends CoMap {
   content = co.string;
   completed = co.boolean;
 }
 
-export class ListOfTasks extends CoList.Of(co.ref(JTask)) {}
+export class ListOfTasks extends CoList.Of(co.ref(Task)) {}
 
-export class JSection extends CoMap {
+export class Section extends CoMap {
   title = co.string;
   tasks = co.ref(ListOfTasks);
 }
 
-export class ListOfSections extends CoList.Of(co.ref(JSection)) {}
+export class ListOfSections extends CoList.Of(co.ref(Section)) {}
 
-export class JList extends CoMap {
+export class List extends CoMap {
   title = co.string;
-  defaultSection = co.ref(JSection);
+  defaultSection = co.ref(Section);
   sections = co.ref(ListOfSections);
 }

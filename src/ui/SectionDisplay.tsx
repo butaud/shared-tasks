@@ -1,5 +1,5 @@
 import { FC, ReactNode, useState } from "react";
-import { JSection, JTask, ListOfSections, ListOfTasks } from "../models";
+import { Section, Task, ListOfSections, ListOfTasks } from "../models";
 import { TaskAdder, TaskDisplay } from "./TaskDisplay";
 import "./SectionDisplay.css";
 import { EditableText } from "./EditableText";
@@ -8,10 +8,10 @@ import { Draggable, Droppable } from "@hello-pangea/dnd";
 import { MdAdd, MdDragHandle } from "react-icons/md";
 
 export type SectionProps = {
-  section: JSection | null;
+  section: Section | null;
   index: number;
   asDefault?: boolean;
-  deleteSection: (sectionToDelete: JSection) => void;
+  deleteSection: (sectionToDelete: Section) => void;
 };
 
 export const SectionDisplay: FC<SectionProps> = ({
@@ -65,7 +65,7 @@ const TaskList: FC<{ tasks: ListOfTasks | null }> = ({ tasks }) => {
     return null;
   }
 
-  const deleteTask = (taskToDelete: JTask) => {
+  const deleteTask = (taskToDelete: Task) => {
     const index = tasks.findIndex((task) => task?.id === taskToDelete.id);
     if (index >= 0) {
       tasks.splice(index, 1);
@@ -86,7 +86,7 @@ const TaskList: FC<{ tasks: ListOfTasks | null }> = ({ tasks }) => {
 
 type DefaultSectionWrapperProps = {
   children: ReactNode;
-  section: JSection;
+  section: Section;
 };
 const DefaultSectionWrapper: FC<DefaultSectionWrapperProps> = ({
   children,
@@ -106,7 +106,7 @@ const DefaultSectionWrapper: FC<DefaultSectionWrapperProps> = ({
 
 type NonDefaultSectionWrapperProps = {
   children: ReactNode;
-  section: JSection;
+  section: Section;
   index: number;
   onDelete: () => void;
 };
@@ -163,7 +163,7 @@ export const SectionAdder: FC<SectionAdderProps> = ({ sectionList }) => {
   }
 
   const createSection = (title: string) => {
-    const newSection = JSection.create(
+    const newSection = Section.create(
       {
         tasks: ListOfTasks.create([], { owner: sectionList._owner }),
         title,

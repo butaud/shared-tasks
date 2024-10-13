@@ -1,6 +1,6 @@
 import { FC, ReactNode, useState } from "react";
 import { RiCheckboxMultipleBlankLine } from "react-icons/ri";
-import { JList, JSection } from "../models";
+import { List, Section } from "../models";
 import {
   MdCheckBox,
   MdCheckBoxOutlineBlank,
@@ -13,7 +13,7 @@ import {
 import "./FlyoutMenu.css";
 
 export type FlyoutMenuProps = {
-  list: JList;
+  list: List;
 };
 
 export const FlyoutMenu: FC<FlyoutMenuProps> = ({ list }) => {
@@ -29,7 +29,7 @@ export const FlyoutMenu: FC<FlyoutMenuProps> = ({ list }) => {
   );
 
   const resetToUncompleted = () => {
-    const resetSectionTasks = (section: JSection | null) => {
+    const resetSectionTasks = (section: Section | null) => {
       section?.tasks
         ?.filter((tasks) => tasks !== null)
         .forEach((task) => (task!.completed = false));

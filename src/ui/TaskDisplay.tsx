@@ -1,12 +1,12 @@
 import { FC, useState } from "react";
-import { JTask, ListOfTasks } from "../models";
+import { Task, ListOfTasks } from "../models";
 import "./TaskDisplay.css";
 import { EditableText } from "./EditableText";
 import { MdAdd } from "react-icons/md";
 
 export type TaskDisplayProps = {
-  task: JTask | null;
-  deleteTask: (deletedTask: JTask) => void;
+  task: Task | null;
+  deleteTask: (deletedTask: Task) => void;
 };
 
 export const TaskDisplay: FC<TaskDisplayProps> = ({ task, deleteTask }) => {
@@ -49,7 +49,7 @@ export const TaskAdder: FC<TaskAdderProps> = ({ taskList, isDefault }) => {
   }
 
   const createTask = (content: string) => {
-    const newTask = JTask.create(
+    const newTask = Task.create(
       {
         content,
         completed: false,

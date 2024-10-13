@@ -1,6 +1,6 @@
-import { JTask } from "../models";
+import { Task } from "../models";
 
-export const TaskComponent = ({ task }: { task: JTask }) => {
+export const TaskComponent = ({ task }: { task: Task }) => {
   return (
     <div>
       <h1>{task.content}</h1>
