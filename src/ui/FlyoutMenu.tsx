@@ -1,16 +1,7 @@
 import { FC, ReactNode, useState } from "react";
 import { RiCheckboxMultipleBlankLine } from "react-icons/ri";
 import { List, Section } from "../models";
-import {
-  MdAdd,
-  MdCheckBox,
-  MdCheckBoxOutlineBlank,
-  MdMenu,
-  MdOutlineShare,
-  MdPersonAdd,
-  MdRedo,
-  MdUndo,
-} from "react-icons/md";
+import { MdAdd, MdMenu, MdRedo, MdUndo } from "react-icons/md";
 import "./FlyoutMenu.css";
 
 export type FlyoutMenuProps = {
@@ -20,10 +11,6 @@ export type FlyoutMenuProps = {
 
 export const FlyoutMenu: FC<FlyoutMenuProps> = ({ list, createNewList }) => {
   const [isFlyoutOpen, setIsFlyoutOpen] = useState(false);
-  const [isInEditMode, setIsInEditMode] = useState(true);
-  const toggleEditMode = () => {
-    setIsInEditMode((value) => !value);
-  };
   const noop = () => {};
 
   const allUncompleted = [list.defaultSection, ...(list.sections ?? [])].every(
@@ -85,8 +72,15 @@ export const FlyoutMenu: FC<FlyoutMenuProps> = ({ list, createNewList }) => {
               autoFocus: true,
               action: noop,
               disabled: true,
+              shouldHide: true,
             },
-            { icon: <MdRedo />, label: "Redo", action: noop, disabled: true },
+            {
+              icon: <MdRedo />,
+              label: "Redo",
+              action: noop,
+              disabled: true,
+              shouldHide: true,
+            },
             {
               icon: <RiCheckboxMultipleBlankLine />,
               label: "Reset tasks to uncompleted",
@@ -95,24 +89,7 @@ export const FlyoutMenu: FC<FlyoutMenuProps> = ({ list, createNewList }) => {
             },
           ]}
         />
-        <MenuSection
-          title="View"
-          items={[
-            {
-              icon: <MdCheckBox />,
-              label: "Edit mode",
-              action: toggleEditMode,
-              shouldHide: !isInEditMode,
-            },
-            {
-              icon: <MdCheckBoxOutlineBlank />,
-              label: "Edit mode",
-              action: toggleEditMode,
-              shouldHide: isInEditMode,
-            },
-          ]}
-        />
-        <MenuSection
+        {/* <MenuSection
           title="Share"
           items={[
             {
@@ -128,7 +105,7 @@ export const FlyoutMenu: FC<FlyoutMenuProps> = ({ list, createNewList }) => {
               disabled: true,
             },
           ]}
-        />
+        /> */}
       </div>
     );
   }
