@@ -16,22 +16,25 @@ import { canEditValue } from "../util/jazz";
 export type SectionProps = {
   section: Section | null;
   index: number;
-  asDefault?: boolean;
-  deleteSection: (sectionToDelete: Section) => void;
+  containingList?: ListOfSections | null;
 };
 
 export const SectionDisplay: FC<SectionProps> = ({
   section,
   index,
-  asDefault,
-  deleteSection,
+  containingList,
 }) => {
   if (!section) {
     return null;
   }
 
   const onDelete = () => {
-    deleteSection(section);
+    if (containingList) {
+      const index = containingList.findIndex((s) => s?.id === section.id);
+      if (index >= 0) {
+        containingList.splice(index, 1);
+      }
+    }
   };
 
   const canEdit = canEditValue(section);
@@ -47,7 +50,7 @@ export const SectionDisplay: FC<SectionProps> = ({
           <TaskList tasks={section.tasks} />
           {provided.placeholder}
           {canEdit && (
-            <TaskAdder taskList={section.tasks} isDefault={asDefault} />
+            <TaskAdder taskList={section.tasks} isDefault={!containingList} />
           )}
         </ul>
       )}
@@ -55,7 +58,7 @@ export const SectionDisplay: FC<SectionProps> = ({
   ) : (
     <TaskList tasks={section.tasks} />
   );
-  if (asDefault) {
+  if (!containingList) {
     return (
       <DefaultSectionWrapper section={section}>{list}</DefaultSectionWrapper>
     );
