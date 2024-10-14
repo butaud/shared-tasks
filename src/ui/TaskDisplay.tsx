@@ -88,7 +88,7 @@ export const TaskAdder: FC<TaskAdderProps> = ({ taskList, isDefault }) => {
   } else {
     return (
       <button className="add-task" onClick={() => setIsAdding(true)}>
-        <MdAdd size={20} />
+        <MdAdd />
         {isDefault ? "Add default task" : "Add task to section"}
       </button>
     );

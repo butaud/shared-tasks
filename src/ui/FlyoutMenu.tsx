@@ -46,7 +46,7 @@ export const FlyoutMenu: FC<FlyoutMenuProps> = ({ list, createNewList }) => {
         className="flyout-menu-toggle"
         onClick={() => setIsFlyoutOpen(true)}
       >
-        <MdMenu size={24} />
+        <MdMenu />
       </button>
     );
   } else {
@@ -56,7 +56,7 @@ export const FlyoutMenu: FC<FlyoutMenuProps> = ({ list, createNewList }) => {
           className="flyout-menu-toggle"
           onClick={() => setIsFlyoutOpen(false)}
         >
-          <MdMenu size={24} />
+          <MdMenu />
         </button>
         <MenuSection
           title="Edit"

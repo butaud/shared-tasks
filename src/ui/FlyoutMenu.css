@@ -9,6 +9,7 @@ button.flyout-menu-toggle {
     justify-content: center;
     height: 36px;
     width: 36px;
+    font-size: 24px;
 }
 
 .flyout-menu button.flyout-menu-toggle {

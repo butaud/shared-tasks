@@ -89,11 +89,11 @@ export const EditableText: FC<EditableTextProps> = ({
         <>
           {onDelete && (
             <button className="delete" onClick={onDelete}>
-              <MdDelete size={20} />
+              <MdDelete />
             </button>
           )}
           <button autoFocus className="edit" onClick={onStartEditing}>
-            <MdEdit size={20} />
+            <MdEdit />
           </button>
           <span>{text}</span>
         </>

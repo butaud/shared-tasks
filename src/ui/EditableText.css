@@ -19,6 +19,7 @@
     border: none;
     margin-right: 5px;
     cursor: pointer;
+    font-size: 20px;
 }
 
 .menu-wrapper button:last-of-type {

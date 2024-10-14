@@ -59,7 +59,7 @@ const DragWrapper: FC<DragWrapperProps> = ({
           {...provided.draggableProps}
         >
           <span className="drag-handle" {...provided.dragHandleProps}>
-            <MdDragHandle size={20} />
+            <MdDragHandle />
           </span>
           {children}
         </div>

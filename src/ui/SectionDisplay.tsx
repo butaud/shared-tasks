@@ -203,7 +203,7 @@ const MaybeDraggableSection: FC<MaybeDraggableSectionProps> = ({
       >
         {canEdit && (
           <span className="drag-handle" {...provided?.dragHandleProps}>
-            <MdDragHandle size={20} />
+            <MdDragHandle />
           </span>
         )}
         <EditableText
@@ -253,7 +253,7 @@ export const SectionAdder: FC<SectionAdderProps> = ({ sectionList }) => {
     />
   ) : (
     <button onClick={() => setIsAdding(true)} className="add-section">
-      <MdAdd size={20} /> Add section
+      <MdAdd /> Add section
     </button>
   );
   return <section>{filling}</section>;

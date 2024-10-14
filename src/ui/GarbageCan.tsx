@@ -37,7 +37,7 @@ const TypeSpecificDroppable: FC<TypeSpecificDroppableDrops> = ({
             currentDraggingType === draggableType ? {} : { display: "none" }
           }
         >
-          <MdDelete size={48} />
+          <MdDelete />
           {/* hide the placeholder for the garbage can */}
           <div style={{ display: "none" }}>{provided.placeholder}</div>
         </div>

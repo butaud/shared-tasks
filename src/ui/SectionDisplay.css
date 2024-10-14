@@ -45,6 +45,7 @@ button.add-section {
     padding: 0;
     cursor: pointer;
     padding: 5px;
+    font-size: 16px;
 }
 
 button.add-section:hover {
