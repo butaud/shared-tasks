@@ -18,10 +18,7 @@ import { useJazzGroups } from "./useJazzGroups";
 import { canEditValue } from "../util/jazz";
 
 export const App: FC = () => {
-  // const savedListJson = localStorage.getItem("savedList");
-  //const savedList = savedListJson ? JSON.parse(savedListJson) : undefined;
   const listIdFromUrl = window.location.search?.replace("?list=", "");
-  console.log("got id from url", listIdFromUrl);
   const [listId, setListId] = useState<ID<List> | undefined>(
     (listIdFromUrl || undefined) as ID<List> | undefined
   );
