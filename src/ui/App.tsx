@@ -68,7 +68,7 @@ export const App: FC = () => {
     });
     const newList = List.create(
       {
-        title: "Test List",
+        title: "New list",
         defaultSection: defaultSection,
         sections: defaultSectionList,
       },
