@@ -10,3 +10,7 @@ body {
 #root {
   margin: 20px;
 }
+
+.demoAuth input {
+  font-size: 16px;
+}

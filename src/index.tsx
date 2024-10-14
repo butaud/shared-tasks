@@ -21,7 +21,9 @@ function JazzAndAuth({ children }: { children: ReactNode }) {
       >
         {children}
       </Jazz.Provider>
-      <DemoAuthBasicUI appName="Shared Tasks" state={authState} />
+      <div className="demoAuth">
+        <DemoAuthBasicUI appName="Shared Tasks" state={authState} />
+      </div>
     </>
   );
 }
