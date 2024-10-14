@@ -15,7 +15,7 @@ import { FlyoutMenu } from "./FlyoutMenu";
 import { useAccount, useCoState } from "..";
 import { ID } from "jazz-tools";
 import { useJazzGroups } from "./useJazzGroups";
-import { canEditValue } from "../util/jazz";
+import { canEditValue, insertIntoJazzList } from "../util/jazz";
 
 export const App: FC = () => {
   const listIdFromUrl = window.location.search?.replace("?list=", "");
@@ -150,10 +150,10 @@ export const App: FC = () => {
             owner: list._owner,
           });
         }
-        destinationSection.tasks.splice(
-          destination.index,
-          0,
-          movedOrDeletedTask
+        insertIntoJazzList(
+          destinationSection.tasks,
+          movedOrDeletedTask,
+          destination.index
         );
       }
     } else {
@@ -163,7 +163,11 @@ export const App: FC = () => {
 
       // Unless we are moving to the garbage can, reinsert at the correct position
       if (destination.droppableId !== GARBAGE_CAN_IDS["section"]) {
-        list.sections.splice(destination.index, 0, movedOrDeletedSection);
+        insertIntoJazzList(
+          list.sections,
+          movedOrDeletedSection,
+          destination.index
+        );
       }
     }
   };
