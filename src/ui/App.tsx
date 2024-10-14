@@ -36,6 +36,14 @@ export const App: FC = () => {
     sections: [{ tasks: [] }],
   });
 
+  useEffect(() => {
+    if (list?.title) {
+      window.document.title = `${list.title} | Shared Tasks`;
+    } else {
+      window.document.title = "Shared Tasks";
+    }
+  }, [list?.title]);
+
   if (!ownerGroup) {
     return <div>Loading...</div>;
   }
