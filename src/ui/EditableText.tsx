@@ -18,6 +18,7 @@ export type EditableTextProps = {
   className?: string;
   onClick?: () => void;
   onDelete?: () => void;
+  onCancel?: () => void;
   editingByDefault?: boolean;
 };
 
@@ -29,6 +30,7 @@ export const EditableText: FC<EditableTextProps> = ({
   canEdit,
   onClick,
   onDelete,
+  onCancel,
   editingByDefault,
 }) => {
   const [isEditing, setIsEditing] = useState(editingByDefault ?? false);
@@ -40,6 +42,10 @@ export const EditableText: FC<EditableTextProps> = ({
     setIsInMenu(false);
     setIsEditing(true);
   };
+  const onCancelInternal = () => {
+    setIsEditing(false);
+    onCancel?.();
+  };
   const onSubmit = (
     e: FormEvent<HTMLFormElement> | FocusEvent<HTMLInputElement>
   ) => {
@@ -47,9 +53,10 @@ export const EditableText: FC<EditableTextProps> = ({
     if (draftText !== "") {
       onTextChange(draftText);
       setIsEditing(false);
+    } else {
+      onCancelInternal();
     }
   };
-  const onCancel = () => setIsEditing(false);
 
   const onContextMenu = (e: MouseEvent) => {
     e.preventDefault();
@@ -65,7 +72,7 @@ export const EditableText: FC<EditableTextProps> = ({
           value={draftText}
           onChange={(e) => setDraftText(e.currentTarget.value)}
           onBlur={onSubmit}
-          onKeyDown={(e) => e.key === "Escape" && onCancel()}
+          onKeyDown={(e) => e.key === "Escape" && onCancelInternal()}
           className={className}
         />
       </form>

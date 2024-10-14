@@ -249,6 +249,7 @@ export const SectionAdder: FC<SectionAdderProps> = ({ sectionList }) => {
       as="h2"
       text={""}
       onTextChange={createSection}
+      onCancel={() => setIsAdding(false)}
       canEdit={true}
     />
   ) : (

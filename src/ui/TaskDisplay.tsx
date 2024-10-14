@@ -80,6 +80,7 @@ export const TaskAdder: FC<TaskAdderProps> = ({ taskList, isDefault }) => {
           editingByDefault
           as="label"
           onTextChange={createTask}
+          onCancel={() => setIsAdding(false)}
           text={""}
           canEdit={true}
         />
