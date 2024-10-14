@@ -4,7 +4,7 @@ import "./TaskDisplay.css";
 import { EditableText } from "./EditableText";
 import { MdAdd } from "react-icons/md";
 import { useAccount } from "..";
-import { useJazzGroups } from "./useJazzGroups";
+import { useJazzGroups } from "./hooks/useJazzGroups";
 import { canEditValue } from "../util/jazz";
 
 export type TaskDisplayProps = {

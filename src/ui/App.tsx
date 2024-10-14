@@ -12,26 +12,18 @@ import {
 } from "@hello-pangea/dnd";
 import { DraggableType, GARBAGE_CAN_IDS, GarbageCan } from "./GarbageCan";
 import { FlyoutMenu } from "./FlyoutMenu";
-import { useAccount, useCoState } from "..";
-import { ID } from "jazz-tools";
-import { useJazzGroups } from "./useJazzGroups";
+import { useAccount } from "..";
+import { useJazzGroups } from "./hooks/useJazzGroups";
 import { canEditValue, insertIntoJazzList } from "../util/jazz";
+import { useAppRootList } from "./hooks/useJazzList";
 
 export const App: FC = () => {
-  const listIdFromUrl = window.location.search?.replace("?list=", "");
-  const [listId, setListId] = useState<ID<List> | undefined>(
-    (listIdFromUrl || undefined) as ID<List> | undefined
-  );
-
   const [currentDraggingType, setCurrentDraggingType] = useState<
     DraggableType | undefined
   >();
   const { me } = useAccount();
-  const { ownerGroup } = useJazzGroups(me);
-  const list = useCoState(List, listId, {
-    defaultSection: { tasks: [] },
-    sections: [{ tasks: [] }],
-  });
+  const { ownerGroup, loadingOwnerGroup } = useJazzGroups(me);
+  const { list, setList, loading: listLoading } = useAppRootList();
 
   useEffect(() => {
     if (list?.title) {
@@ -41,12 +33,12 @@ export const App: FC = () => {
     }
   }, [list?.title]);
 
-  if (!ownerGroup) {
+  if (loadingOwnerGroup || listLoading) {
     return <div>Loading...</div>;
   }
 
-  if (listId && !list) {
-    return <div>Loading...</div>;
+  if (!ownerGroup) {
+    return <div>Error: Please refresh to try again</div>;
   }
 
   const createList = () => {
@@ -71,8 +63,7 @@ export const App: FC = () => {
       },
       { owner: ownerGroup }
     );
-    setListId(newList.id);
-    window.history.pushState({}, "", `?list=${newList.id}`);
+    setList(newList);
   };
 
   if (!list) {
@@ -144,11 +135,6 @@ export const App: FC = () => {
         if (!destinationSection) {
           console.error("Invalid drag - couldn't find destination section");
           return;
-        }
-        if (!destinationSection.tasks) {
-          destinationSection.tasks = ListOfTasks.create([], {
-            owner: list._owner,
-          });
         }
         insertIntoJazzList(
           destinationSection.tasks,

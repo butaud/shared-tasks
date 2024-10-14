@@ -2,6 +2,8 @@ import { Account, Group, ID } from "jazz-tools";
 import { useEffect, useState } from "react";
 
 export const useJazzGroups = (owner: Account) => {
+  const [loadingOwnerGroup, setLoadingOwnerGroup] = useState(true);
+  const [loadingStatusGroup, setLoadingStatusGroup] = useState(true);
   const [ownerGroup, setOwnerGroup] = useState<Group | undefined>();
   const [statusGroup, setStatusGroup] = useState<Group | undefined>();
 
@@ -14,18 +16,22 @@ export const useJazzGroups = (owner: Account) => {
 
   useEffect(() => {
     if (owner && ownerGroupId && !ownerGroup) {
+      setLoadingOwnerGroup(true);
       (async () => {
         const ownerGroup = await Group.load(ownerGroupId, owner, {});
         setOwnerGroup(ownerGroup);
+        setLoadingOwnerGroup(false);
       })();
     }
   }, [ownerGroupId, ownerGroup, owner]);
 
   useEffect(() => {
     if (owner && statusGroupId && !statusGroup) {
+      setLoadingStatusGroup(true);
       (async () => {
         const statusGroup = await Group.load(statusGroupId, owner, {});
         setStatusGroup(statusGroup);
+        setLoadingStatusGroup(false);
       })();
     }
   }, [statusGroupId, statusGroup, owner]);
@@ -48,5 +54,5 @@ export const useJazzGroups = (owner: Account) => {
     }
   }, [statusGroupId, statusGroup, owner]);
 
-  return { ownerGroup, statusGroup };
+  return { ownerGroup, statusGroup, loadingOwnerGroup, loadingStatusGroup };
 };
