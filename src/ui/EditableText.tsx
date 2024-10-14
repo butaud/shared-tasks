@@ -85,6 +85,7 @@ export const EditableText: FC<EditableTextProps> = ({
             e.key === "Escape" && setIsInMenu(false),
           onContextMenu,
           tabIndex: -1,
+          title: text,
         },
         <>
           {onDelete && (
@@ -109,6 +110,7 @@ export const EditableText: FC<EditableTextProps> = ({
         as,
         {
           className,
+          title: text,
           ...interactivityProps,
         },
         text
