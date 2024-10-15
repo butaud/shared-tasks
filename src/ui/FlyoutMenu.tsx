@@ -43,11 +43,14 @@ export const FlyoutMenu: FC<FlyoutMenuProps> = ({ list, setList }) => {
   const [isFlyoutOpen, setIsFlyoutOpen] = useState(false);
   if (isFlyoutOpen) {
     return (
-      <FlyoutMenuOpen
-        list={list}
-        setList={setList}
-        closeFlyout={() => setIsFlyoutOpen(false)}
-      />
+      <>
+        <FlyoutMenuClosed openFlyout={() => setIsFlyoutOpen(true)} />
+        <FlyoutMenuOpen
+          list={list}
+          setList={setList}
+          closeFlyout={() => setIsFlyoutOpen(false)}
+        />
+      </>
     );
   } else {
     return <FlyoutMenuClosed openFlyout={() => setIsFlyoutOpen(true)} />;

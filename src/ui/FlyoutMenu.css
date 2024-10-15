@@ -1,6 +1,4 @@
 button.flyout-menu-toggle {
-  position: absolute;
-  left: 20px;
   background-color: transparent;
   border-radius: 5px;
   border: 1px solid transparent;
@@ -26,8 +24,8 @@ button.flyout-menu-toggle:active {
 
 .flyout-menu {
   position: absolute;
-  top: 18px;
-  left: 19px;
+  top: 21px;
+  left: -1px;
   border-radius: 5px;
   background-color: hsl(208, 100%, 97%);
   border: 1px solid black;
