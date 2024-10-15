@@ -95,8 +95,8 @@ const ColorPicker: FC = () => {
             style={{ backgroundColor: color }}
             type="button"
             onClick={() => {
-              if (!selected && me.root) {
-                me.root.color = color;
+              if (!selected && me.profile) {
+                me.profile.color = color;
               }
             }}
           />

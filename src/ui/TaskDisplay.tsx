@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { Task, ListOfTasks, TaskStatus } from "../models";
+import { Task, ListOfTasks, TaskStatus, ListProfile } from "../models";
 import "./TaskDisplay.css";
 import { EditableText } from "./EditableText";
 import { MdAdd } from "react-icons/md";
@@ -31,6 +31,12 @@ export const TaskDisplay: FC<TaskDisplayProps> = ({
 
   const canEdit = canEditValue(task);
 
+  const lastEdits = task.status?._edits.completed;
+  const lastEditedBy = lastEdits?.by?.profile as ListProfile;
+  const checkboxStyle = task.status?.completed
+    ? { accentColor: lastEditedBy?.color ?? "hsl(133, 34%, 60%)" }
+    : {};
+
   return (
     <li
       className={`task ${dragHandleParentClassName} ${dragWrapperClassName}`}
@@ -41,7 +47,9 @@ export const TaskDisplay: FC<TaskDisplayProps> = ({
       <input
         type="checkbox"
         checked={task.status?.completed}
+        style={checkboxStyle}
         onChange={(e) => (task.status!.completed = e.target.checked)}
+        title={lastEditedBy?.name}
       />
       <EditableText
         as="label"

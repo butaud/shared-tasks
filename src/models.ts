@@ -29,7 +29,6 @@ export class ListOfLists extends CoList.Of(co.ref(List)) {}
 
 export class ListAccountRoot extends CoMap {
   lists = co.ref(ListOfLists);
-  color = co.string;
 }
 
 export const AVATAR_COLORS = [
@@ -48,8 +47,12 @@ export const AVATAR_COLORS = [
 ];
 export const AVATAR_GREY = "#333333";
 
+export class ListProfile extends Profile {
+  color = co.string;
+}
+
 export class ListAccount extends Account {
-  profile = co.ref(Profile);
+  profile = co.ref(ListProfile);
   root = co.ref(ListAccountRoot);
 
   /** The account migration is run on account creation and on every log-in.
@@ -61,8 +64,6 @@ export class ListAccount extends Account {
       this.root = ListAccountRoot.create(
         {
           lists: ListOfLists.create([], { owner: this }),
-          color:
-            AVATAR_COLORS[Math.floor(Math.random() * AVATAR_COLORS.length)],
         },
         { owner: this }
       );
@@ -70,13 +71,13 @@ export class ListAccount extends Account {
   }
 
   get avatarColor() {
-    if (!this.root) {
+    if (!this.profile) {
       return AVATAR_GREY;
     }
-    if (!this.root?.color) {
-      this.root.color =
+    if (!this.profile.color) {
+      this.profile.color =
         AVATAR_COLORS[Math.floor(Math.random() * AVATAR_COLORS.length)];
     }
-    return this.root.color;
+    return this.profile.color;
   }
 }

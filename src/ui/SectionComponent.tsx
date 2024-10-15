@@ -42,6 +42,8 @@ export const SectionComponent: FC<SectionComponentProps> = ({
     }
   };
 
+  const canEdit = canEditValue(section);
+
   const list = (
     <DraggableList
       listItems={section.tasks}
@@ -62,7 +64,7 @@ export const SectionComponent: FC<SectionComponentProps> = ({
     return (
       <DefaultSectionWrapper section={section}>
         {list}
-        <TaskAdder taskList={section.tasks} isDefault />
+        {canEdit && <TaskAdder taskList={section.tasks} isDefault />}
       </DefaultSectionWrapper>
     );
   } else {
@@ -76,7 +78,7 @@ export const SectionComponent: FC<SectionComponentProps> = ({
         draggableProvided={draggableProvided}
       >
         {list}
-        <TaskAdder taskList={section.tasks} />
+        {canEdit && <TaskAdder taskList={section.tasks} />}
       </NonDefaultSectionWrapper>
     );
   }

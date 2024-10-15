@@ -6,6 +6,10 @@ li.task {
   width: fit-content;
 }
 
+li.task label {
+  z-index: 0;
+}
+
 li.task label.done {
   color: hsl(133, 34%, 60%);
   text-decoration: line-through;
@@ -37,4 +41,27 @@ button.add-task {
 
 button.add-task:hover {
   background-color: hsl(208, 100%, 80%);
+}
+
+/* kind of a hack to make titles show up as tooltips when long pressing on mobile */
+@media (pointer: coarse), (hover: none) {
+  li.task input[type="checkbox"][title] {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    z-index: 1;
+  }
+  li.task input[type="checkbox"][title]:focus::after {
+    content: attr(title);
+    position: absolute;
+    left: 200%;
+    color: gray;
+    background-color: #fff;
+    border: 1px solid gray;
+    width: fit-content;
+    padding: 5px;
+    white-space: pre;
+    font-size: small;
+    line-height: 1;
+  }
 }
