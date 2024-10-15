@@ -4,11 +4,14 @@ import "./index.css";
 import { App } from "./ui/App";
 import reportWebVitals from "./reportWebVitals";
 import { createJazzReactApp, useDemoAuth, DemoAuthBasicUI } from "jazz-react";
+import { ListAccount } from "./models";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
-const Jazz = createJazzReactApp();
+const Jazz = createJazzReactApp<ListAccount>({
+  AccountSchema: ListAccount,
+});
 export const { useAccount, useCoState } = Jazz;
 
 function JazzAndAuth({ children }: { children: ReactNode }) {

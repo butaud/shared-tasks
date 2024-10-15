@@ -4,6 +4,7 @@ import { EditableText } from "./EditableText";
 import { FlyoutMenu } from "./FlyoutMenu";
 import { canEditValue } from "../util/jazz";
 import "./HeaderComponent.css";
+import { ProfileComponent } from "./ProfileComponent";
 
 export type HeaderComponentProps = {
   list: List | undefined;
@@ -22,6 +23,7 @@ export const HeaderComponent: FC<HeaderComponentProps> = ({
       ) : (
         <h1 className="list-title">Shared list editor</h1>
       )}
+      <ProfileComponent />
     </header>
   );
 };
