@@ -99,7 +99,7 @@ export const DragAndDropContext: FC<DragAndDropContextProps> = ({
   );
 };
 
-type DraggableType = "section" | "task";
+export type DraggableType = "section" | "task";
 type GarbageCanProps = {
   currentDraggingType: DraggableType | undefined;
 };

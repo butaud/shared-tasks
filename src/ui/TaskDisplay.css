@@ -1,43 +1,39 @@
 li.task {
-    display: flex;
-    font-size: 25px;
-    align-items: center;
-    margin: 10px 0;
-    width:fit-content;
+  display: flex;
+  font-size: 25px;
+  align-items: center;
+  margin: 10px 0;
+  width: fit-content;
 }
 
 li.task label.done {
-    color: hsl(133, 34%, 60%);
-    text-decoration: line-through;
+  color: hsl(133, 34%, 60%);
+  text-decoration: line-through;
 }
 
-.dragging li.task {
-    background-color: white;
+li.task input[type="text"] {
+  font-size: 25px;
 }
 
-li.task input[type=text] {
-    font-size: 25px;
-}
-
-li.task input[type=checkbox] {
-    margin-right: 15px;
-    transform: scale(1.5);
-    accent-color: hsl(133, 34%, 60%);
+li.task input[type="checkbox"] {
+  margin-right: 15px;
+  transform: scale(1.5);
+  accent-color: hsl(133, 34%, 60%);
 }
 
 button.add-task {
-    display: inline-flex;
-    background-color: hsl(208, 100%, 97%);
-    border: 0;
-    height: 32px;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 10%;
-    padding: 0;
-    cursor: pointer;
-    padding: 5px;
+  display: inline-flex;
+  background-color: hsl(208, 100%, 97%);
+  border: 0;
+  height: 32px;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 10%;
+  padding: 0;
+  cursor: pointer;
+  padding: 5px;
 }
 
 button.add-task:hover {
-    background-color: hsl(208, 100%, 80%);
+  background-color: hsl(208, 100%, 80%);
 }

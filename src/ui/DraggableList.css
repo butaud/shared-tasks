@@ -1,0 +1,35 @@
+.drag-wrapper {
+  position: relative;
+}
+
+.drag-wrapper .drag-handle {
+  position: absolute;
+  color: gray;
+  top: 0;
+  bottom: 0;
+  left: -25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+}
+
+.drag-handle-wrapper {
+  position: relative;
+}
+
+.drag-handle-wrapper .drag-handle {
+  position: absolute;
+  color: gray;
+  top: 0;
+  bottom: 0;
+  left: -25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+}
+
+.dragging {
+  background-color: white;
+}

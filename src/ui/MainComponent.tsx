@@ -1,9 +1,9 @@
-import { Droppable, DroppableProvided } from "@hello-pangea/dnd";
 import { FC } from "react";
 import { List } from "../models";
 import { canEditValue } from "../util/jazz";
 import { DragAndDropContext } from "./DragAndDropContext";
-import { SectionDisplay, SectionAdder } from "./SectionDisplay";
+import { SectionComponent, SectionAdder } from "./SectionComponent";
+import { DraggableList } from "./DraggableList";
 import "./MainComponent.css";
 
 type MainComponentProps = {
@@ -38,9 +38,7 @@ const LoadedListArea: FC<LoadedListAreaProps> = ({ list }) => {
   if (canEdit) {
     return (
       <DragAndDropContext list={list}>
-        <Droppable droppableId="main" type="section">
-          {(provided) => <SectionArea provided={provided} list={list} />}
-        </Droppable>
+        <SectionArea list={list} />
       </DragAndDropContext>
     );
   } else {
@@ -49,25 +47,32 @@ const LoadedListArea: FC<LoadedListAreaProps> = ({ list }) => {
 };
 
 type SectionAreaProps = {
-  provided?: DroppableProvided;
   list: List;
 };
-const SectionArea: FC<SectionAreaProps> = ({ provided, list }) => {
+const SectionArea: FC<SectionAreaProps> = ({ list }) => {
   const canEdit = canEditValue(list);
+  if (!list.sections) {
+    return null;
+  }
   return (
-    <main ref={provided?.innerRef} {...provided?.droppableProps}>
-      <SectionDisplay index={-1} section={list.defaultSection} />
-      {list.sections
-        ?.filter((section) => section !== null)
-        .map((section, index) => (
-          <SectionDisplay
+    <main>
+      {list.defaultSection && (
+        <SectionComponent section={list.defaultSection} />
+      )}
+      <DraggableList
+        droppableId="main"
+        type="section"
+        listItems={list.sections}
+      >
+        {({ listItem: section, provided }) => (
+          <SectionComponent
             key={section.id}
             section={section}
-            index={index}
             containingList={list.sections}
+            {...provided}
           />
-        ))}
-      {provided?.placeholder}
+        )}
+      </DraggableList>
       {canEdit && <SectionAdder sectionList={list.sections} />}
     </main>
   );

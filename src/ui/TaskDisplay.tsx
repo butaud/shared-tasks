@@ -6,13 +6,21 @@ import { MdAdd } from "react-icons/md";
 import { useAccount } from "..";
 import { useJazzGroups } from "./hooks/useJazzGroups";
 import { canEditValue } from "../util/jazz";
+import { DraggableListProvided } from "./DraggableList";
 
-export type TaskDisplayProps = {
+export type TaskDisplayProps = DraggableListProvided & {
   task: Task | null;
   deleteTask: (deletedTask: Task) => void;
 };
 
-export const TaskDisplay: FC<TaskDisplayProps> = ({ task, deleteTask }) => {
+export const TaskDisplay: FC<TaskDisplayProps> = ({
+  task,
+  deleteTask,
+  dragHandle,
+  dragHandleParentClassName,
+  dragWrapperClassName,
+  draggableProvided,
+}) => {
   if (!task || !task.status) {
     return null;
   }
@@ -24,7 +32,12 @@ export const TaskDisplay: FC<TaskDisplayProps> = ({ task, deleteTask }) => {
   const canEdit = canEditValue(task);
 
   return (
-    <li className="task">
+    <li
+      className={`task ${dragHandleParentClassName} ${dragWrapperClassName}`}
+      ref={draggableProvided?.innerRef}
+      {...draggableProvided?.draggableProps}
+    >
+      {dragHandle}
       <input
         type="checkbox"
         checked={task.status?.completed}
