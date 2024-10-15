@@ -41,8 +41,10 @@ export const AVATAR_COLORS = [
   "#33FFF5",
   "#FF8C33",
   "#8C33FF",
-  "#33CC57",
-  "#FF3333",
+  "#1C9E31",
+  "#F70202",
+  "#F7CC31",
+  "#F7AFD6",
 ];
 export const AVATAR_GREY = "#333333";
 

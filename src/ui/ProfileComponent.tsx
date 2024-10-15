@@ -25,6 +25,7 @@ export const ProfileComponent: FC<ProfileComponentProps> = () => {
       >
         {me.profile?.name
           .split(" ")
+          .slice(0, 2)
           .map((n: string) => n[0])
           .join("")}
       </button>
