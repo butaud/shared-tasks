@@ -56,8 +56,8 @@ export const DraggableList = <T extends DraggableType>({
             className={`${type}-list ${
               snapshot.isDraggingOver ? "drag-over" : ""
             }`}
-            ref={droppableProvided?.innerRef}
-            {...droppableProvided?.droppableProps}
+            ref={droppableProvided.innerRef}
+            {...droppableProvided.droppableProps}
           >
             {listItems
               .filter((item) => item !== null)

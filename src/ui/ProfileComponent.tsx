@@ -1,7 +1,8 @@
 import { FC, useState } from "react";
 import { useAccount } from "..";
 import "./ProfileComponent.css";
-import { MdSave } from "react-icons/md";
+import { MdClose, MdSave } from "react-icons/md";
+import { AVATAR_COLORS } from "../models";
 
 export type ProfileComponentProps = {};
 
@@ -37,30 +38,69 @@ export const ProfileEditor: FC<ProfileEditorProps> = ({ close }) => {
   const { me } = useAccount();
   const [name, setName] = useState(me.profile?.name || "");
 
-  const save = () => {
+  const save = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     if (me.profile) {
       me.profile.name = name;
     }
     close();
   };
 
-  const onBlur = (e: any) => {
-    if (!e.currentTarget.contains(e.relatedTarget)) {
-      close();
-    }
-  };
-
   return (
-    <form className="profile-editor" onBlur={onBlur}>
-      <input
-        autoFocus
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <button onClick={save}>
-        <MdSave />
+    <div
+      className="profile-editor-container"
+      onKeyDown={(e) => e.key === "Escape" && close()}
+      style={{ backgroundColor: me.avatarColor }}
+    >
+      <button className="close" onClick={close} title="Close">
+        <MdClose />
       </button>
-    </form>
+      <form className="profile-editor">
+        <label>Display Name</label>
+        <div className="form-line">
+          <input
+            autoFocus
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <button className="save" onClick={save}>
+            <MdSave />
+          </button>
+        </div>
+        <label>Avatar Color</label>
+        <div className="form-line">
+          <ColorPicker />
+        </div>
+      </form>
+    </div>
+  );
+};
+
+const ColorPicker: FC = () => {
+  const { me } = useAccount();
+  return (
+    <div className="color-picker-container">
+      {AVATAR_COLORS.map((color) => {
+        const selected = color === me.avatarColor;
+        const classNames = ["color"];
+        if (selected) {
+          classNames.push("selected");
+        }
+        return (
+          <button
+            key={color}
+            className={classNames.join(" ")}
+            style={{ backgroundColor: color }}
+            type="button"
+            onClick={() => {
+              if (!selected && me.root) {
+                me.root.color = color;
+              }
+            }}
+          />
+        );
+      })}
+    </div>
   );
 };

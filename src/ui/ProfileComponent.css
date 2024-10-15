@@ -20,29 +20,43 @@ button.profile-button:active {
   filter: brightness(70%);
 }
 
-form.profile-editor {
+.profile-editor-container {
   position: fixed;
   top: 10px;
   right: 10px;
+
+  border-radius: 10%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-editor-container button.close {
+  position: absolute;
+  top: 10px;
+  right: 5px;
+  font-size: 24px;
+  border: none;
+  background-color: transparent;
+}
+
+form.profile-editor {
+  border-radius: 10%;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-
-  background-color: hsl(0, 0%, 90%);
-  border-radius: 50%;
-  padding: 20px;
+  align-items: start;
+  background-color: hsla(0, 0%, 90%, 0.8);
 }
 
 form.profile-editor input {
-  margin: 5px;
   padding: 5px;
   font-size: 16px;
   max-width: 100px;
   border-radius: 5px;
+  margin-right: 10px;
+  height: 26px;
 }
 
 form.profile-editor button {
-  margin: 5px;
   padding: 5px;
   background-color: hsl(207, 48%, 47%);
   color: white;
@@ -58,4 +72,70 @@ form.profile-editor button {
   margin-right: 5px;
   cursor: pointer;
   font-size: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+form.profile-editor button.save {
+  background-color: hsl(207, 48%, 47%);
+}
+
+form.profile-editor button.color-picker {
+  background: linear-gradient(
+    90deg,
+    hsl(348, 97%, 63%) 0%,
+    hsl(230, 96%, 62%) 100%
+  );
+}
+
+form.profile-editor button.color-picker:hover {
+  background: linear-gradient(
+    90deg,
+    hsl(348, 97%, 50%) 0%,
+    hsl(230, 96%, 50%) 100%
+  );
+}
+
+form.profile-editor button.color-picker:active {
+  background: linear-gradient(
+    90deg,
+    hsl(348, 97%, 40%) 0%,
+    hsl(230, 96%, 40%) 100%
+  );
+}
+
+form.profile-editor .form-line {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+form.profile-editor label {
+  font-weight: bold;
+  text-align: start;
+  margin: 10px 0;
+}
+
+form.profile-editor:first-child {
+  margin-top: 0;
+}
+
+form.profile-editor .color-picker-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 200px;
+}
+
+.color-picker-container button.color {
+  border: 3px solid gray;
+  margin: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.color-picker-container button.color.selected {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 3px solid white;
+  margin: 5px;
 }
