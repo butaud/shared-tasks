@@ -20,8 +20,6 @@ header h1 {
 }
 
 header button.nav {
-  position: absolute;
-  left: 20px;
   background-color: transparent;
   border-radius: 5px;
   border: 1px solid transparent;

@@ -1,84 +1,83 @@
 button.flyout-menu-toggle {
-    position: absolute;
-    left: 20px;
-    background-color: transparent;
-    border-radius: 5px;
-    border: 1px solid transparent;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 36px;
-    width: 36px;
-    font-size: 24px;
+  position: absolute;
+  left: 20px;
+  background-color: transparent;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  width: 36px;
+  font-size: 24px;
 }
 
 .flyout-menu button.flyout-menu-toggle {
-    left: 0;
+  left: 0;
 }
 
 button.flyout-menu-toggle:hover {
-    background-color: hsl(217, 44%, 80%);
+  background-color: hsl(217, 44%, 80%);
 }
 
 button.flyout-menu-toggle:active {
-    background-color: lightgray;
+  background-color: lightgray;
 }
 
-
 .flyout-menu {
-    position: absolute;
-    top: 0;
-    left: 20px;
-    border-radius: 5px;
-    background-color: hsl(208, 100%, 97%);
-    border: 1px solid black;
+  position: absolute;
+  top: 18px;
+  left: 19px;
+  border-radius: 5px;
+  background-color: hsl(208, 100%, 97%);
+  border: 1px solid black;
 
-    display: flex;
-    flex-direction: column;
-    align-items: start;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
 }
 
 .menu-section {
-    padding: 5px;
-    padding-left: 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
+  padding: 5px;
+  padding-left: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
 }
 
 .menu-section h3 {
-    margin: 0;
-    font-size: larger;
+  margin: 0;
+  font-size: larger;
 }
 
 .menu-section button {
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    width: 100%;
-    background-color: transparent;
-    font-size: larger;
-    color: hsl(0, 0%, 20%);
-    margin: 5px 0;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  width: 100%;
+  background-color: transparent;
+  font-size: larger;
+  color: hsl(0, 0%, 20%);
+  margin: 5px 0;
 }
 
 .menu-section button:hover {
-    color: black;
-    background-color: hsl(208, 100%, 99%);
-    text-decoration: underline;
+  color: black;
+  background-color: hsl(208, 100%, 99%);
+  text-decoration: underline;
 }
 
 .menu-section button:active {
-    background-color: hsl(208, 100%, 85%);
+  background-color: hsl(208, 100%, 85%);
 }
 
 .menu-section button:disabled {
-    color: hsl(0, 0%, 40%);
-    background-color: transparent;
-    text-decoration: none;
+  color: hsl(0, 0%, 40%);
+  background-color: transparent;
+  text-decoration: none;
 }
 
 .menu-section button svg {
-    margin-right: 5px;
+  margin-right: 5px;
 }
