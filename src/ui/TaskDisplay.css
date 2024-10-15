@@ -28,10 +28,11 @@ button.add-task {
   height: 32px;
   align-items: center;
   justify-content: space-between;
-  border-radius: 10%;
+  border-radius: 10px;
   padding: 0;
   cursor: pointer;
   padding: 5px;
+  margin-bottom: 5px;
 }
 
 button.add-task:hover {

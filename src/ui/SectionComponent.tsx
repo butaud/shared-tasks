@@ -1,6 +1,6 @@
 import { FC, ReactNode, useState } from "react";
 import { Section, Task, ListOfSections, ListOfTasks } from "../models";
-import { TaskDisplay } from "./TaskDisplay";
+import { TaskAdder, TaskDisplay } from "./TaskDisplay";
 import "./SectionComponent.css";
 import { EditableText } from "./EditableText";
 import { DraggableList } from "./DraggableList";
@@ -60,7 +60,10 @@ export const SectionComponent: FC<SectionComponentProps> = ({
   );
   if (!containingList) {
     return (
-      <DefaultSectionWrapper section={section}>{list}</DefaultSectionWrapper>
+      <DefaultSectionWrapper section={section}>
+        {list}
+        <TaskAdder taskList={section.tasks} isDefault />
+      </DefaultSectionWrapper>
     );
   } else {
     return (
@@ -73,6 +76,7 @@ export const SectionComponent: FC<SectionComponentProps> = ({
         draggableProvided={draggableProvided}
       >
         {list}
+        <TaskAdder taskList={section.tasks} />
       </NonDefaultSectionWrapper>
     );
   }
