@@ -4,7 +4,7 @@ section button.add-task {
 }
 
 h2.default {
-  color: var(--neutral-color-hover);
+  color: var(--neutral-color-medium);
 }
 
 h2.all-done {

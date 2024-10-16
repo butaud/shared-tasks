@@ -1,3 +1,64 @@
+/* define color variables */
+:root {
+  --font-color: hsl(0, 0%, 2%);
+  --background-color: hsl(0, 0%, 98%);
+
+  --button-foreground: hsl(0, 0%, 98%);
+
+  --primary-color: hsl(207, 48%, 47%);
+  --primary-color-light: hsl(207, 48%, 85%);
+  --primary-color-subtle: hsl(208, 100%, 97%);
+
+  --secondary-color: hsl(18, 86%, 54%);
+  --secondary-color-light: hsl(18, 86%, 75%);
+
+  --neutral-color: hsl(0, 0%, 80%);
+  --neutral-color-medium: hsl(0, 0%, 70%);
+  --neutral-color-strong: hsl(0, 0%, 30%);
+  --neutral-color-light: hsl(0, 0%, 90%);
+
+  --completed-color: hsl(133, 34%, 60%);
+
+  --danger-color: hsl(0, 83%, 82%);
+  --danger-color-strong: hsl(0, 83%, 70%);
+
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --shadow-color-strong: rgba(0, 0, 0, 0.3);
+
+  --semitransparent: hsla(0, 0%, 90%, 0.8);
+}
+
+/* dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --font-color: hsl(0, 0%, 98%);
+    --background-color: hsl(0, 0%, 10%);
+
+    --button-foreground: hsl(0, 0%, 2%);
+
+    --primary-color: hsl(207, 48%, 53%);
+    --primary-color-light: hsl(207, 48%, 15%);
+    --primary-color-subtle: hsl(208, 100%, 3%);
+
+    --secondary-color: hsl(18, 86%, 46%);
+    --secondary-color-light: hsl(18, 86%, 30%);
+
+    --neutral-color: hsl(0, 0%, 20%);
+    --neutral-color-medium: hsl(0, 0%, 30%);
+    --neutral-color-strong: hsl(0, 0%, 70%);
+    --neutral-color-light: hsl(0, 0%, 20%);
+
+    --completed-color: hsl(133, 34%, 40%);
+
+    --danger-color: hsl(0, 83%, 35%);
+    --danger-color-strong: hsl(0, 83%, 30%);
+
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --shadow-color-strong: rgba(0, 0, 0, 0.3);
+    --semitransparent: hsla(0, 0%, 10%, 0.2);
+  }
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -5,44 +66,17 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background-color);
+  color: var(--font-color);
 }
 
 #root {
   margin: 20px;
 }
 
-/* define color variables */
-:root {
-  --font-color: black;
-  --background-color: white;
-
-  --button-foreground: white;
-
-  --primary-color: hsl(207, 48%, 47%);
-  --primary-color-hover: hsl(207, 48%, 37%);
-  --primary-color-active: hsl(207, 48%, 27%);
-  --primary-color-light: hsl(207, 48%, 85%);
-  --primary-color-subtle: hsl(208, 100%, 97%);
-
-  --secondary-color: hsl(18, 86%, 54%);
-  --secondary-color-hover: hsl(18, 86%, 44%);
-  --secondary-color-active: hsl(18, 86%, 34%);
-  --secondary-color-light: hsl(18, 86%, 75%);
-
-  --neutral-color: hsl(0, 0%, 80%);
-  --neutral-color-hover: hsl(0, 0%, 70%);
-  --neutral-color-active: hsl(0, 0%, 60%);
-  --neutral-color-strong: hsl(0, 0%, 30%);
-  --neutral-color-light: hsl(0, 0%, 90%);
-
-  --completed-color: hsl(133, 34%, 60%);
-
-  --danger-color: hsl(0, 83%, 82%);
-  --danger-color-hover: hsl(0, 83%, 70%);
-  --danger-color-active: hsl(0, 83%, 60%);
-
-  --shadow-color: rgba(0, 0, 0, 0.1);
-  --shadow-color-strong: rgba(0, 0, 0, 0.3);
+input[type="text"] {
+  background-color: var(--background-color);
+  color: var(--font-color);
 }
 
 /* button styles */
@@ -54,7 +88,7 @@ button {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-style: outset;
   border-image: none;
-  border-color: var(--neutral-color-active);
+  border-color: var(--neutral-color-medium);
   cursor: pointer;
 }
 
@@ -67,6 +101,19 @@ input[type="submit"]:active,
 button:active {
   filter: brightness(0.8);
   border-style: inset;
+}
+
+@media (prefers-color-scheme: dark) {
+  input[type="submit"]:hover,
+  button:hover {
+    filter: brightness(1.2);
+  }
+
+  input[type="submit"]:active,
+  button:active {
+    filter: brightness(1.5);
+    border-style: inset;
+  }
 }
 
 button.subtle {

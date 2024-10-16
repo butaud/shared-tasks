@@ -40,7 +40,7 @@ form.profile-editor {
   flex-direction: column;
   align-items: start;
   /* this isn't really a color, it's more of a filter over what's behind it */
-  background-color: hsla(0, 0%, 90%, 0.8);
+  background-color: var(--semitransparent);
 }
 
 form.profile-editor input {

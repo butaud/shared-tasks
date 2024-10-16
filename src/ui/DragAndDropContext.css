@@ -21,6 +21,6 @@
 }
 
 .garbage-can.dragging-over {
-  background-color: var(--danger-color-hover);
-  box-shadow: 0 0 20px 5px var(--danger-color-hover);
+  background-color: var(--danger-color-strong);
+  box-shadow: 0 0 20px 5px var(--danger-color-strong);
 }

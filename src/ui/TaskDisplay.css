@@ -43,6 +43,7 @@ button.add-task {
 
 button.add-task.default {
   width: fit-content;
+  padding: 5px;
 }
 
 .completer-tooltip {
