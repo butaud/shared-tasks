@@ -21,6 +21,10 @@ export const TaskDisplay: FC<TaskDisplayProps> = ({
   dragWrapperClassName,
   draggableProvided,
 }) => {
+  const [completerTooltip, setCompleterTooltip] = useState<
+    string | undefined
+  >();
+
   if (!task || !task.status) {
     return null;
   }
@@ -37,11 +41,26 @@ export const TaskDisplay: FC<TaskDisplayProps> = ({
     ? { accentColor: lastEditedBy?.color ?? "hsl(133, 34%, 60%)" }
     : {};
 
+  const hideCompleter = () => setCompleterTooltip(undefined);
+
+  const isMobile =
+    matchMedia("(pointer: coarse)").matches ||
+    matchMedia("(hover: none)").matches;
+
+  const onCheckboxContextMenu = (e: React.MouseEvent) => {
+    if (task.status?.completed && lastEditedBy) {
+      e.preventDefault();
+      setCompleterTooltip(lastEditedBy.name);
+    }
+  };
+
   return (
     <li
       className={`task ${dragHandleParentClassName} ${dragWrapperClassName}`}
       ref={draggableProvided?.innerRef}
       {...draggableProvided?.draggableProps}
+      onClick={hideCompleter}
+      onBlur={hideCompleter}
     >
       {dragHandle}
       <input
@@ -50,7 +69,13 @@ export const TaskDisplay: FC<TaskDisplayProps> = ({
         style={checkboxStyle}
         onChange={(e) => (task.status!.completed = e.target.checked)}
         title={lastEditedBy?.name}
+        // We can rely on the title showing up on hover for desktop users,
+        // but for mobile we need to show a fake tooltip on long press.
+        onContextMenu={isMobile ? onCheckboxContextMenu : undefined}
       />
+      {completerTooltip && (
+        <div className="completer-tooltip">{completerTooltip}</div>
+      )}
       <EditableText
         as="label"
         className={task.status?.completed ? "done" : ""}
