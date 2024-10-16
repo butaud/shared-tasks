@@ -8,9 +8,9 @@
   margin: auto;
   z-index: 3;
 
-  color: white;
+  color: var(--button-foreground);
   border-radius: 10px;
-  background-color: hsl(0, 83%, 93%);
+  background-color: var(--danger-color);
 
   font-size: 48px;
 
@@ -21,6 +21,6 @@
 }
 
 .garbage-can.dragging-over {
-  background-color: hsl(0, 83%, 83%);
-  box-shadow: 0 0 20px 5px hsl(0, 83%, 83%);
+  background-color: var(--danger-color-hover);
+  box-shadow: 0 0 20px 5px var(--danger-color-hover);
 }

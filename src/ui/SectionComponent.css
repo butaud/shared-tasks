@@ -4,18 +4,18 @@ section button.add-task {
 }
 
 h2.default {
-  color: darkgray;
+  color: var(--neutral-color-hover);
 }
 
 h2.all-done {
-  color: hsl(133, 20%, 60%);
+  color: var(--completed-color);
   text-decoration: line-through;
 }
 
 ul.task-list.drag-over {
-  background-color: lightgray;
+  background-color: var(--neutral-color-light);
   border-radius: 10px;
-  box-shadow: 0 0 20px 5px lightgray;
+  box-shadow: 0 0 20px 5px var(--neutral-color-light);
 }
 
 ul.task-list {
@@ -33,8 +33,9 @@ input.section-title {
 
 button.add-section {
   display: inline-flex;
-  background-color: hsl(208, 100%, 97%);
-  border: 0;
+  color: var(--font-color);
+  background-color: var(--primary-color-subtle);
+  border: none;
   height: 32px;
   align-items: center;
   justify-content: space-between;
@@ -43,8 +44,5 @@ button.add-section {
   cursor: pointer;
   padding: 5px;
   font-size: 16px;
-}
-
-button.add-section:hover {
-  background-color: hsl(208, 100%, 80%);
+  margin: 5px 0;
 }

@@ -1,47 +1,32 @@
 .menu-wrapper {
-    display: flex;
-    align-items: center;
-    background-color: #dde2eb;
-    border-radius: 5px;
-    width: fit-content;
+  display: flex;
+  align-items: center;
+  background-color: var(--neutral-color);
+  border-radius: 5px;
+  width: fit-content;
+  padding-right: 10px;
 }
 
 .menu-wrapper button {
-    color: white;
-    height: 36px;
-    width: 36px;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    border: none;
-    margin-right: 5px;
-    cursor: pointer;
-    font-size: 20px;
+  height: 36px;
+  width: 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-right: 5px;
+  font-size: 20px;
 }
 
 .menu-wrapper button:last-of-type {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 .menu-wrapper button.delete {
-    background-color: hsl(0, 83%, 82%);
-}
-
-.menu-wrapper button.delete:hover {
-    background-color: hsl(0, 83%, 70%);
+  background-color: var(--danger-color);
 }
 
 .menu-wrapper button.edit {
-    background-color: hsl(0, 0%, 83%);
-}
-
-.menu-wrapper button.edit:hover {
-    background-color: hsl(0, 0%, 70%);
-}
-
-.menu-wrapper button:focus {
-    outline-width: 1px;
+  background-color: var(--primary-color);
 }

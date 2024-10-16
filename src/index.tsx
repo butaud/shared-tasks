@@ -3,8 +3,9 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { App } from "./ui/App";
 import reportWebVitals from "./reportWebVitals";
-import { createJazzReactApp, useDemoAuth, DemoAuthBasicUI } from "jazz-react";
+import { createJazzReactApp, useDemoAuth } from "jazz-react";
 import { ListAccount } from "./models";
+import { TransientAuthBasicUi } from "./ui/auth/TransientAuth";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -25,7 +26,7 @@ function JazzAndAuth({ children }: { children: ReactNode }) {
         {children}
       </Jazz.Provider>
       <div className="demoAuth">
-        <DemoAuthBasicUI appName="Shared Tasks" state={authState} />
+        <TransientAuthBasicUi appName={"Shared Tasks"} state={authState} />
       </div>
     </>
   );

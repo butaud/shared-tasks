@@ -1,7 +1,7 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -11,6 +11,74 @@ body {
   margin: 20px;
 }
 
-.demoAuth input {
-  font-size: 16px;
+/* define color variables */
+:root {
+  --font-color: black;
+  --background-color: white;
+
+  --button-foreground: white;
+
+  --primary-color: hsl(207, 48%, 47%);
+  --primary-color-hover: hsl(207, 48%, 37%);
+  --primary-color-active: hsl(207, 48%, 27%);
+  --primary-color-subtle: hsl(208, 100%, 97%);
+
+  --secondary-color: hsl(18, 86%, 54%);
+  --secondary-color-hover: hsl(18, 86%, 44%);
+  --secondary-color-active: hsl(18, 86%, 34%);
+  --secondary-color-light: hsl(18, 86%, 75%);
+
+  --neutral-color: hsl(0, 0%, 80%);
+  --neutral-color-hover: hsl(0, 0%, 70%);
+  --neutral-color-active: hsl(0, 0%, 60%);
+  --neutral-color-strong: hsl(0, 0%, 30%);
+  --neutral-color-light: hsl(0, 0%, 90%);
+
+  --completed-color: hsl(133, 34%, 60%);
+
+  --danger-color: hsl(0, 83%, 82%);
+  --danger-color-hover: hsl(0, 83%, 70%);
+  --danger-color-active: hsl(0, 83%, 60%);
+
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --shadow-color-strong: rgba(0, 0, 0, 0.3);
+}
+
+/* button styles */
+input[type="submit"],
+button {
+  color: var(--button-foreground);
+  background-color: var(--primary-color);
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-style: outset;
+  border-image: none;
+  border-color: var(--neutral-color-active);
+  cursor: pointer;
+}
+
+input[type="submit"]:hover,
+button:hover {
+  filter: brightness(0.9);
+}
+
+input[type="submit"]:active,
+button:active {
+  filter: brightness(0.8);
+  border-style: inset;
+}
+
+button.subtle {
+  background-color: transparent;
+  color: var(--neutral-color-strong);
+  border: none;
+  box-shadow: none;
+}
+
+button.subtle:hover {
+  background-color: hsla(0, 0%, 60%, 0.2);
+}
+
+button.subtle:active {
+  background-color: hsla(0, 0%, 60%, 0.4);
 }

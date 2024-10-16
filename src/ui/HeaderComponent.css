@@ -2,7 +2,7 @@ header {
   text-align: center;
   position: sticky;
   top: 0;
-  background-color: white;
+  background-color: var(--background-color);
   z-index: 2;
   display: flex;
   justify-content: space-between;
@@ -14,26 +14,6 @@ header h1 {
   text-wrap: nowrap;
   overflow-x: clip;
   text-overflow: ellipsis;
-}
-
-header button.nav {
-  background-color: transparent;
-  border-radius: 5px;
-  border: 1px solid transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 36px;
-  width: 36px;
-  z-index: 1;
-}
-
-header button.nav:hover {
-  background-color: hsl(217, 44%, 80%);
-}
-
-header button.nav:active {
-  background-color: lightgray;
 }
 
 input.list-title {
@@ -57,11 +37,11 @@ input.list-title {
 .title-wrapper p {
   font-size: 24px;
   margin-left: 20px;
-  color: black;
+  color: var(--font-color);
 }
 
 .title-wrapper p.done {
-  color: hsl(133, 34%, 60%);
+  color: var(--completed-color);
 }
 
 @media screen and (max-width: 600px) {

@@ -11,7 +11,7 @@ li.task label {
 }
 
 li.task label.done {
-  color: hsl(133, 34%, 60%);
+  color: var(--completed-color);
   text-decoration: line-through;
 }
 
@@ -22,37 +22,34 @@ li.task input[type="text"] {
 li.task input[type="checkbox"] {
   margin-right: 15px;
   transform: scale(1.5);
-  accent-color: hsl(133, 34%, 60%);
+  accent-color: var(--completed-color);
 }
 
 button.add-task {
   display: inline-flex;
-  background-color: hsl(208, 100%, 97%);
-  border: 0;
+  background-color: var(--primary-color-subtle);
+  border: none;
+  color: var(--font-color);
   height: 32px;
   align-items: center;
   justify-content: space-between;
   border-radius: 10px;
   padding: 0;
-  cursor: pointer;
   padding: 5px;
   margin-bottom: 5px;
 }
 
-button.add-task:hover {
-  background-color: hsl(208, 100%, 80%);
-}
-
 .completer-tooltip {
   position: absolute;
-  left: 125px;
-  color: gray;
-  background-color: #fff;
-  border: 1px solid gray;
+  left: 80px;
+  color: var(--neutral-color-strong);
+  background-color: var(--background-color);
+  border: 1px solid var(--neutral-color-strong);
+  border-radius: 2px;
   width: fit-content;
   padding: 5px;
   white-space: pre;
-  font-size: small;
+  font-size: 16px;
   line-height: 1;
   z-index: 3;
 }

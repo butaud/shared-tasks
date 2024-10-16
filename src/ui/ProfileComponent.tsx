@@ -53,7 +53,7 @@ export const ProfileEditor: FC<ProfileEditorProps> = ({ close }) => {
       onKeyDown={(e) => e.key === "Escape" && close()}
       style={{ backgroundColor: me.avatarColor }}
     >
-      <button className="close" onClick={close} title="Close">
+      <button className="subtle close" onClick={close} title="Close">
         <MdClose />
       </button>
       <form className="profile-editor">

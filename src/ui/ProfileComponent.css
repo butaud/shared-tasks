@@ -6,20 +6,10 @@ button.profile-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--button-foreground);
   font-size: 20px;
   font-weight: bold;
   border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-button.profile-button:hover {
-  filter: brightness(85%);
-}
-
-button.profile-button:active {
-  filter: brightness(70%);
 }
 
 .profile-editor-container {
@@ -27,25 +17,29 @@ button.profile-button:active {
   top: 10px;
   right: 10px;
 
-  border-radius: 10%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px var(--shadow-color);
 }
 
 .profile-editor-container button.close {
   position: absolute;
-  top: 10px;
+  top: 5px;
   right: 5px;
   font-size: 24px;
-  border: none;
-  background-color: transparent;
+  height: 36px;
+  width: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 form.profile-editor {
-  border-radius: 10%;
+  border-radius: 10px;
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: start;
+  /* this isn't really a color, it's more of a filter over what's behind it */
   background-color: hsla(0, 0%, 90%, 0.8);
 }
 
@@ -60,8 +54,7 @@ form.profile-editor input {
 
 form.profile-editor button {
   padding: 5px;
-  background-color: hsl(207, 48%, 47%);
-  color: white;
+  color: var(--button-foreground);
   height: 36px;
   width: 36px;
   border-radius: 5px;
@@ -70,39 +63,13 @@ form.profile-editor button {
   justify-content: center;
   align-items: center;
   text-align: center;
-  border: none;
   margin-right: 5px;
   cursor: pointer;
   font-size: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 form.profile-editor button.save {
-  background-color: hsl(207, 48%, 47%);
-}
-
-form.profile-editor button.color-picker {
-  background: linear-gradient(
-    90deg,
-    hsl(348, 97%, 63%) 0%,
-    hsl(230, 96%, 62%) 100%
-  );
-}
-
-form.profile-editor button.color-picker:hover {
-  background: linear-gradient(
-    90deg,
-    hsl(348, 97%, 50%) 0%,
-    hsl(230, 96%, 50%) 100%
-  );
-}
-
-form.profile-editor button.color-picker:active {
-  background: linear-gradient(
-    90deg,
-    hsl(348, 97%, 40%) 0%,
-    hsl(230, 96%, 40%) 100%
-  );
+  background-color: var(--primary-color);
 }
 
 form.profile-editor .form-line {
@@ -131,13 +98,15 @@ form.profile-editor .color-picker-container {
 }
 
 .color-picker-container button.color {
-  border: 3px solid gray;
+  border: 3px solid var(--neutral-color);
+  border-style: outset;
   margin: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 8px var(--shadow-color-strong);
 }
 
 .color-picker-container button.color.selected {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border: 3px solid white;
+  border: 3px solid var(--background-color);
+  border-style: inset;
+  box-shadow: 0 4px 8px var(--shadow-color);
   margin: 5px;
 }

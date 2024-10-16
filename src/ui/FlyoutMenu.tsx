@@ -51,7 +51,7 @@ export const FlyoutMenu: FC<FlyoutMenuProps> = ({ list, setList }) => {
           closeFlyout={() => setIsFlyoutOpen(false)}
         />
       )}
-      <button className="flyout-menu-toggle" onClick={toggleFlyout}>
+      <button className="subtle flyout-menu-toggle" onClick={toggleFlyout}>
         <MdMenu />
       </button>
     </div>
