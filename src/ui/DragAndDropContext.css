@@ -1,26 +1,26 @@
 .garbage-can {
-    position: absolute;
-    top: 20px;
-    left: 0;
-    right: 0;
-    width: 300px;
-    height: 50px;
-    margin: auto;
-    z-index: 1000;
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  width: 300px;
+  height: 50px;
+  margin: auto;
+  z-index: 3;
 
-    color: white;
-    border-radius: 10px;
-    background-color: hsl(0, 83%, 93%);
+  color: white;
+  border-radius: 10px;
+  background-color: hsl(0, 83%, 93%);
 
-    font-size: 48px;
+  font-size: 48px;
 
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 
-    transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 
 .garbage-can.dragging-over {
-    background-color: hsl(0, 83%, 83%);
-    box-shadow: 0 0 20px 5px hsl(0, 83%, 83%);
+  background-color: hsl(0, 83%, 83%);
+  box-shadow: 0 0 20px 5px hsl(0, 83%, 83%);
 }

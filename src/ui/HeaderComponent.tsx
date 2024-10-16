@@ -77,7 +77,6 @@ export const Title: FC<TitleProps> = ({ list }) => {
   };
 
   const previouslyCompleted = useRef<boolean | undefined>(undefined);
-  const taskCountRef = useRef<HTMLParagraphElement>(null);
 
   const taskCounts = getTaskStatusCounts(list);
   const allCompleted =
@@ -87,20 +86,14 @@ export const Title: FC<TitleProps> = ({ list }) => {
     if (previouslyCompleted.current === undefined) {
       previouslyCompleted.current = allCompleted;
     } else if (allCompleted !== previouslyCompleted.current) {
-      if (allCompleted && taskCountRef.current) {
-        const confettiProps = window.visualViewport
-          ? {
-              angle: 265,
-              origin: {
-                x:
-                  (taskCountRef.current.offsetLeft + 50) /
-                  window.visualViewport.width,
-                y:
-                  taskCountRef.current.offsetTop / window.visualViewport.height,
-              },
-            }
-          : {};
-        confetti(confettiProps);
+      if (allCompleted) {
+        confetti({
+          angle: 270,
+          origin: {
+            x: 0.5,
+            y: -0.1,
+          },
+        });
       }
       previouslyCompleted.current = allCompleted;
     }
@@ -117,10 +110,7 @@ export const Title: FC<TitleProps> = ({ list }) => {
         canEdit={canEdit}
       />
       {taskCounts && (
-        <p
-          ref={taskCountRef}
-          className={"task-count" + (allCompleted ? " done" : "")}
-        >
+        <p className={"task-count" + (allCompleted ? " done" : "")}>
           ({taskCounts.completed} / {taskCounts.all})
         </p>
       )}
