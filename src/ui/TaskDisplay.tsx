@@ -133,10 +133,15 @@ export const TaskAdder: FC<TaskAdderProps> = ({ taskList, isDefault }) => {
       </li>
     );
   } else {
+    const text = isDefault ? "Add default task" : "Add task to section";
     return (
-      <button className="add-task" onClick={() => setIsAdding(true)}>
+      <button
+        title={text}
+        className={"add-task" + (isDefault ? " default" : "")}
+        onClick={() => setIsAdding(true)}
+      >
         <MdAdd />
-        {isDefault ? "Add default task" : "Add task to section"}
+        {isDefault && text}
       </button>
     );
   }

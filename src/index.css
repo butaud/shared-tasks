@@ -21,6 +21,7 @@ body {
   --primary-color: hsl(207, 48%, 47%);
   --primary-color-hover: hsl(207, 48%, 37%);
   --primary-color-active: hsl(207, 48%, 27%);
+  --primary-color-light: hsl(207, 48%, 85%);
   --primary-color-subtle: hsl(208, 100%, 97%);
 
   --secondary-color: hsl(18, 86%, 54%);
