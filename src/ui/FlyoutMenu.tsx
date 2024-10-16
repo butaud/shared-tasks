@@ -41,30 +41,20 @@ const noop = () => {};
 
 export const FlyoutMenu: FC<FlyoutMenuProps> = ({ list, setList }) => {
   const [isFlyoutOpen, setIsFlyoutOpen] = useState(false);
-  if (isFlyoutOpen) {
-    return (
-      <>
-        <FlyoutMenuClosed openFlyout={() => setIsFlyoutOpen(true)} />
+  const toggleFlyout = () => setIsFlyoutOpen(!isFlyoutOpen);
+  return (
+    <div className="flyout-menu-wrapper">
+      {isFlyoutOpen && (
         <FlyoutMenuOpen
           list={list}
           setList={setList}
           closeFlyout={() => setIsFlyoutOpen(false)}
         />
-      </>
-    );
-  } else {
-    return <FlyoutMenuClosed openFlyout={() => setIsFlyoutOpen(true)} />;
-  }
-};
-
-type FlyoutMenuClosedProps = {
-  openFlyout: () => void;
-};
-const FlyoutMenuClosed: FC<FlyoutMenuClosedProps> = ({ openFlyout }) => {
-  return (
-    <button className="flyout-menu-toggle" onClick={openFlyout}>
-      <MdMenu />
-    </button>
+      )}
+      <button className="flyout-menu-toggle" onClick={toggleFlyout}>
+        <MdMenu />
+      </button>
+    </div>
   );
 };
 
@@ -85,9 +75,6 @@ const FlyoutMenuOpen: FC<FlyoutMenuOpenProps> = ({
 
   return (
     <div tabIndex={-1} className="flyout-menu" onBlur={onBlur}>
-      <button className="flyout-menu-toggle" onClick={closeFlyout}>
-        <MdMenu />
-      </button>
       <MenuSectionList
         list={list}
         setList={setList}

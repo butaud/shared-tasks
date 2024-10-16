@@ -1,4 +1,9 @@
+.flyout-menu-wrapper {
+  position: relative;
+}
+
 button.flyout-menu-toggle {
+  position: relative;
   background-color: transparent;
   border-radius: 5px;
   border: 1px solid transparent;
@@ -8,10 +13,7 @@ button.flyout-menu-toggle {
   height: 36px;
   width: 36px;
   font-size: 24px;
-}
-
-.flyout-menu button.flyout-menu-toggle {
-  left: 0;
+  z-index: 3;
 }
 
 button.flyout-menu-toggle:hover {
@@ -24,8 +26,9 @@ button.flyout-menu-toggle:active {
 
 .flyout-menu {
   position: absolute;
-  top: 21px;
+  /* offset to show the border */
   left: -1px;
+  top: -1px;
   border-radius: 5px;
   background-color: hsl(208, 100%, 97%);
   border: 1px solid black;
@@ -33,6 +36,7 @@ button.flyout-menu-toggle:active {
   display: flex;
   flex-direction: column;
   align-items: start;
+  z-index: 1;
 }
 
 .menu-section {
@@ -41,6 +45,8 @@ button.flyout-menu-toggle:active {
   display: flex;
   flex-direction: column;
   align-items: start;
+  width: max-content;
+  max-width: 300px;
 }
 
 .menu-section h3 {
@@ -58,6 +64,7 @@ button.flyout-menu-toggle:active {
   font-size: larger;
   color: hsl(0, 0%, 20%);
   margin: 5px 0;
+  text-align: left;
 }
 
 .menu-section button:hover {
