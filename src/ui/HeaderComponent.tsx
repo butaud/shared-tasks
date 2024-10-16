@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { List } from "../models";
+import { FC, useEffect, useRef } from "react";
+import { List, Section } from "../models";
 import { EditableText } from "./EditableText";
 import { FlyoutMenu } from "./FlyoutMenu";
 import { canEditValue } from "../util/jazz";
@@ -32,32 +32,65 @@ type TitleProps = {
   list: List;
 };
 
+const getTaskStatusCounts = (list: List) => {
+  if (!list || !list.sections || !list.defaultSection) {
+    return undefined;
+  }
+
+  const sectionFullyLoaded = (section: Section | null) => {
+    if (!section || !section.tasks) {
+      return false;
+    }
+    return section.tasks.every((task) => task?.status);
+  };
+
+  if (
+    !sectionFullyLoaded(list.defaultSection) ||
+    !list.sections.every(sectionFullyLoaded)
+  ) {
+    return undefined;
+  }
+
+  const defaultTaskCount = list.defaultSection.tasks!.length;
+  const sectionedTasksCount = list.sections.reduce(
+    (acc, section) => acc + section!.tasks!.length,
+    0
+  );
+  const completedDefaultTasks = list.defaultSection.tasks!.filter(
+    (task) => task!.status!.completed
+  ).length;
+  const completedSectionedTasks = list.sections.reduce(
+    (acc, section) =>
+      acc + section!.tasks!.filter((task) => task!.status!.completed).length,
+    0
+  );
+  return {
+    all: defaultTaskCount + sectionedTasksCount,
+    completed: completedDefaultTasks + completedSectionedTasks,
+  };
+};
+
 export const Title: FC<TitleProps> = ({ list }) => {
   const updateListTitle = (newTitle: string) => {
     list.title = newTitle;
   };
 
-  const defaultTaskCount = list.defaultSection?.tasks?.length ?? 0;
-  const sectionedTasksCount =
-    list.sections?.reduce(
-      (acc, section) => acc + (section?.tasks?.length ?? 0),
-      0
-    ) ?? 0;
-  const completedDefaultTasks =
-    list.defaultSection?.tasks?.filter((task) => task?.status?.completed)
-      .length ?? 0;
-  const completedSectionedTasks =
-    list.sections?.reduce(
-      (acc, section) =>
-        acc +
-        (section?.tasks?.filter((task) => task?.status?.completed).length ?? 0),
-      0
-    ) ?? 0;
+  const previouslyCompleted = useRef<boolean | undefined>(undefined);
 
-  const allTasksCount = defaultTaskCount + sectionedTasksCount;
-  const completedTasksCount = completedDefaultTasks + completedSectionedTasks;
+  const taskCounts = getTaskStatusCounts(list);
   const allCompleted =
-    allTasksCount > 0 && allTasksCount === completedTasksCount;
+    taskCounts && taskCounts.all > 0 && taskCounts.all === taskCounts.completed;
+
+  useEffect(() => {
+    if (previouslyCompleted.current === undefined) {
+      previouslyCompleted.current = allCompleted;
+    } else if (allCompleted !== previouslyCompleted.current) {
+      if (allCompleted) {
+        console.log("HOORAAY! All tasks are completed!");
+      }
+      previouslyCompleted.current = allCompleted;
+    }
+  }, [allCompleted]);
 
   const canEdit = canEditValue(list);
   return (
@@ -69,9 +102,11 @@ export const Title: FC<TitleProps> = ({ list }) => {
         onTextChange={updateListTitle}
         canEdit={canEdit}
       />
-      <p className={"task-count" + (allCompleted ? " done" : "")}>
-        ({completedTasksCount} / {allTasksCount})
-      </p>
+      {taskCounts && (
+        <p className={"task-count" + (allCompleted ? " done" : "")}>
+          ({taskCounts.completed} / {taskCounts.all})
+        </p>
+      )}
     </div>
   );
 };
