@@ -1,4 +1,5 @@
 li.task {
+  position: relative;
   display: flex;
   font-size: 25px;
   align-items: center;
