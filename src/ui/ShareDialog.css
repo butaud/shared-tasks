@@ -1,0 +1,78 @@
+.share-dialog {
+  margin-top: 10vh;
+  max-width: 80vw;
+  padding: 20px;
+
+  color: var(--font-color);
+  background-color: var(--background-color);
+
+  button.close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 24px;
+    height: 36px;
+    width: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .value-and-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    input {
+      width: 100%;
+      margin: 0 10px;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .value-and-buttons {
+      flex-direction: column;
+    }
+  }
+
+  .buttons {
+    margin: 10px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    button {
+      display: inline-flex;
+      align-items: center;
+      background-color: var(--primary-color-light);
+      border: none;
+      color: var(--font-color);
+      height: 25px;
+      border-radius: 3px;
+      margin-bottom: 5px;
+      font-size: 16px;
+      margin-right: 10px;
+
+      span.icon {
+        margin-right: 5px;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      span.icon.copied {
+        color: var(--completed-color);
+      }
+
+      span {
+        text-wrap: nowrap;
+        display: inline-flex;
+        align-items: center;
+      }
+    }
+
+    button.copy:disabled {
+      background-color: var(--neutral-color-light);
+    }
+  }
+}

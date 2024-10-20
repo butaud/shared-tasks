@@ -92,25 +92,25 @@ button {
   cursor: pointer;
 }
 
-input[type="submit"]:hover,
-button:hover {
+input[type="submit"]:hover:enabled,
+button:hover:enabled {
   filter: brightness(0.9);
 }
 
-input[type="submit"]:active,
-button:active {
+input[type="submit"]:active:enabled,
+button:active:enabled {
   filter: brightness(0.8);
   border-style: inset;
 }
 
 @media (prefers-color-scheme: dark) {
-  input[type="submit"]:hover,
-  button:hover {
+  input[type="submit"]:hover:enabled,
+  button:hover:enabled {
     filter: brightness(1.2);
   }
 
-  input[type="submit"]:active,
-  button:active {
+  input[type="submit"]:active:enabled,
+  button:active:enabled {
     filter: brightness(1.5);
     border-style: inset;
   }

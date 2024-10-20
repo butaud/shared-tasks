@@ -1,11 +1,13 @@
 import { FC, ReactNode, useState } from "react";
 import { RiCheckboxMultipleBlankLine } from "react-icons/ri";
 import { List, ListOfSections, ListOfTasks, Section } from "../models";
-import { MdAdd, MdMenu, MdRedo, MdUndo } from "react-icons/md";
+import { MdAdd, MdMenu, MdRedo, MdShare, MdUndo } from "react-icons/md";
 import "./FlyoutMenu.css";
 import { Account, Group } from "jazz-tools";
 import { useJazzGroups } from "./hooks/useJazzGroups";
 import { useAccount } from "..";
+import { canEditValue } from "../util/jazz";
+import { ShareDialog } from "./ShareDialog";
 
 export type FlyoutMenuProps = {
   list: List | undefined;
@@ -67,26 +69,40 @@ const FlyoutMenuOpen: FC<FlyoutMenuOpenProps> = ({
   setList,
   closeFlyout,
 }) => {
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
+
   const onBlur = (e: any) => {
     if (!e.currentTarget.contains(e.relatedTarget)) {
-      closeFlyout();
+      //closeFlyout();
     }
   };
 
   return (
     <div tabIndex={-1} className="flyout-menu" onBlur={onBlur}>
+      {list && shareDialogOpen && (
+        <ShareDialog
+          closeDialog={() => setShareDialogOpen(false)}
+          listName={list.title}
+        />
+      )}
       <MenuSectionList
         list={list}
         setList={setList}
+        openShareDialog={() => setShareDialogOpen(true)}
         closeFlyout={closeFlyout}
       />
     </div>
   );
 };
 
-const MenuSectionList: FC<FlyoutMenuOpenProps> = ({
+type MenuSectionListProps = FlyoutMenuOpenProps & {
+  openShareDialog: () => void;
+};
+
+const MenuSectionList: FC<MenuSectionListProps> = ({
   list,
   setList,
+  openShareDialog,
   closeFlyout,
 }) => {
   const { me } = useAccount();
@@ -130,38 +146,52 @@ const MenuSectionList: FC<FlyoutMenuOpenProps> = ({
   };
 
   return (
-    <MenuSection
-      title="Edit"
-      items={[
-        {
-          icon: <MdAdd />,
-          label: "Create a new list",
-          action: onCreateNewList,
-        },
-        {
-          icon: <MdUndo />,
-          label: "Undo",
-          autoFocus: true,
-          action: noop,
-          disabled: true,
-          shouldHide: !list || true,
-        },
-        {
-          icon: <MdRedo />,
-          label: "Redo",
-          action: noop,
-          disabled: true,
-          shouldHide: !list || true,
-        },
-        {
-          icon: <RiCheckboxMultipleBlankLine />,
-          label: "Reset tasks to uncompleted",
-          action: resetToUncompleted,
-          disabled: allUncompleted,
-          shouldHide: !list,
-        },
-      ]}
-    />
+    <>
+      <MenuSection
+        title="File"
+        items={[
+          {
+            icon: <MdAdd />,
+            label: "Create a new list",
+            action: onCreateNewList,
+          },
+          {
+            icon: <MdShare />,
+            label: "Share this list",
+            autoFocus: true,
+            action: openShareDialog,
+            shouldHide: !list,
+          },
+        ]}
+      />
+      <MenuSection
+        title="Edit"
+        items={[
+          {
+            icon: <MdUndo />,
+            label: "Undo",
+            autoFocus: true,
+            action: noop,
+            disabled: true,
+            shouldHide: !list || true,
+          },
+          {
+            icon: <MdRedo />,
+            label: "Redo",
+            action: noop,
+            disabled: true,
+            shouldHide: !list || true,
+          },
+          {
+            icon: <RiCheckboxMultipleBlankLine />,
+            label: "Reset tasks to uncompleted",
+            action: resetToUncompleted,
+            disabled: allUncompleted,
+            shouldHide: !list || !canEditValue(list),
+          },
+        ]}
+      />
+    </>
   );
 };
 
@@ -171,10 +201,14 @@ type MenuSectionProps = {
 };
 
 const MenuSection: FC<MenuSectionProps> = ({ title, items }) => {
+  const itemsToShow = items.filter((item) => !item.shouldHide);
+  if (itemsToShow.length === 0) {
+    return null;
+  }
   return (
     <div className="menu-section">
       <h3>{title}</h3>
-      {items.map((itemProps) => (
+      {itemsToShow.map((itemProps) => (
         <MenuItem {...itemProps} key={itemProps.label} />
       ))}
     </div>
@@ -195,12 +229,8 @@ const MenuItem: FC<MenuItemProps> = ({
   action,
   label,
   disabled,
-  shouldHide,
   autoFocus,
 }) => {
-  if (shouldHide) {
-    return null;
-  }
   return (
     <button
       className="menu-item"
