@@ -73,7 +73,7 @@ const FlyoutMenuOpen: FC<FlyoutMenuOpenProps> = ({
 
   const onBlur = (e: any) => {
     if (!e.currentTarget.contains(e.relatedTarget)) {
-      //closeFlyout();
+      closeFlyout();
     }
   };
 
