@@ -1,5 +1,6 @@
 import { FC, useEffect, useRef, useState } from "react";
 import { MdCheck, MdClose, MdContentCopy, MdShare } from "react-icons/md";
+import { toDataURL } from "qrcode";
 import "./ShareDialog.css";
 
 type ShareDialogProps = {
@@ -36,6 +37,8 @@ export const ShareDialog: FC<ShareDialogProps> = ({
             <ShareButton url={url} listName={listName} />
           </div>
         </div>
+        <p>Or they can scan the below code:</p>
+        <QRCodeElement url={url} />
       </div>
     </dialog>
   );
@@ -96,5 +99,28 @@ const ShareButton = ({ url, listName }: { url: string; listName: string }) => {
       </span>
       <span>Share</span>
     </button>
+  );
+};
+
+const QRCodeElement = ({ url }: { url: string }) => {
+  const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const dataUrl = await toDataURL(url, {
+          errorCorrectionLevel: "L",
+        });
+        setQrDataUrl(dataUrl);
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+  }, [url]);
+
+  return qrDataUrl ? (
+    <img src={qrDataUrl} alt="QR Code" />
+  ) : (
+    <div>Loading...</div>
   );
 };
