@@ -3389,26 +3389,26 @@ coa@^2.0.2:
     chalk "^2.4.1"
     q "^1.1.2"
 
-cojson-storage-indexeddb@0.8.5:
-  version "0.8.5"
-  resolved "https://registry.yarnpkg.com/cojson-storage-indexeddb/-/cojson-storage-indexeddb-0.8.5.tgz#d3bb0d80d1cfea15a7d444723e0709a20ea46207"
-  integrity sha512-oOohBQGAPOobghv6nlwe+ZrxhSvFaK+ssH2EAmrErxvYdRyOuBLoOXdACsMqQeexPfATrQJnHdFql3384C68VA==
+cojson-storage-indexeddb@0.8.19:
+  version "0.8.19"
+  resolved "https://registry.yarnpkg.com/cojson-storage-indexeddb/-/cojson-storage-indexeddb-0.8.19.tgz#332298edbeadd76368834f01dfd1c67401aa5da5"
+  integrity sha512-vD3TIC4/SxKOpbrTFkHjYQYS73OkB4kdAfHv4fylxuaFCU5s0aP5C+K//fuBbmH1Pim9rDX4D8Dp1X5icoe6fw==
   dependencies:
-    cojson "0.8.5"
+    cojson "0.8.19"
     typescript "^5.3.3"
 
-cojson-transport-ws@0.8.5:
-  version "0.8.5"
-  resolved "https://registry.yarnpkg.com/cojson-transport-ws/-/cojson-transport-ws-0.8.5.tgz#9eece3602675b176ed2b5a4ee825f8a67f46b223"
-  integrity sha512-XQtQL0wHDfPRe3tjW3BJxRZaSkzynaVxv4yN5bhYdco2OEEWiDB6bYeAbIqRl/1cFgTY6IiMw5XaKJbFN1ga1g==
+cojson-transport-ws@0.8.19:
+  version "0.8.19"
+  resolved "https://registry.yarnpkg.com/cojson-transport-ws/-/cojson-transport-ws-0.8.19.tgz#a1871500547320f0c525970993ad09cb6a17aeea"
+  integrity sha512-Ru1J1q8PiKUstiyfKjQyoCN8ZtlHgco19MtzerW1SFmRh5ib2Jx/a5Q/Kfq0sozyw1KsR+VlVj+02UEe06fSQA==
   dependencies:
-    cojson "0.8.5"
+    cojson "0.8.19"
     typescript "^5.3.3"
 
-cojson@0.8.5:
-  version "0.8.5"
-  resolved "https://registry.yarnpkg.com/cojson/-/cojson-0.8.5.tgz#e894bae346d8fef5b9d3921767f9ef67cf129c1a"
-  integrity sha512-cDYAD0w8Wok/vB03ikahFIYnSP/bB2sXDATqwafAL8TNPW0Gk/jIflJMwJgyhlu4E6uHSEMsgJStCJl5aOLu4A==
+cojson@0.8.19:
+  version "0.8.19"
+  resolved "https://registry.yarnpkg.com/cojson/-/cojson-0.8.19.tgz#dfd03267540e5c02f90fde1c68e96768be0894d1"
+  integrity sha512-FctZxMGKjjAWrqcPoAHX6Ds+OD6P3HY1JVSuIjWeNOuc2Bsq0CFdrEEqzKQZWD6psUNrCndhgP7EFg5UiT8KIA==
   dependencies:
     "@hazae41/berith" "^1.2.6"
     "@noble/ciphers" "^0.1.3"
@@ -5868,35 +5868,35 @@ jake@^10.8.5:
     filelist "^1.0.4"
     minimatch "^3.1.2"
 
-jazz-browser@0.8.5:
-  version "0.8.5"
-  resolved "https://registry.yarnpkg.com/jazz-browser/-/jazz-browser-0.8.5.tgz#080140ff178461785494fb0d14795855c1566189"
-  integrity sha512-9Swxql7+d+lTLrVC13eEx8ipvvUmSNKsW++ww9JtlDV8eU1c5Rrcl1tkpPuXNC9xMaQ/ywIDQCNUlsKvE0PHcw==
+jazz-browser@0.8.19:
+  version "0.8.19"
+  resolved "https://registry.yarnpkg.com/jazz-browser/-/jazz-browser-0.8.19.tgz#9c792454117eea5443a9307e0487c3af534b8dbf"
+  integrity sha512-HcH7xLIe7dLPgh3k/XO61uH+wgJx+8IhraJ4U5hSr7D+fypGUUQ3tcWWrEv0gKTO6zpSs8oO5lDnxTbtqO4cyg==
   dependencies:
     "@scure/bip39" "^1.3.0"
-    cojson "0.8.5"
-    cojson-storage-indexeddb "0.8.5"
-    cojson-transport-ws "0.8.5"
-    jazz-tools "0.8.5"
+    cojson "0.8.19"
+    cojson-storage-indexeddb "0.8.19"
+    cojson-transport-ws "0.8.19"
+    jazz-tools "0.8.19"
     typescript "^5.3.3"
 
-jazz-react@^0.8.5:
-  version "0.8.5"
-  resolved "https://registry.yarnpkg.com/jazz-react/-/jazz-react-0.8.5.tgz#4d8fb2e1dfe7b297dd90f53ba86538b891cc3b5e"
-  integrity sha512-2UKvfLNqw/sILA7CvtE+E8OI57tL35CvMmjg6BkW11t9xMNU+3bUWZTP7NEsv5dJPU9TUVnz9wymzwyH+9UBqA==
+jazz-react@^0.8.19:
+  version "0.8.19"
+  resolved "https://registry.yarnpkg.com/jazz-react/-/jazz-react-0.8.19.tgz#8c5fcb900082263e1a65772acedf0a1720723f05"
+  integrity sha512-4IOFUhLe1suwQr/Lib2+rEkA15x7gwY3LRdUTRZ478paN1XMlEJCs7TzijjiGEBK544+UZtBDugEbdAxLAB17w==
   dependencies:
     "@scure/bip39" "^1.3.0"
-    cojson "0.8.5"
-    jazz-browser "0.8.5"
-    jazz-tools "0.8.5"
+    cojson "0.8.19"
+    jazz-browser "0.8.19"
+    jazz-tools "0.8.19"
     typescript "^5.3.3"
 
-jazz-tools@0.8.5, jazz-tools@^0.8.5:
-  version "0.8.5"
-  resolved "https://registry.yarnpkg.com/jazz-tools/-/jazz-tools-0.8.5.tgz#7a692252ff9236388a0d71da43f4c26d6af4d71d"
-  integrity sha512-qOzi9Q0wJ9JmEsp3X4WpE+ddpAwIEplfZURK3zBmyChTBU4hacfqqiJwxQHfXk0ww2GF3fG3bJcwD6tPWg9HOg==
+jazz-tools@0.8.19, jazz-tools@^0.8.19:
+  version "0.8.19"
+  resolved "https://registry.yarnpkg.com/jazz-tools/-/jazz-tools-0.8.19.tgz#42b40ebd463198790db32abe5266e137ed53c7f4"
+  integrity sha512-bdwWWD0QZlyxMlZ+0vmHfjK5uZmd/rOYjX9gNOrHkJLrRMu+5Pb64gxCOtSysp/zIlsYlEP6+qoDSbMkdP4JsQ==
   dependencies:
-    cojson "0.8.5"
+    cojson "0.8.19"
     fast-check "^3.17.2"
 
 jest-changed-files@^27.5.1:
@@ -8944,16 +8944,7 @@ string-natural-compare@^3.0.1:
   resolved "https://registry.yarnpkg.com/string-natural-compare/-/string-natural-compare-3.0.1.tgz#7a42d58474454963759e8e8b7ae63d71c1e7fdf4"
   integrity sha512-n3sPwynL1nwKi3WJ6AIsClwBMa0zTi54fn2oLU6ndfTSIO05xaznjSf15PcBZU6FNWbmN5Q6cxT4V5hGvB4taw==
 
-"string-width-cjs@npm:string-width@^4.2.0":
-  version "4.2.3"
-  resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
-  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
-  dependencies:
-    emoji-regex "^8.0.0"
-    is-fullwidth-code-point "^3.0.0"
-    strip-ansi "^6.0.1"
-
-string-width@^4.1.0, string-width@^4.2.0:
+"string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0, string-width@^4.2.0:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -9056,14 +9047,7 @@ stringify-object@^3.3.0:
     is-obj "^1.0.1"
     is-regexp "^1.0.0"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
-  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
-  dependencies:
-    ansi-regex "^5.0.1"
-
-strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -10127,7 +10111,7 @@ workbox-window@6.6.1:
     "@types/trusted-types" "^2.0.2"
     workbox-core "6.6.1"
 
-"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
+"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
@@ -10140,15 +10124,6 @@ wrap-ansi@^6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-6.2.0.tgz#e9393ba07102e6c91a3b221478f0257cd2856e53"
   integrity sha512-r6lPcBGxZXlIcymEu7InxDMhdW0KDxpLgoFLcguasxCaJ/SOIZwINatK9KY/tf+ZrlywOKU0UDj3ATXUBfxJXA==
-  dependencies:
-    ansi-styles "^4.0.0"
-    string-width "^4.1.0"
-    strip-ansi "^6.0.0"
-
-wrap-ansi@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
-  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
   dependencies:
     ansi-styles "^4.0.0"
     string-width "^4.1.0"
