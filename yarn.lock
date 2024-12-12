@@ -3389,34 +3389,20 @@ coa@^2.0.2:
     chalk "^2.4.1"
     q "^1.1.2"
 
-cojson-storage-indexeddb@0.8.24:
-  version "0.8.24"
-  resolved "https://registry.yarnpkg.com/cojson-storage-indexeddb/-/cojson-storage-indexeddb-0.8.24.tgz#40293bd6dae2b373353fc154916cc10d186f87ba"
-  integrity sha512-8YOj0MFsSHNSH5E+xqYRagJ3CNRLiTdcm6O0RzlMbvQzDteVXopW8qXiQEq9gtm+5WsoR6Y+spSe0ww77CBBjA==
+cojson-storage-indexeddb@0.8.27:
+  version "0.8.27"
+  resolved "https://registry.yarnpkg.com/cojson-storage-indexeddb/-/cojson-storage-indexeddb-0.8.27.tgz#33a66b096c012d8b561f369aa80b5db66a7e6c57"
+  integrity sha512-oR7KxHcyVZeMHLAU5ilwfFiKRyyz/Ex1QJqMyiNHLKcB7L9YUy3MrH5YnfMvuouF5pr0W8e74nrxR2GE47TUVw==
   dependencies:
-    cojson "0.8.23"
+    cojson "0.8.27"
 
-cojson-transport-ws@0.8.23:
-  version "0.8.23"
-  resolved "https://registry.yarnpkg.com/cojson-transport-ws/-/cojson-transport-ws-0.8.23.tgz#3203b1a3094d2463bfbd422c2d17fd867e64fbaf"
-  integrity sha512-8R6c03g4osYdXlOMy2colHsAtW3x1G3pW7+7Kw3FjzVyYGATyA9pRidRLB94iN4f7+KmKh1+E0O5WhESQAZpSQ==
+cojson-transport-ws@0.8.27:
+  version "0.8.27"
+  resolved "https://registry.yarnpkg.com/cojson-transport-ws/-/cojson-transport-ws-0.8.27.tgz#a6bf07047afd579fdf995cd2bc1b3c82ba9a47d4"
+  integrity sha512-9poewQrLAvx4jbBwmgcp/Fjo6W86JLR/KZeShjslzn1iiMd3H04z8+zML200YoglSPDgwyZo+cQVn/8XjFV8BQ==
   dependencies:
-    cojson "0.8.23"
+    cojson "0.8.27"
     typescript "^5.3.3"
-
-cojson@0.8.23:
-  version "0.8.23"
-  resolved "https://registry.yarnpkg.com/cojson/-/cojson-0.8.23.tgz#8aaa6875c0048ecba29bf928f7f8780563b30ea7"
-  integrity sha512-LdQ0H0hmoh5oABvYq1EmKcECCbomqzlfUERR8P02infoZv9Yry5ZSbCApHCYi5PMhTzwcrN5MSLD9r4y+combw==
-  dependencies:
-    "@hazae41/berith" "^1.2.6"
-    "@noble/ciphers" "^0.1.3"
-    "@noble/curves" "^1.3.0"
-    "@noble/hashes" "^1.4.0"
-    "@scure/base" "^1.1.1"
-    hash-wasm "^4.9.0"
-    neverthrow "^7.0.1"
-    queueueue "^4.1.2"
 
 cojson@0.8.27:
   version "0.8.27"
@@ -5881,37 +5867,29 @@ jake@^10.8.5:
     filelist "^1.0.4"
     minimatch "^3.1.2"
 
-jazz-browser@0.8.24:
-  version "0.8.24"
-  resolved "https://registry.yarnpkg.com/jazz-browser/-/jazz-browser-0.8.24.tgz#e6361f72c7fe1f5339d59443cec75cb4fd5bc9da"
-  integrity sha512-OETICm3TlbjDlMFaAHGWfJJLZIUQ2YapU0sVC1LhKIwfeY5cJu4dMSLuLB7GzfPweWV9FnMvyem+chPyIUZu5g==
+jazz-browser@0.8.27:
+  version "0.8.27"
+  resolved "https://registry.yarnpkg.com/jazz-browser/-/jazz-browser-0.8.27.tgz#d4ccfabeb87b5bfe847730028ec06103837e24bd"
+  integrity sha512-Hxq/rcDdyNrkTKma1zDeQs/qUh8eLYdtKe6O/PKGiNMxBmG1pfuW8Ru9DavCIlgzG0iyYZ7Ba/CK77oPwYtQLw==
   dependencies:
     "@scure/bip39" "^1.3.0"
-    cojson "0.8.23"
-    cojson-storage-indexeddb "0.8.24"
-    cojson-transport-ws "0.8.23"
-    jazz-tools "0.8.23"
+    cojson "0.8.27"
+    cojson-storage-indexeddb "0.8.27"
+    cojson-transport-ws "0.8.27"
+    jazz-tools "0.8.27"
     typescript "^5.3.3"
 
-jazz-react@0.8.24:
-  version "0.8.24"
-  resolved "https://registry.yarnpkg.com/jazz-react/-/jazz-react-0.8.24.tgz#ccff112674b62113072e7705c2154af978fea000"
-  integrity sha512-PUET3VXFHBnE857LlTSuJ4STvXfZezGxGurTwg6oNnF7XTeF/iLz+7jkN2knAmK/LCzXR19Id5/GKH4wSRj1ww==
+jazz-react@0.8.27:
+  version "0.8.27"
+  resolved "https://registry.yarnpkg.com/jazz-react/-/jazz-react-0.8.27.tgz#8e0450a9e12077e6dd3293e8a3b36f4505589f17"
+  integrity sha512-itMiKuV6zJcZurPAnT/iS59eMOBvX79yX3+Z+yEA08N+3fG0zNPGib3Af6MbnBzRjEX/CHSm5Nyl81lWaeTfxg==
   dependencies:
     "@scure/bip39" "^1.3.0"
-    cojson "0.8.23"
-    jazz-browser "0.8.24"
-    jazz-tools "0.8.23"
+    cojson "0.8.27"
+    jazz-browser "0.8.27"
+    jazz-tools "0.8.27"
 
-jazz-tools@0.8.23:
-  version "0.8.23"
-  resolved "https://registry.yarnpkg.com/jazz-tools/-/jazz-tools-0.8.23.tgz#04981026319a219debcc485517bebfbe395222fe"
-  integrity sha512-JJyuqqxcRtEVxMQFXysjhbTZ7HRvLLQSKmK3HxTleZJYXNR3zAWLQTZ35sCyTXc/kyoKWaecUc9bQiJavjfpLA==
-  dependencies:
-    cojson "0.8.23"
-    fast-check "^3.17.2"
-
-jazz-tools@0.8.24:
+jazz-tools@0.8.27:
   version "0.8.27"
   resolved "https://registry.yarnpkg.com/jazz-tools/-/jazz-tools-0.8.27.tgz#13916da1a94ccd76efd0c052ed6fd39125058033"
   integrity sha512-97t1axloWvGm0KoD/0JccbPDc2SxWl4eQ6tae3ajwMenrt70NmnssV+CuIAnE/RNHabd27yOxx5PAxVW0idgzw==
