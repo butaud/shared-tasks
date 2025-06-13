@@ -1,12 +1,11 @@
 import { FC, ReactNode, useState } from "react";
 import { RiCheckboxMultipleBlankLine } from "react-icons/ri";
-import { List, ListOfSections, ListOfTasks, Section } from "../models";
+import { List, Section } from "../models";
 import { MdAdd, MdMenu, MdRedo, MdShare, MdUndo } from "react-icons/md";
 import "./FlyoutMenu.css";
-import { Account, Group } from "jazz-tools";
 import { useJazzGroups } from "./hooks/useJazzGroups";
 import { useAccount } from "..";
-import { canEditValue } from "../util/jazz";
+import { canEditValue, createEmptyList } from "../util/jazz";
 import { ShareDialog } from "./ShareDialog";
 
 export type FlyoutMenuProps = {
@@ -14,30 +13,6 @@ export type FlyoutMenuProps = {
   setList: (newList: List) => void;
 };
 
-const createEmptyList = (owner: Account | Group) => {
-  const defaultTaskList = ListOfTasks.create([], {
-    owner,
-  });
-  const defaultSection = Section.create(
-    {
-      title: "DEFAULT",
-      tasks: defaultTaskList,
-    },
-    { owner }
-  );
-  const defaultSectionList = ListOfSections.create([], {
-    owner,
-  });
-  const newList = List.create(
-    {
-      title: "New list",
-      defaultSection: defaultSection,
-      sections: defaultSectionList,
-    },
-    { owner }
-  );
-  return newList;
-};
 
 const noop = () => {};
 

@@ -18,3 +18,31 @@ export const insertIntoJazzList = <T>(
     list.splice(index, 0, item);
   }
 };
+
+import { Account, Group } from "jazz-tools";
+import { List, ListOfSections, ListOfTasks, Section } from "../models";
+
+export const createEmptyList = (owner: Account | Group) => {
+  const defaultTaskList = ListOfTasks.create([], {
+    owner,
+  });
+  const defaultSection = Section.create(
+    {
+      title: "DEFAULT",
+      tasks: defaultTaskList,
+    },
+    { owner }
+  );
+  const defaultSectionList = ListOfSections.create([], {
+    owner,
+  });
+  const newList = List.create(
+    {
+      title: "New list",
+      defaultSection: defaultSection,
+      sections: defaultSectionList,
+    },
+    { owner }
+  );
+  return newList;
+};
