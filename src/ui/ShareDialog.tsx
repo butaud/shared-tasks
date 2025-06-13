@@ -77,7 +77,7 @@ const ShareButton = ({ url, listName }: { url: string; listName: string }) => {
     title: `Shared List: ${listName}`,
     url: url,
   };
-  if (!navigator.canShare(shareData)) {
+  if (!navigator.canShare || !navigator.canShare(shareData)) {
     alert("This browser does not support the share API");
     return null;
   }
