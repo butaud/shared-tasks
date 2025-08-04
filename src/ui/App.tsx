@@ -17,7 +17,7 @@ export const App: FC = () => {
   return (
     <>
       <HeaderComponent list={list} setList={setList} />
-      <MainComponent list={list} loading={listLoading} />
+      <MainComponent list={list} loading={listLoading} setList={setList} />
     </>
   );
 };

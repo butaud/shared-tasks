@@ -1,6 +1,8 @@
 import { FC } from "react";
 import { List } from "../models";
-import { canEditValue } from "../util/jazz";
+import { canEditValue, createEmptyList } from "../util/jazz";
+import { useAccount } from "..";
+import { useJazzGroups } from "./hooks/useJazzGroups";
 import { DragAndDropContext } from "./DragAndDropContext";
 import { SectionComponent, SectionAdder } from "./SectionComponent";
 import { DraggableList } from "./DraggableList";
@@ -9,9 +11,16 @@ import "./MainComponent.css";
 type MainComponentProps = {
   list: List | undefined;
   loading: boolean;
+  setList: (newList: List) => void;
 };
 
-export const MainComponent: FC<MainComponentProps> = ({ list, loading }) => {
+export const MainComponent: FC<MainComponentProps> = ({
+  list,
+  loading,
+  setList,
+}) => {
+  const { me } = useAccount();
+  const { ownerGroup, loadingOwnerGroup } = useJazzGroups(me);
   if (loading) {
     return (
       <main>
@@ -19,9 +28,17 @@ export const MainComponent: FC<MainComponentProps> = ({ list, loading }) => {
       </main>
     );
   } else if (!list) {
+    const createList = () => {
+      if (ownerGroup) {
+        const newList = createEmptyList(ownerGroup);
+        setList(newList);
+      }
+    };
     return (
       <main>
-        <p>Use the menu to create a new list.</p>
+        <button onClick={createList} disabled={loadingOwnerGroup}>
+          Create a new list
+        </button>
       </main>
     );
   } else {
