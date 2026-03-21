@@ -1,7 +1,7 @@
 import { FC, ReactNode, useState } from "react";
 import { RiCheckboxMultipleBlankLine } from "react-icons/ri";
-import { List, ListOfSections, ListOfTasks, Section } from "../models";
-import { MdAdd, MdMenu, MdRedo, MdShare, MdUndo } from "react-icons/md";
+import { List, ListOfSections, ListOfTasks, Section, Task, TaskStatus } from "../models";
+import { MdAdd, MdContentCopy, MdMenu, MdRedo, MdShare, MdUndo } from "react-icons/md";
 import "./FlyoutMenu.css";
 import { Account, Group } from "jazz-tools";
 import { useJazzGroups } from "./hooks/useJazzGroups";
@@ -37,6 +37,45 @@ const createEmptyList = (owner: Account | Group) => {
     { owner }
   );
   return newList;
+};
+
+const cloneList = (list: List, owner: Account | Group) => {
+  const cloneSection = (section: Section) => {
+    const clonedTasks = (section.tasks ?? []).map((task) => {
+      if (!task) return null;
+      const clonedStatus = TaskStatus.create(
+        { completed: false },
+        { owner }
+      );
+      return Task.create({ content: task.content, status: clonedStatus }, { owner });
+    });
+    const clonedTaskList = ListOfTasks.create(
+      clonedTasks.filter((t): t is Task => t !== null),
+      { owner }
+    );
+    return Section.create({ title: section.title, tasks: clonedTaskList }, { owner });
+  };
+
+  const clonedDefaultSection = list.defaultSection
+    ? cloneSection(list.defaultSection)
+    : Section.create({ title: "DEFAULT", tasks: ListOfTasks.create([], { owner }) }, { owner });
+
+  const clonedSections = (list.sections ?? []).map((section) =>
+    section ? cloneSection(section) : null
+  );
+  const clonedSectionList = ListOfSections.create(
+    clonedSections.filter((s): s is Section => s !== null),
+    { owner }
+  );
+
+  return List.create(
+    {
+      title: `Copy of ${list.title}`,
+      defaultSection: clonedDefaultSection,
+      sections: clonedSectionList,
+    },
+    { owner }
+  );
 };
 
 const noop = () => {};
@@ -124,6 +163,14 @@ const MenuSectionList: FC<MenuSectionListProps> = ({
     }
   };
 
+  const onCloneList = () => {
+    if (list && ownerGroup) {
+      const clonedList = cloneList(list, ownerGroup);
+      setList(clonedList);
+      closeFlyout();
+    }
+  };
+
   const allUncompleted =
     list?.sections &&
     [list.defaultSection, ...list.sections].every((section) =>
@@ -154,6 +201,12 @@ const MenuSectionList: FC<MenuSectionListProps> = ({
             icon: <MdAdd />,
             label: "Create a new list",
             action: onCreateNewList,
+          },
+          {
+            icon: <MdContentCopy />,
+            label: "Clone this list",
+            action: onCloneList,
+            shouldHide: !list,
           },
           {
             icon: <MdShare />,
