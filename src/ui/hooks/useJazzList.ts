@@ -5,7 +5,7 @@ import { ID } from "jazz-tools";
 
 export const useAppRootList = () => {
   const listIdFromUrl = window.location.search?.replace("?list=", "");
-  const [listId] = useState<ID<List> | undefined>(
+  const [listId, setListId] = useState<ID<List> | undefined>(
     (listIdFromUrl || undefined) as ID<List> | undefined
   );
 
@@ -15,7 +15,8 @@ export const useAppRootList = () => {
   });
 
   const setList = (list: List) => {
-    window.location.search = `?list=${list.id}`;
+    window.history.pushState({}, "", `?list=${list.id}`);
+    setListId(list.id);
   };
 
   return { list, setList, loading: !!(listId && !list) };
