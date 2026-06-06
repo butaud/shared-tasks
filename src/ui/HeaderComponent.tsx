@@ -6,31 +6,52 @@ import { canEditValue } from "../util/jazz";
 import "./HeaderComponent.css";
 import { ProfileComponent } from "./ProfileComponent";
 import confetti from "canvas-confetti";
+import { MdEdit, MdVisibility } from "react-icons/md";
 
 export type HeaderComponentProps = {
   list: List | undefined;
   setList: (list: List) => void;
+  editMode: boolean;
+  setEditMode: (editMode: boolean) => void;
 };
 
 export const HeaderComponent: FC<HeaderComponentProps> = ({
   list,
   setList,
+  editMode,
+  setEditMode,
 }) => {
+  const canEdit = !!list && canEditValue(list);
+
   return (
     <header>
       <FlyoutMenu list={list} setList={setList} />
       {list ? (
-        <Title list={list} />
+        <Title list={list} editMode={editMode} />
       ) : (
         <h1 className="list-title">Shared list editor</h1>
       )}
-      <ProfileComponent />
+      <div className="header-actions">
+        {canEdit && (
+          <button
+            className={"edit-mode-toggle" + (editMode ? " active" : "")}
+            onClick={() => setEditMode(!editMode)}
+            title={editMode ? "Switch to view mode" : "Switch to edit mode"}
+            aria-pressed={editMode}
+          >
+            {editMode ? <MdVisibility /> : <MdEdit />}
+            <span>{editMode ? "View" : "Edit"}</span>
+          </button>
+        )}
+        <ProfileComponent />
+      </div>
     </header>
   );
 };
 
 type TitleProps = {
   list: List;
+  editMode: boolean;
 };
 
 const getTaskStatusCounts = (list: List) => {
@@ -71,7 +92,7 @@ const getTaskStatusCounts = (list: List) => {
   };
 };
 
-export const Title: FC<TitleProps> = ({ list }) => {
+export const Title: FC<TitleProps> = ({ list, editMode }) => {
   const updateListTitle = (newTitle: string) => {
     list.title = newTitle;
   };
@@ -107,7 +128,7 @@ export const Title: FC<TitleProps> = ({ list }) => {
         className="list-title"
         text={list.title}
         onTextChange={updateListTitle}
-        canEdit={canEdit}
+        canEdit={canEdit && editMode}
       />
       {taskCounts && (
         <p className={"task-count" + (allCompleted ? " done" : "")}>

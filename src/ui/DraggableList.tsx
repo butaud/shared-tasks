@@ -27,6 +27,7 @@ export type DraggableListProps<T extends DraggableType> = {
   droppableId: string;
   type: T;
   listItems: DraggableModelListType<T>;
+  canDrag?: boolean;
   children: (props: DraggableListItemProps<T>) => ReactNode;
 };
 
@@ -34,10 +35,11 @@ export const DraggableList = <T extends DraggableType>({
   droppableId,
   type,
   listItems,
+  canDrag,
   children: childItemRenderer,
 }: DraggableListProps<T>) => {
   const canEdit = canEditValue(listItems);
-  if (!canEdit) {
+  if (!canEdit || !canDrag) {
     return listItems
       .filter((item) => item !== null)
       .map((listItem) =>

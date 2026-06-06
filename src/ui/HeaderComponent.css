@@ -7,6 +7,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 8px;
 }
 
 header h1 {
@@ -35,6 +36,28 @@ input.list-title {
   min-width: 70%;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+button.edit-mode-toggle {
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 36px;
+  padding: 0 8px;
+  font-size: 16px;
+  color: var(--font-color);
+  background-color: transparent;
+}
+
+button.edit-mode-toggle.active {
+  background-color: var(--primary-color-subtle);
+}
+
 .title-wrapper p {
   font-size: 24px;
   margin-left: 20px;
@@ -48,6 +71,7 @@ input.list-title {
 @media screen and (max-width: 600px) {
   .title-wrapper {
     flex-direction: column;
+    min-width: 0;
   }
   .title-wrapper h1 {
     margin-bottom: 5px;
@@ -55,5 +79,9 @@ input.list-title {
 
   .title-wrapper p {
     margin-top: 5px;
+  }
+
+  button.edit-mode-toggle span {
+    display: none;
   }
 }

@@ -11,11 +11,13 @@ import { DraggableListProvided } from "./DraggableList";
 export type TaskDisplayProps = DraggableListProvided & {
   task: Task | null;
   deleteTask: (deletedTask: Task) => void;
+  editMode: boolean;
 };
 
 export const TaskDisplay: FC<TaskDisplayProps> = ({
   task,
   deleteTask,
+  editMode,
   dragHandle,
   dragHandleParentClassName,
   dragWrapperClassName,
@@ -34,6 +36,7 @@ export const TaskDisplay: FC<TaskDisplayProps> = ({
   };
 
   const canEdit = canEditValue(task);
+  const canUseEditControls = canEdit && editMode;
 
   const lastEdits = task.status?._edits.completed;
   const lastEditedBy = lastEdits?.by?.profile as ListProfile;
@@ -83,7 +86,7 @@ export const TaskDisplay: FC<TaskDisplayProps> = ({
         text={task.content}
         onClick={() => (task.status!.completed = !task.status?.completed)}
         onDelete={() => deleteTask(task)}
-        canEdit={canEdit}
+        canEdit={canUseEditControls}
       />
     </li>
   );

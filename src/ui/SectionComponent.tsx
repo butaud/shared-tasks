@@ -11,11 +11,13 @@ import { DraggableListProvided } from "./DraggableList";
 export type SectionComponentProps = DraggableListProvided & {
   section: Section;
   containingList?: ListOfSections | null;
+  editMode: boolean;
 };
 
 export const SectionComponent: FC<SectionComponentProps> = ({
   section,
   containingList,
+  editMode,
   dragHandle,
   dragHandleParentClassName,
   dragWrapperClassName,
@@ -43,18 +45,29 @@ export const SectionComponent: FC<SectionComponentProps> = ({
   };
 
   const canEdit = canEditValue(section);
+  const canUseEditControls = canEdit && editMode;
+
+  if (!editMode && containingList && section.tasks.length === 0) {
+    return null;
+  }
+
+  if (!editMode && !containingList && section.tasks.length === 0) {
+    return null;
+  }
 
   const list = (
     <DraggableList
       listItems={section.tasks}
       type={"task"}
       droppableId={`section-${section.id}`}
+      canDrag={canUseEditControls}
     >
       {({ listItem: task, provided }) => (
         <TaskDisplay
           key={task.id}
           task={task}
           deleteTask={deleteTask}
+          editMode={editMode}
           {...provided}
         />
       )}
@@ -64,7 +77,7 @@ export const SectionComponent: FC<SectionComponentProps> = ({
     return (
       <DefaultSectionWrapper section={section}>
         {list}
-        {canEdit && <TaskAdder taskList={section.tasks} isDefault />}
+        {canUseEditControls && <TaskAdder taskList={section.tasks} isDefault />}
       </DefaultSectionWrapper>
     );
   } else {
@@ -76,9 +89,10 @@ export const SectionComponent: FC<SectionComponentProps> = ({
         dragHandleParentClassName={dragHandleParentClassName}
         dragWrapperClassName={dragWrapperClassName}
         draggableProvided={draggableProvided}
+        editMode={editMode}
       >
         {list}
-        {canEdit && <TaskAdder taskList={section.tasks} />}
+        {canUseEditControls && <TaskAdder taskList={section.tasks} />}
       </NonDefaultSectionWrapper>
     );
   }
@@ -109,6 +123,7 @@ type NonDefaultSectionWrapperProps = DraggableListProvided & {
   children: ReactNode;
   section: Section;
   onDelete: () => void;
+  editMode: boolean;
 };
 const NonDefaultSectionWrapper: FC<NonDefaultSectionWrapperProps> = ({
   children,
@@ -118,6 +133,7 @@ const NonDefaultSectionWrapper: FC<NonDefaultSectionWrapperProps> = ({
   dragWrapperClassName,
   draggableProvided,
   onDelete,
+  editMode,
 }) => {
   const titleClassNames = ["section-title"];
   if (section.tasks?.every((task) => task?.status?.completed)) {
@@ -143,7 +159,7 @@ const NonDefaultSectionWrapper: FC<NonDefaultSectionWrapperProps> = ({
           onTextChange={onTitleChange}
           className={titleClassNames.join(" ")}
           onDelete={onDelete}
-          canEdit={canEdit}
+          canEdit={canEdit && editMode}
         />
       </div>
       {children}
