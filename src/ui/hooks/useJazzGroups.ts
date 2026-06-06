@@ -41,6 +41,7 @@ export const useJazzGroups = (owner: Account) => {
       const newOwnerGroup = Group.create({ owner });
       newOwnerGroup.addMember("everyone", "reader");
       setOwnerGroup(newOwnerGroup);
+      setLoadingOwnerGroup(false);
       localStorage.setItem("jazzOwnerGroup", newOwnerGroup.id);
     }
   }, [ownerGroupId, ownerGroup, owner]);
@@ -50,6 +51,7 @@ export const useJazzGroups = (owner: Account) => {
       const newStatusGroup = Group.create({ owner });
       newStatusGroup.addMember("everyone", "writer");
       setStatusGroup(newStatusGroup);
+      setLoadingStatusGroup(false);
       localStorage.setItem("jazzStatusGroup", newStatusGroup.id);
     }
   }, [statusGroupId, statusGroup, owner]);
