@@ -39,13 +39,13 @@ const createEmptyList = (owner: Account | Group) => {
   return newList;
 };
 
-const cloneList = (list: List, owner: Account | Group) => {
+const cloneList = (list: List, owner: Account | Group, statusOwner: Account | Group) => {
   const cloneSection = (section: Section) => {
     const clonedTasks = (section.tasks ?? []).map((task) => {
       if (!task) return null;
       const clonedStatus = TaskStatus.create(
         { completed: false },
-        { owner }
+        { owner: statusOwner }
       );
       return Task.create({ content: task.content, status: clonedStatus }, { owner });
     });
@@ -145,13 +145,14 @@ const MenuSectionList: FC<MenuSectionListProps> = ({
   closeFlyout,
 }) => {
   const { me } = useAccount();
-  const { ownerGroup, loadingOwnerGroup } = useJazzGroups(me);
+  const { ownerGroup, statusGroup, loadingOwnerGroup, loadingStatusGroup } =
+    useJazzGroups(me);
 
-  if (loadingOwnerGroup) {
+  if (loadingOwnerGroup || loadingStatusGroup) {
     return <div>Loading...</div>;
   }
 
-  if (!ownerGroup) {
+  if (!ownerGroup || !statusGroup) {
     return <div>Error: Please refresh to try again</div>;
   }
 
@@ -164,8 +165,8 @@ const MenuSectionList: FC<MenuSectionListProps> = ({
   };
 
   const onCloneList = () => {
-    if (list && ownerGroup) {
-      const clonedList = cloneList(list, ownerGroup);
+    if (list && ownerGroup && statusGroup) {
+      const clonedList = cloneList(list, ownerGroup, statusGroup);
       setList(clonedList);
       closeFlyout();
     }
