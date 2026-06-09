@@ -1,7 +1,7 @@
 import { FC, ReactNode, useState } from "react";
 import { RiCheckboxMultipleBlankLine } from "react-icons/ri";
 import { List, ListOfSections, ListOfTasks, Section, Task, TaskStatus } from "../models";
-import { MdAdd, MdContentCopy, MdMenu, MdRedo, MdShare, MdUndo } from "react-icons/md";
+import { MdAdd, MdBuild, MdContentCopy, MdMenu, MdRedo, MdShare, MdUndo } from "react-icons/md";
 import "./FlyoutMenu.css";
 import { Account, Group } from "jazz-tools";
 import { useJazzGroups } from "./hooks/useJazzGroups";
@@ -76,6 +76,17 @@ const cloneList = (list: List, owner: Account | Group, statusOwner: Account | Gr
     },
     { owner }
   );
+};
+
+const forEachTaskInList = (list: List, taskHandler: (task: Task) => void) => {
+  const handleSection = (section: Section | null) => {
+    section?.tasks
+      ?.filter((task): task is Task => task !== null)
+      .forEach(taskHandler);
+  };
+
+  handleSection(list.defaultSection);
+  list.sections?.forEach(handleSection);
 };
 
 const noop = () => {};
@@ -180,18 +191,30 @@ const MenuSectionList: FC<MenuSectionListProps> = ({
 
   const resetToUncompleted = () => {
     if (list) {
-      const resetSectionTasks = (section: Section | null) => {
-        section?.tasks
-          ?.filter((task) => task?.status !== null)
-          .forEach((task) => (task!.status!.completed = false));
-      };
-      if (list.defaultSection) {
-        resetSectionTasks(list.defaultSection);
-      }
-      list.sections?.forEach(resetSectionTasks);
+      forEachTaskInList(list, (task) => {
+        if (task.status) {
+          task.status.completed = false;
+        }
+      });
       closeFlyout();
     }
   };
+
+  const repairCheckboxPermissions = () => {
+    if (list && statusGroup) {
+      forEachTaskInList(list, (task) => {
+        if (task.status && task.status._owner.id !== statusGroup.id) {
+          task.status = TaskStatus.create(
+            { completed: task.status.completed },
+            { owner: statusGroup }
+          );
+        }
+      });
+      closeFlyout();
+    }
+  };
+
+  const ownsList = list?._owner.myRole() === "admin";
 
   return (
     <>
@@ -242,6 +265,12 @@ const MenuSectionList: FC<MenuSectionListProps> = ({
             action: resetToUncompleted,
             disabled: allUncompleted,
             shouldHide: !list || !canEditValue(list),
+          },
+          {
+            icon: <MdBuild />,
+            label: "Repair checkbox permissions",
+            action: repairCheckboxPermissions,
+            shouldHide: !list || !ownsList,
           },
         ]}
       />
